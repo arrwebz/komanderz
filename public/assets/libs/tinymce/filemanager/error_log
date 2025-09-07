@@ -1,0 +1,15 @@
+[26-May-2021 21:14:42 Asia/Jakarta] PHP Warning:  mkdir(): Permission denied in /home/k4701531/public_html/langit7/cms/assets/2021/plugins/tinymce/filemanager/config/config.php on line 59
+[26-May-2021 21:14:42 Asia/Jakarta] PHP Warning:  mkdir(): Permission denied in /home/k4701531/public_html/langit7/cms/assets/2021/plugins/tinymce/filemanager/include/utils.php on line 470
+[26-May-2021 21:17:37 Asia/Jakarta] PHP Warning:  mkdir(): Permission denied in /home/k4701531/public_html/langit7/cms/assets/2021/plugins/tinymce/filemanager/config/config.php on line 59
+[26-May-2021 21:17:37 Asia/Jakarta] PHP Warning:  mkdir(): Permission denied in /home/k4701531/public_html/langit7/cms/assets/2021/plugins/tinymce/filemanager/include/utils.php on line 470
+[26-May-2021 21:25:46 Asia/Jakarta] PHP Warning:  mkdir(): Permission denied in /home/k4701531/public_html/langit7/cms/assets/2021/plugins/tinymce/filemanager/config/config.php on line 61
+[26-May-2021 21:25:51 Asia/Jakarta] PHP Warning:  mkdir(): Permission denied in /home/k4701531/public_html/langit7/cms/assets/2021/plugins/tinymce/filemanager/config/config.php on line 61
+[26-May-2021 21:25:58 Asia/Jakarta] PHP Warning:  mkdir(): Permission denied in /home/k4701531/public_html/langit7/cms/assets/2021/plugins/tinymce/filemanager/config/config.php on line 61
+[26-May-2021 21:26:04 Asia/Jakarta] PHP Warning:  mkdir(): Permission denied in /home/k4701531/public_html/langit7/cms/assets/2021/plugins/tinymce/filemanager/config/config.php on line 61
+[26-May-2021 21:26:24 Asia/Jakarta] PHP Warning:  mkdir(): Permission denied in /home/k4701531/public_html/langit7/cms/assets/2021/plugins/tinymce/filemanager/config/config.php on line 61
+[17-Jun-2021 07:03:43 Asia/Jakarta] PHP Warning:  scandir(../../../../../../../mainData/data/images/langit7/article/original/2021/06/17/): failed to open dir: No such file or directory in /home/k4701531/public_html/langit7/cms/assets/2021/plugins/tinymce/filemanager/dialog.php on line 543
+[17-Jun-2021 07:03:43 Asia/Jakarta] PHP Warning:  scandir(): (errno 2): No such file or directory in /home/k4701531/public_html/langit7/cms/assets/2021/plugins/tinymce/filemanager/dialog.php on line 543
+[17-Jun-2021 07:03:43 Asia/Jakarta] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home/k4701531/public_html/langit7/cms/assets/2021/plugins/tinymce/filemanager/dialog.php on line 546
+[17-Jun-2021 07:03:43 Asia/Jakarta] PHP Warning:  Invalid argument supplied for foreach() in /home/k4701531/public_html/langit7/cms/assets/2021/plugins/tinymce/filemanager/dialog.php on line 555
+[17-Jun-2021 07:03:43 Asia/Jakarta] PHP Warning:  Invalid argument supplied for foreach() in /home/k4701531/public_html/langit7/cms/assets/2021/plugins/tinymce/filemanager/dialog.php on line 1104
+[17-Jun-2021 07:06:06 Asia/Jakarta] PHP Warning:  strpos(): Empty needle in /home/k4701531/public_html/langit7/cms/assets/2021/plugins/tinymce/filemanager/upload.php on line 40
