@@ -63,7 +63,7 @@
                 </div>
                 <div class="card-body collapse show">
                     <div class="table-responsive pb-9">
-                        <table class="table border table-striped table-bordered display text-nowrap table-hover" style="width: 100%">
+                        <table id="datatables" class="table border table-striped table-bordered display text-nowrap table-hover" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th>Invoice</th>
@@ -86,11 +86,6 @@
                                                         <td rowspan="<?= $rowspan ?>">
                                                             <strong><?= htmlspecialchars($inv['inv_number']) ?></strong><br>
                                                             Project: <?= htmlspecialchars($inv['inv_project']) ?><br>
-                                                            Division: <?= htmlspecialchars($inv['inv_division']) ?><br>
-                                                            Segment: <?= htmlspecialchars($inv['inv_segment']) ?><br>
-                                                            Value: <?= number_format($inv['inv_value'], 2) ?><br>
-                                                            Date: <?= htmlspecialchars($inv['inv_date']) ?><br>
-                                                            Status: <?= htmlspecialchars($inv['inv_status']) ?>
                                                         </td>
                                                         <?php $firstSpb = false; ?>
                                                     <?php endif; ?>
@@ -129,3 +124,20 @@
         </div>
     </div>
 </section>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		var table = $('#datatables').DataTable({
+			'responsive'  : true,
+			'paging'      : true,
+			'lengthChange': false,
+			'searching'   : true,
+			'ordering'    : true,
+			'info'        : true,
+			'autoWidth'   : true
+
+		});
+		$('.selectpicker').select2();
+	});
+
+</script>
