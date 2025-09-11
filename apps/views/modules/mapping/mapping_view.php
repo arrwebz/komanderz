@@ -63,7 +63,6 @@
                 </div>
                 <div class="card-body collapse show">
                     <div class="table-responsive pb-9">
-                        <?php if (count ( $drd ) > 0) { ?>
                         <table id="reportTable" class="display">
                             <thead>
                                 <tr>
@@ -73,23 +72,7 @@
                                     <th>Payment Date</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <?php $i = 0; ?>
-                                <?php foreach ( $drd as $row ) { ?>
-                                <?php $i++; ?>
-                                <tr> 
-                                    <td><?php echo $i; ?></td>
-                                    <td><?php echo $row['inv_number'] ?></td>
-                                    <td><?php echo $row['spb_number'] ?></td>
-                                    <td><?php echo strrev(implode('.',str_split(strrev(strval($row['spb_value'])),3))) ?></td>
-                                    <td><?php echo $row['amuser'] ?></td>
-                                </tr>
-                                <?php }?>
-                            </tbody>
                         </table>
-                        <?php } else { ?>
-                            <p class="text-center p-4">No data available in table</p>
-                        <?php } ?>
                     </div>
                     <!-- /.box-body -->
                 </div>
