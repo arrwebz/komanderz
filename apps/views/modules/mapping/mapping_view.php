@@ -86,7 +86,7 @@
                                     <td rowspan="<?= $countSpb ?>"><?= htmlspecialchars(substr($inv['inv_project'], 0, 50)) ?></td>
                                     <?php if ($firstSpb): ?>
                                     <td><?= htmlspecialchars($firstSpb['spb_number']) ?></td>
-                                    <td style="text-align:right"><?= number_format($firstSpb['spb_value'], 2, ',', '.') ?></td>
+                                    <td style="text-align:right"><?= number_format($firstSpb['amount'], 2, ',', '.') ?></td>
                                     <td><?= $firstSpb['spb_date'] ?></td>
                                     <?php else: ?>
                                     <td colspan="3" style="text-align:center">– No SPB –</td>
