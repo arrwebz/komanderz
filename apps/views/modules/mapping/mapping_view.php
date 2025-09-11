@@ -83,7 +83,7 @@
                                 <tr>
                                     <td rowspan="<?= $countSpb ?>"><?= $no++ ?></td>
                                     <td rowspan="<?= $countSpb ?>"><?= htmlspecialchars($inv['inv_number']) ?></td>
-                                    <td rowspan="<?= $countSpb ?>"><?= htmlspecialchars(substr($inv['project_name'], 0, 50)) ?></td>
+                                    <td rowspan="<?= $countSpb ?>"><?= htmlspecialchars(substr($inv['inv_project'], 0, 50)) ?></td>
                                     <?php if ($firstSpb): ?>
                                     <td><?= htmlspecialchars($firstSpb['spb_number']) ?></td>
                                     <td style="text-align:right"><?= number_format($firstSpb['spb_value'], 2, ',', '.') ?></td>
