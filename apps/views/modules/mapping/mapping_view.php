@@ -66,6 +66,7 @@
                         <table id="datatables" class="table border table-striped table-bordered display text-nowrap table-hover" style="width: 100%">
                             <thead>
                                 <tr>
+                                    <th>No</th>
                                     <th>Invoice</th>
                                     <th>Project Name</th>
                                     <th>SPB Number</th>
