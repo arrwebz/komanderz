@@ -73,47 +73,34 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if (!empty($invoices)): ?>
-                                    <?php foreach ($invoices as $inv): ?>
-                                        <?php
-                                        $rowspan = max(1, count($inv['spbs']));
-                                        $firstSpb = true;
-                                        ?>
-                                        <?php if (!empty($inv['spbs'])): ?>
-                                            <?php foreach ($inv['spbs'] as $spb): ?>
-                                                <tr>
-                                                    <?php if ($firstSpb): ?>
-                                                        <td rowspan="<?= $rowspan ?>">
-                                                            <strong><?= htmlspecialchars($inv['inv_number']) ?></strong><br>
-                                                            Project: <?= htmlspecialchars($inv['inv_project']) ?><br>
-                                                        </td>
-                                                        <?php $firstSpb = false; ?>
-                                                    <?php endif; ?>
-                                                    <td><?= htmlspecialchars($spb['spb_number']) ?></td>
-                                                    <td><?= number_format($spb['amount'], 2) ?></td>
-                                                    <td><?= htmlspecialchars($spb['spb_date']) ?></td>
-                                                </tr>
-                                            <?php endforeach; ?>
-                                        <?php else: ?>
-                                            <tr>
-                                                <td>
-                                                    <strong><?= htmlspecialchars($inv['inv_number']) ?></strong><br>
-                                                    Project: <?= htmlspecialchars($inv['inv_project']) ?><br>
-                                                    Division: <?= htmlspecialchars($inv['inv_division']) ?><br>
-                                                    Segment: <?= htmlspecialchars($inv['inv_segment']) ?><br>
-                                                    Value: <?= number_format($inv['inv_value'], 2) ?><br>
-                                                    Date: <?= htmlspecialchars($inv['inv_date']) ?><br>
-                                                    Status: <?= htmlspecialchars($inv['inv_status']) ?>
-                                                </td>
-                                                <td colspan="3" class="text-center">No SPB</td>
-                                            </tr>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <tr>
-                                        <td colspan="4" class="text-center">No invoices found.</td>
-                                    </tr>
-                                <?php endif; ?>
+                                <?php $no = 1; ?>
+                                <?php foreach ($invoices as $inv): ?>
+                                <?php 
+                                    $countSpb = max(1, count($inv['spbs']));
+                                    $firstSpb = array_shift($inv['spbs']);
+                                ?>
+                                <tr>
+                                    <td rowspan="<?= $countSpb ?>"><?= $no++ ?></td>
+                                    <td rowspan="<?= $countSpb ?>"><?= htmlspecialchars($inv['inv_number']) ?></td>
+                                    <?php if ($firstSpb): ?>
+                                    <td><?= htmlspecialchars($firstSpb['spb_number']) ?></td>
+                                    <td style="text-align:right"><?= number_format($firstSpb['spb_value'], 2, ',', '.') ?></td>
+                                    <td><?= $firstSpb['spbdat'] ?></td>
+                                    <?php else: ?>
+                                    <td colspan="3" style="text-align:center">– No SPB –</td>
+                                    <?php endif; ?>
+                                </tr>
+
+                                <?php foreach ($inv['spbs'] as $spb): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($spb['spb_number']) ?></td>
+                                    <td style="text-align:right"><?= number_format($spb['spb_value'], 2, ',', '.') ?></td>
+                                    <td><?= $spb['spbdat'] ?></td>
+                                </tr>
+                                <?php endforeach; ?>
+
+                                <?php endforeach; ?>
+                            </tbody>
                         </table>
                     </div>
                     <!-- /.box-body -->
@@ -139,5 +126,7 @@
 		});
 		$('.selectpicker').select2();
 	});
+
+
 
 </script>
