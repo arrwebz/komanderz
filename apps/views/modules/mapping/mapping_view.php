@@ -83,10 +83,10 @@
                                 ?>
                                 <tr>
                                     <td rowspan="<?= $countSpb ?>"><?= $no++ ?></td>
-                                    <td rowspan="<?= $countSpb ?>"><?= htmlspecialchars($inv['inv_number']) ?></td>
+                                    <td rowspan="<?= $countSpb ?>"><a href="<?php echo base_url().$this->router->fetch_class(). '/knopes/details/'.$inv['inv_id']; ?>" target="_blank"><?= htmlspecialchars($inv['inv_number']) ?></a></td>
                                     <td rowspan="<?= $countSpb ?>"><?= htmlspecialchars(substr($inv['inv_project'], 0, 50)) ?></td>
                                     <?php if ($firstSpb): ?>
-                                    <td><?= htmlspecialchars($firstSpb['spb_number']) ?></td>
+                                    <td><a href="<?php echo base_url().$this->router->fetch_class(). '/kspb/details/'.$firstSpb['spb_id']; ?>" target="_blank"><?= htmlspecialchars($firstSpb['spb_number']) ?></a></td>
                                     <td style="text-align:right"><?= number_format($firstSpb['amount'], 2, ',', '.') ?></td>
                                     <td><?= $firstSpb['spb_date'] ?></td>
                                     <?php else: ?>
@@ -121,9 +121,9 @@
 			'responsive'  : true,
 			'paging'      : true,
 			'lengthChange': false,
-			'searching'   : true,
-			'ordering'    : true,
-			'info'        : true,
+			'searching'   : false,
+			'ordering'    : false,
+			'info'        : false,
 			'autoWidth'   : true
 
 		});

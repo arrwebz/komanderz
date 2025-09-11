@@ -67,6 +67,7 @@ class Mapping extends CI_Controller
 			$invId = $row['invoice_id'];
 			if (! isset($grouped[$invId])) {
 			  $grouped[$invId] = [
+                'inv_id' => $row['invoice_id'],
 				'inv_number' => $row['inv_number'],
                 'inv_project'  => $row['inv_project'],
                 'inv_division'  => $row['inv_division'],
@@ -80,6 +81,7 @@ class Mapping extends CI_Controller
 			// Kalau ada SPB, tambahkan ke list
 			if ($row['spb_id']) {
 			  $grouped[$invId]['spbs'][] = [
+				'spb_id'  => $row['spb_id'],
 				'spb_number'  => $row['spb_number'],
 				'amount'      => $row['spb_value'],
                 'customer'    => $row['customer'],
