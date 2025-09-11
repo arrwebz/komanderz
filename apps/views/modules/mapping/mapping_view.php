@@ -63,7 +63,7 @@
                 </div>
                 <div class="card-body collapse show">
                     <div class="table-responsive pb-9">
-                        <table id="reportTable" class="table border table-striped table-bordered display text-nowrap table-hover" style="width: 100%">
+                        <table class="table border table-striped table-bordered display text-nowrap table-hover" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th>Invoice</th>
@@ -72,6 +72,53 @@
                                     <th>Payment Date</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                <?php if (!empty($invoices)): ?>
+                                    <?php foreach ($invoices as $inv): ?>
+                                        <?php
+                                        $rowspan = max(1, count($inv['spbs']));
+                                        $firstSpb = true;
+                                        ?>
+                                        <?php if (!empty($inv['spbs'])): ?>
+                                            <?php foreach ($inv['spbs'] as $spb): ?>
+                                                <tr>
+                                                    <?php if ($firstSpb): ?>
+                                                        <td rowspan="<?= $rowspan ?>">
+                                                            <strong><?= htmlspecialchars($inv['inv_number']) ?></strong><br>
+                                                            Project: <?= htmlspecialchars($inv['inv_project']) ?><br>
+                                                            Division: <?= htmlspecialchars($inv['inv_division']) ?><br>
+                                                            Segment: <?= htmlspecialchars($inv['inv_segment']) ?><br>
+                                                            Value: <?= number_format($inv['inv_value'], 2) ?><br>
+                                                            Date: <?= htmlspecialchars($inv['inv_date']) ?><br>
+                                                            Status: <?= htmlspecialchars($inv['inv_status']) ?>
+                                                        </td>
+                                                        <?php $firstSpb = false; ?>
+                                                    <?php endif; ?>
+                                                    <td><?= htmlspecialchars($spb['spb_number']) ?></td>
+                                                    <td><?= number_format($spb['amount'], 2) ?></td>
+                                                    <td><?= htmlspecialchars($spb['spb_date']) ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <tr>
+                                                <td>
+                                                    <strong><?= htmlspecialchars($inv['inv_number']) ?></strong><br>
+                                                    Project: <?= htmlspecialchars($inv['inv_project']) ?><br>
+                                                    Division: <?= htmlspecialchars($inv['inv_division']) ?><br>
+                                                    Segment: <?= htmlspecialchars($inv['inv_segment']) ?><br>
+                                                    Value: <?= number_format($inv['inv_value'], 2) ?><br>
+                                                    Date: <?= htmlspecialchars($inv['inv_date']) ?><br>
+                                                    Status: <?= htmlspecialchars($inv['inv_status']) ?>
+                                                </td>
+                                                <td colspan="3" class="text-center">No SPB</td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="4" class="text-center">No invoices found.</td>
+                                    </tr>
+                                <?php endif; ?>
                         </table>
                     </div>
                     <!-- /.box-body -->
@@ -82,70 +129,3 @@
         </div>
     </div>
 </section>
-<script type="text/javascript">
-    $(document).ready(function() {
-
-    function loadGroupedTable() {
-
-        $.ajax({
-            url: '<?= site_url("mapping/ajax_invoice_spb_data") ?>',
-            data: {
-            year: $('#filterYear').val(),
-            order_type: $('#filterOrderType').val()
-            },
-            dataType: 'json',
-            success: function(res) {
-            let tbody = '';
-            let no = 1;
-
-            $.each(res.grouped, function(invoice, spbs) {
-                let rowspan = spbs.length;
-                $.each(spbs, function(i, spb) {
-                tbody += '<tr>';
-                if (i === 0) {
-                    tbody += `<td rowspan="${rowspan}">${inv.inv_number}</td>`;
-                }
-                tbody += `<td>${spb.spb_number}</td>`;
-                tbody += `<td class="text-end">Rp ${parseFloat(spb.spb_value).toLocaleString('id-ID', {minimumFractionDigits:2})}</td>`;
-                tbody += `<td>${spb.spbdat}</td>`;
-                tbody += '</tr>';
-                });
-            });
-
-            $('#reportTable tbody').html(tbody);
-            },
-            error: function() {
-            alert('Gagal memuat data.');
-            }
-        });
-    }
-
-    // Trigger saat filter berubah
-    $('#filterYear, #filterOrderType').on('change', loadGroupedTable);
-
-    // Load awal
-    loadGroupedTable();
-
-
-    $('#btnExport').on('click', function() {
-        let year       = $('#filterYear').val();
-        let order_type = $('#filterOrderType').val();
-
-        $.ajax({
-        url: '<?= site_url("mapping/export_invoice_spb_excel") ?>',
-        method: 'POST',
-        data: { year, order_type },
-        xhrFields: {
-            responseType: 'blob'
-        },
-        success: function(blob) {
-            let link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            link.download = `invoice_spb_${year}.xlsx`;
-            link.click();
-        }
-        });
-    });
-    });
-
-</script>
