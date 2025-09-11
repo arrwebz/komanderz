@@ -132,11 +132,11 @@ class Mapping extends CI_Controller
     $year       = $this->input->post('year');
     $order_type = $this->input->post('order_type');
 
-    $drd = $this->mpgmd->get_invoice_spb_filtered($year, $order_type);
+    //$drd = $this->mpgmd->get_invoice_spb_filtered($year, $order_type);
     $strftitle = 'mapping-'.$year.'-'.$order_type;
 
     $data = [
-            'drd' => $drd,
+            'drd' => $this->mpgmd->get_invoice_spb_filtered($year, $order_type),
             'title' => $strftitle,
         ];
 
