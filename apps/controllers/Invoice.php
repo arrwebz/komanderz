@@ -215,6 +215,8 @@ class Invoice extends CI_Controller
                 $this->strchdat = $row['chdat'];
             }
         }
+
+		echo '<pre>'; print_r($drd); exit;
 		
 		$data = [
             'id' => $this->intorderid,
