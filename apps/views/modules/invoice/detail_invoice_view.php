@@ -84,27 +84,27 @@
             <div class="box-body">
               <div class="form-group">
                 <label>Kode:</label>
-				<input type="text" class="form-control" value="<?php echo $kodenomor ?>" disabled>
+				<input type="text" class="form-control" value="<?php echo $kodenomor ?>" readonly>
               </div>
 			  <div class="form-group">
                 <label>Nomor Invoice:</label>
-				<input type="text" class="form-control" value="<?php echo $inv ?>" disabled>
+				<input type="text" class="form-control" value="<?php echo $inv ?>" readonly>
               </div>
 			  <div class="form-group">
                 <label>Nomor Faktur Pajak:</label>
-				<input type="text" class="form-control" value="<?php echo $fak ?>" disabled>
+				<input type="text" class="form-control" value="<?php echo $fak ?>" readonly>
               </div>
 			  <div class="form-group">
                 <label>Nomor Tel/SPK/VSO:</label>
-				<input type="text" class="form-control" value="<?php echo $nomorspk ?>" disabled>
+				<input type="text" class="form-control" value="<?php echo $nomorspk ?>" readonly>
               </div>
 			  <div class="form-group">
                 <label>Tanggal SPK:</label>
-				<input type="text" class="form-control" value="<?php echo $tglspk ?>" disabled>
+				<input type="text" class="form-control" value="<?php echo $tglspk ?>" readonly>
               </div>
 			  <div class="form-group">
                 <label>Tanggal Invoice:</label>
-				<input type="text" class="form-control" value="<?php echo $tglinv ?>" disabled>
+				<input type="text" class="form-control" value="<?php echo $tglinv ?>" readonly>
               </div>
             </div>
             <!-- /.box-body -->
@@ -120,27 +120,27 @@
             <div class="box-body">
 			  <div class="form-group">
                 <label>Jenis Pekerjaan:</label>
-				<input type="text" class="form-control" value="<?php echo $jp ?>" disabled>
+				<input type="text" class="form-control" value="<?php echo $jp ?>" readonly>
               </div>
 			  <div class="form-group">
                 <label>Divisi:</label>
-				<input type="text" class="form-control" value="<?php echo $divisi ?>" disabled>
+				<input type="text" class="form-control" value="<?php echo $divisi ?>" readonly>
               </div>
 			  <div class="form-group">
                 <label>Segmen:</label>
-				<input type="text" class="form-control" value="<?php echo $segmen ?>" disabled>
+				<input type="text" class="form-control" value="<?php echo $segmen ?>" readonly>
               </div>
 			  <div class="form-group">
                 <label>AM User:</label>
-				<input type="text" class="form-control" value="<?php echo $amuser ?>" disabled>
+				<input type="text" class="form-control" value="<?php echo $amuser ?>" readonly>
               </div>
 			  <div class="form-group">
                 <label>AM Internal:</label>
-				<input type="text" class="form-control" value="<?php echo $amkomet ?>" disabled>
+				<input type="text" class="form-control" value="<?php echo $amkomet ?>" disa bled>
               </div>
 			  <div class="form-group">
                 <label>Nama Projek:</label>
-				<textarea class="form-control" disabled><?php echo $namaproyek; ?></textarea>
+				<textarea class="form-control" readonly><?php echo $namaproyek; ?></textarea>
               </div>
             </div>
             <!-- /.box-body -->
@@ -156,27 +156,27 @@
             <div class="box-body">
               <div class="form-group">
                 <label>Nilai Dasar:</label>
-				<input type="text" class="form-control" value="<?php echo $nilaidasar ?>" disabled>
+				<input type="text" class="form-control" value="<?php echo $nilaidasar ?>" readonly>
               </div>
 			  <div class="form-group">
                 <label>Pph:</label>
-				<input type="text" class="form-control" value="<?php echo $nilaipph ?>" disabled>
+				<input type="text" class="form-control" value="<?php echo $nilaipph ?>" readonly>
               </div>
 			  <div class="form-group">
                 <label>Nilai + PPN:</label>
-				<input type="text" class="form-control" value="<?php echo $nilaippn ?>" disabled>
+				<input type="text" class="form-control" value="<?php echo $nilaippn ?>" readonly>
               </div>
 			  <div class="form-group">
                 <label>Nilai Net:</label>
-				<input type="text" class="form-control" value="<?php echo $nilainet ?>" disabled>
+				<input type="text" class="form-control" value="<?php echo $nilainet ?>" readonly>
               </div>
               <div class="form-group">
                 <label>Estimasi Pencairan:</label>
-				<input type="text" class="form-control" value="<?php echo $nilaiestcair ?>" disabled>
+				<input type="text" class="form-control" value="<?php echo $nilaiestcair ?>" readonly>
               </div>
 			  <div class="form-group">
                 <label>Nilai Margin:</label>
-				<input type="text" class="form-control" value="<?php echo $nilaimargin ?>" disabled>
+				<input type="text" class="form-control" value="<?php echo $nilaimargin ?>" readonly>
               </div>
             </div>
             <!-- /.box-body -->
