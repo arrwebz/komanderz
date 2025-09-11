@@ -150,7 +150,7 @@ class Mapping extends CI_Controller
 			}
 		  }
 
-    echo json_encode(['data' => $data]);
+    echo json_encode(['data' => $grouped]);
     }
 
     // Controller: Reports.php
