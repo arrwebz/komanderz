@@ -125,7 +125,7 @@ class Mapping extends CI_Controller
 
     $grouped = [];
     foreach ($flat as $row) {
-        $inv = $row['invoice_number'];
+        $inv = $row['inv_number'];
         if (!isset($grouped[$inv])) {
         $grouped[$inv] = [];
         }
