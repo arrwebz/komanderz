@@ -68,6 +68,12 @@ class Mapping extends CI_Controller
 			if (! isset($grouped[$invId])) {
 			  $grouped[$invId] = [
 				'inv_number' => $row['inv_number'],
+                'inv_project'  => $row['inv_project'],
+                'inv_division'  => $row['inv_division'],
+                'inv_segment'  => $row['inv_segment'],
+                'inv_value'  => $row['inv_value'],
+                'inv_date'  => $row['inv_date'],
+                'inv_status'  => $row['inv_status'],
 				'spbs' 		 => []
 			  ];
 			}
@@ -76,6 +82,8 @@ class Mapping extends CI_Controller
 			  $grouped[$invId]['spbs'][] = [
 				'spb_number'  => $row['spb_number'],
 				'amount'      => $row['spb_value'],
+                'customer'    => $row['customer'],
+                'spb_status'  => $row['spb_status'],
 				'spb_date'=> $row['spbdat']
 			  ];
 			}
@@ -108,7 +116,36 @@ class Mapping extends CI_Controller
         $this->load->view('templates/base', $data, FALSE);
     }
 
-    public function search() {
+    public function ajax_invoice_spb_data()
+    {
+    $year       = $this->input->get('year');
+    $order_type = $this->input->get('order_type');
+
+    $data = $this->mpgmd->get_invoice_spb_filtered($year, $order_type);
+
+    echo json_encode(['data' => $data]);
+    }
+
+    // Controller: Reports.php
+    public function export_invoice_spb_excel()
+    {
+    $year       = $this->input->post('year');
+    $order_type = $this->input->post('order_type');
+
+    $$drd = $this->mpgmd->get_invoice_spb_filtered($year, $order_type);
+    $strftitle = 'mapping-'.$year.'-'.$order_type;
+
+    $data = [
+            'drd' => $this->mpgmd->get_invoice_spb_filtered($year, $order_type),
+            'title' => $strftitle,
+        ];
+
+        $this->load->view('modules/mapping/export_view',$data);
+
+    }
+
+
+    public function data() {
         $unit = 'PADI';
         $invnum = $this->input->post('txtInv');
         $segmen = $this->input->post('optSegment');
