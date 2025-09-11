@@ -206,6 +206,36 @@ class Order_model extends CI_Model {
         return $invoice_number;
     }
 
+    public function addinvoice() {
+        $sql= sprintf("INSERT INTO $this->tbname VALUES ('%u','%u','%u','%s','%s','%s','%s','%s','%s',
+		'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',
+		'%u','%s','%s','%s','%s', 
+		'%u','%s','%u','%s')",
+            '',$this->intspbid,$this->intorderinv,$this->strstatorder,$this->strcode,$this->intnvnum,$this->intfaknum, $this->strinvdat,
+				$this->strunit, $this->strjobtype, $this->strdivision, $this->strsegment, $this->stramuser,
+				$this->stramkomet, $this->strprojectname, $this->strsentdat, $this->strspknum, $this->strspkindat, $this->strspkdat,
+				$this->intbasevalue, $this->intppnvalue,$this->intpphvalue, $this->intnetvalue, $this->intjstvalue, $this->intnegovalue, $this->strfiles,
+				$this->intstatinv, $this->strvrecnum, $this->strfrom, $this->strprocdat,$this->intvrecvalue,
+			$this->strcruser,$this->strcrdat,'','' );
+		$this->db->query($sql);
+
+        $insert_id = $this->db->insert_id();
+        return  $insert_id;
+    }
+
+	public function addinvoiceitem() {
+        $sql= sprintf("INSERT INTO tb_orderitem VALUES ('%u','%u','%s','%u','%s','%s','%s')",
+            '',$this->intorderid,$this->strorderitemdescription,$this->strorderitemqty,$this->strorderitemunit,$this->strorderitemprice, $this->strorderitemtotal);
+        //echo '<pre>';print_r($sql); exit;
+		$this->db->query($sql);
+    }
+	
+	public function getiteminvoice($id) {
+        $sql = "SELECT * FROM `tb_orderitem` WHERE `orderid` = '$id'";
+        $stmt = $this->db->query($sql);
+        return $stmt->result_array();
+    }
+
     //new table order nopes
     //AND crdat = '2019'
     public function getallnopes() {
