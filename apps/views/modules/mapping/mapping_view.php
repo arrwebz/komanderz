@@ -63,7 +63,7 @@
                 </div>
                 <div class="card-body collapse show">
                     <div class="table-responsive pb-9">
-                        <table id="reportTable" class="display">
+                        <table id="reportTable" class="table border table-striped table-bordered display text-nowrap table-hover" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th>Invoice</th>
@@ -97,7 +97,16 @@
         { data: 'spb_number' },
         { data: 'spb_value', render: $.fn.dataTable.render.number(',', '.', 2, 'Rp ') },
         { data: 'spbdat' }
-        ]
+        ],
+        responsive: true,
+        pageLength: 10,
+        lengthMenu: [10, 25, 50, 100],
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
+        },
+        dom: '<"row mb-2"<"col-md-6"l><"col-md-6 text-end"f>>' +
+            '<"row"<"col-md-12"tr>>' +
+            '<"row mt-2"<"col-md-6"i><"col-md-6 text-end"p>>'
     });
 
     $('#filterYear, #filterOrderType').on('change', function() {
