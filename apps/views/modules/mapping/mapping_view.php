@@ -67,6 +67,7 @@
                             <thead>
                                 <tr>
                                     <th>Invoice</th>
+                                    <th>Project Name</th>
                                     <th>SPB Number</th>
                                     <th>Amount</th>
                                     <th>Payment Date</th>
@@ -82,10 +83,11 @@
                                 <tr>
                                     <td rowspan="<?= $countSpb ?>"><?= $no++ ?></td>
                                     <td rowspan="<?= $countSpb ?>"><?= htmlspecialchars($inv['inv_number']) ?></td>
+                                    <td rowspan="<?= $countSpb ?>"><?= htmlspecialchars(substr($inv['project_name'], 0, 50)) ?></td>
                                     <?php if ($firstSpb): ?>
                                     <td><?= htmlspecialchars($firstSpb['spb_number']) ?></td>
                                     <td style="text-align:right"><?= number_format($firstSpb['spb_value'], 2, ',', '.') ?></td>
-                                    <td><?= $firstSpb['spbdat'] ?></td>
+                                    <td><?= $firstSpb['spb_date'] ?></td>
                                     <?php else: ?>
                                     <td colspan="3" style="text-align:center">– No SPB –</td>
                                     <?php endif; ?>
@@ -94,8 +96,8 @@
                                 <?php foreach ($inv['spbs'] as $spb): ?>
                                 <tr>
                                     <td><?= htmlspecialchars($spb['spb_number']) ?></td>
-                                    <td style="text-align:right"><?= number_format($spb['spb_value'], 2, ',', '.') ?></td>
-                                    <td><?= $spb['spbdat'] ?></td>
+                                    <td style="text-align:right"><?= number_format($spb['amount'], 2, ',', '.') ?></td>
+                                    <td><?= $spb['spb_date'] ?></td>
                                 </tr>
                                 <?php endforeach; ?>
 
