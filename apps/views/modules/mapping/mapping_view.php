@@ -84,34 +84,48 @@
 </section>
 <script type="text/javascript">
     $(document).ready(function() {
-    let table = $('#reportTable').DataTable({
-        ajax: {
-        url: '<?= site_url("mapping/ajax_invoice_spb_data") ?>',
-        data: function(d) {
-            d.year       = $('#filterYear').val();
-            d.order_type = $('#filterOrderType').val();
-        }
-        },
-        columns: [
-        { data: 'inv_number' },
-        { data: 'spb_number' },
-        { data: 'spb_value', render: $.fn.dataTable.render.number(',', '.', 2, 'Rp ') },
-        { data: 'spbdat' }
-        ],
-        responsive: true,
-        pageLength: 10,
-        lengthMenu: [10, 25, 50, 100],
-        language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
-        },
-        dom: '<"row mb-2"<"col-md-6"l><"col-md-6 text-end"f>>' +
-            '<"row"<"col-md-12"tr>>' +
-            '<"row mt-2"<"col-md-6"i><"col-md-6 text-end"p>>'
-    });
 
-    $('#filterYear, #filterOrderType').on('change', function() {
-        table.ajax.reload();
-    });
+    function loadGroupedTable() {
+
+        $.ajax({
+            url: '<?= site_url("mapping/ajax_invoice_spb_data") ?>',
+            data: {
+            year: $('#filterYear').val(),
+            order_type: $('#filterOrderType').val()
+            },
+            dataType: 'json',
+            success: function(res) {
+            let tbody = '';
+            let no = 1;
+
+            $.each(res.grouped, function(invoice, spbs) {
+                let rowspan = spbs.length;
+                $.each(spbs, function(i, spb) {
+                tbody += '<tr>';
+                if (i === 0) {
+                    tbody += `<td rowspan="${rowspan}">${inv.inv_number}</td>`;
+                }
+                tbody += `<td>${spb.spb_number}</td>`;
+                tbody += `<td class="text-end">Rp ${parseFloat(spb.spb_value).toLocaleString('id-ID', {minimumFractionDigits:2})}</td>`;
+                tbody += `<td>${spb.spbdat}</td>`;
+                tbody += '</tr>';
+                });
+            });
+
+            $('#reportTable tbody').html(tbody);
+            },
+            error: function() {
+            alert('Gagal memuat data.');
+            }
+        });
+    }
+
+    // Trigger saat filter berubah
+    $('#filterYear, #filterOrderType').on('change', loadGroupedTable);
+
+    // Load awal
+    loadGroupedTable();
+
 
     $('#btnExport').on('click', function() {
         let year       = $('#filterYear').val();
