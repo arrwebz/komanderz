@@ -44,7 +44,7 @@
                         <img src="<?php echo $this->config->item('images_uri');?>logos/komet-light-logo.svg" class="light-logo" alt="Logo-light" width="174px" height="26px">
                     </a>
                     <div class="d-none d-xl-flex align-items-center justify-content-center" style="height: calc(100vh - 80px);">
-                        <img src="<?php echo $this->config->item('images_uri');?>backgrounds/rip-kmz.png" alt="" class="img-fluid" width="500">
+                        <img src="<?php echo $this->config->item('images_uri');?>backgrounds/bg-kmz.png" alt="" class="img-fluid" width="500">
                     </div>
                 </div>
                 <div class="col-xl-5 col-xxl-4">
@@ -52,7 +52,7 @@
                         <div class="col-sm-8 col-md-6 col-xl-9">
                             <h6 class="mb-1 fs-7 fw-bolder text-center"><i>KOMANDERz</i></h6>
                             <div class="position-relative text-center my-4">
-								<p class="mb-0 fs-4 px-3 d-inline-block bg-body text-dark z-index-5 position-relative">2019 - 2024</p>
+								<p class="mb-0 fs-4 px-3 d-inline-block bg-body text-dark z-index-5 position-relative">Please sign in to your account</p>
                             </div>
 
                             <?php echo form_open('login/validate');?>
