@@ -97,26 +97,26 @@ class Order_model extends CI_Model {
     }
 
     //cek ajax inv
-    public function checkinvoice($inv,$unit) {
-        $sql = "SELECT * FROM `vw_order` WHERE `invnum` = '$inv' AND `unit` = '$unit' AND YEAR(`invdate`) = YEAR(CURDATE()) LIMIT 0,1";
-        $stmt = $this->db->query($sql);
-        if ($stmt->num_rows() == 1) {
-            return TRUE;
-        }
+	public function checkinvoice($inv,$unit) {
+		$sql = "SELECT * FROM `vw_order` WHERE `invnum` = '$inv' AND `unit` = '$unit' AND YEAR(`invdate`) = YEAR(CURDATE()) LIMIT 0,1";
+		$stmt = $this->db->query($sql);
+		if ($stmt->num_rows() == 1) {
+			return TRUE;
+		}
         return FALSE;
-    }
+	}
 
-    public function checkinvoicekp($inv) {
-        $sql = "SELECT * FROM `vw_order` WHERE `invnum` = '$inv' AND `unit` != 'MESRA' AND YEAR(`invdate`) = YEAR(CURDATE()) LIMIT 0,1";
-        $stmt = $this->db->query($sql);
-        if ($stmt->num_rows() == 1) {
-            return TRUE;
-        }
+	public function checkinvoicekp($inv) {
+		$sql = "SELECT * FROM `vw_order` WHERE `invnum` = '$inv' AND `unit` != 'MESRA' AND YEAR(`invdate`) = YEAR(CURDATE()) LIMIT 0,1";
+		$stmt = $this->db->query($sql);
+		if ($stmt->num_rows() == 1) {
+			return TRUE;
+		}
         return FALSE;
-    }
+	}
 
-    public function checkspb($spb) {
-        $sql = "SELECT a.code
+	public function checkspb($spb) {
+		$sql = "SELECT a.code
                 FROM tb_spb AS a
                 LEFT JOIN tb_order AS b ON b.orderid = a.orderid
                 WHERE 
@@ -124,12 +124,86 @@ class Order_model extends CI_Model {
                 AND a.code LIKE '%". $spb ."%'
                 AND YEAR(a.spbdat) = YEAR(CURDATE())
                 ORDER BY a.spbid DESC";
-        $spb = $this->db->query($sql);
-        $this->db->close();
-        if ($spb->num_rows() >= 1) {
-            return TRUE;
-        }
+		$spb = $this->db->query($sql);
+		$this->db->close();
+		if ($spb->num_rows() >= 1) {
+			return TRUE;
+		}
         return FALSE;
+	}
+	
+	public function getallinvoice() {
+		$sql = "SELECT `a`.`orderid`, `a`.`spbid`, `a`.`orderstatus`, `a`.`code`, `a`.`invnum`, `a`.`faknum`, `a`.`invdate`, `a`.`unit`, `a`.`jobtype`,`a`.`file`,
+		(select `z`.`code` from `tb_division` `z` where `z`.`divisionid` = `a`.`division` limit 0,1) AS `division`, 
+		(select `z`.`code` from `tb_segment` `z` where `z`.`segmentid` = `a`.`segment` limit 0,1) AS `segment`,
+		(select `z`.`name` from `tb_segment` `z` where `z`.`segmentid` = `a`.`segment` limit 0,1) AS `segmentname`,
+		`a`.`amuser`, `a`.`amkomet`, `a`.`projectname`, `a`.`sentdate`, `a`.`spknum`, `a`.`spkindat`, `a`.`spkdat`, `a`.`basevalue`, `a`.`ppnvalue`, `a`.`netvalue`, `a`.`jstvalue`, `a`.`negovalue`,
+		(select count(`z`.`spbid`) from `tb_spb` `z` where `z`.`orderid` = `a`.`orderid` and `z`.`status` != '9' limit 0,1) AS `countspb`, `a`.`status`
+			FROM $this->tbname `a` WHERE `a`.`orderinv`='1'
+			AND YEAR(`a`.`invdate`) = YEAR(CURDATE()) ORDER BY `a`.`invnum` DESC LIMIT 0,50 ";
+		$stmt = $this->db->query($sql);
+        return $stmt->result_array();
+	}
+	
+	public function getsingleinvoice($id) {
+        $sql = "SELECT * FROM `vw_order` WHERE `orderid`='$id' ";
+        $stmt = $this->db->query($sql);
+        return $stmt->result_array();
+    }
+	
+	public function generate_invoice_code() {
+        // Format nomor invoice bisa diatur sesuai kebutuhan
+        $date = date('ymdhi'); // Gunakan format tanggal (contoh: 20230816)
+        
+        // Ambil nomor invoice terakhir dari tabel
+        $this->db->select('code'); 
+        $this->db->order_by('orderid', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get('tb_order');
+        
+        if ($query->num_rows() > 0) {
+            $last_code = $query->row();
+            $last_code_number = $last_code->code;
+            
+            // Ambil nomor terakhir dan tambahkan satu
+            $last_number = substr($last_code_number, -4); // Misal 0001
+            $new_number = (int)$last_number + 1;
+            $new_number = str_pad($new_number, 4, '0', STR_PAD_LEFT); // Pastikan panjang tetap 4 digit
+        } else {
+            // Jika tidak ada invoice sebelumnya, mulai dari 0001
+            $new_number = '0001';
+        }
+        
+        // Gabungkan format tanggal dengan nomor baru
+        $code_number = $date . $new_number;
+        
+        return $code_number;
+    }
+	
+	public function generate_invoice_number() {        
+        // Ambil nomor invoice terakhir dari tabel
+        $this->db->select('invnum');
+        $this->db->order_by('orderid', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get('tb_order');
+        
+        if ($query->num_rows() > 0) {
+            $last_invoice = $query->row();
+            $last_invoice_number = $last_invoice->invnum;
+            
+            // Ambil nomor terakhir dan tambahkan satu
+            $last_number = substr($last_invoice_number, -4); // Misal 0001
+            $new_number = (int)$last_number + 1;
+            $new_number = str_pad($new_number, 4, '0', STR_PAD_LEFT); // Pastikan panjang tetap 4 digit
+        } else {
+            // Jika tidak ada invoice sebelumnya, mulai dari 0001
+            $new_number = '0001';
+        }
+        
+        // Gabungkan format tanggal dengan nomor baru
+        $invoice_number = $new_number;
+        
+        return $invoice_number;
     }
 
     //new table order nopes
