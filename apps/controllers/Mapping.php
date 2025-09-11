@@ -121,7 +121,34 @@ class Mapping extends CI_Controller
     $year       = $this->input->get('year');
     $order_type = $this->input->get('order_type');
 
-    $data = $this->mpgmd->get_invoice_spb_filtered($year, $order_type);
+    $flat = $this->mpgmd->get_invoice_spb_filtered($year, $order_type);
+
+    $grouped = [];
+		  foreach ($flat as $row) {
+			$invId = $row['invoice_id'];
+			if (! isset($grouped[$invId])) {
+			  $grouped[$invId] = [
+				'inv_number' => $row['inv_number'],
+                'inv_project'  => $row['inv_project'],
+                'inv_division'  => $row['inv_division'],
+                'inv_segment'  => $row['inv_segment'],
+                'inv_value'  => $row['inv_value'],
+                'inv_date'  => $row['inv_date'],
+                'inv_status'  => $row['inv_status'],
+				'spbs' 		 => []
+			  ];
+			}
+			// Kalau ada SPB, tambahkan ke list
+			if ($row['spb_id']) {
+			  $grouped[$invId]['spbs'][] = [
+				'spb_number'  => $row['spb_number'],
+				'amount'      => $row['spb_value'],
+                'customer'    => $row['customer'],
+                'spb_status'  => $row['spb_status'],
+				'spb_date'=> $row['spbdat']
+			  ];
+			}
+		  }
 
     echo json_encode(['data' => $data]);
     }
