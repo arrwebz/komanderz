@@ -40,7 +40,6 @@
             <div class="row">
                 <div class="col-xl-7 col-xxl-8 text-bg-dark">
                     <a href="<?php echo base_url(''); ?>" class="text-nowrap logo-img d-block px-4 py-9 w-100">
-                        <img src="<?php echo $this->config->item('images_uri');?>logos/komet-dark-logo.svg" class="dark-logo" alt="Logo-Dark" width="174px" height="26px">
                         <img src="<?php echo $this->config->item('images_uri');?>logos/komet-light-logo.svg" class="light-logo" alt="Logo-light" width="174px" height="26px">
                     </a>
                     <div class="d-none d-xl-flex align-items-center justify-content-center" style="height: calc(100vh - 80px);">
