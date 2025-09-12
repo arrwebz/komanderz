@@ -98,79 +98,86 @@ class Mapping_model extends CI_Model {
         return $this->db->get()->result_array();
     }
 
-    // For DataTables: fetch invoices with count of spb
+   // For DataTables: fetch invoices with count of spb
     public function get_invoices_with_count($year = null, $order_type = null, $start=0, $length=0, $search=null, $order=null) {
         // default tahun berjalan
         if ($year === null) {
             $year = date('Y');
         }
 
-        // default panjar berjalan
+        // default order_type
         if ($order_type === null) {
             $order_type = 'PRPO';
         }
         
-        // base select
-        $this->db->select('order.*, COUNT(tb_spb.spbid) AS spb_count');
-        $this->db->from('order');
-        $this->db->join('spb', 'spb.orderid = order.orderid', 'left');
+        // select kolom secukupnya
+        $this->db->select('o.orderid, o.code, o.projectname, o.basevalue, o.invdate, COUNT(s.spbid) AS spb_count');
+        $this->db->from('`order` o');  // pakai alias biar aman
+        $this->db->join('spb s', 's.orderid = o.orderid', 'left');
 
         if (!empty($year)) {
-        $this->db->where('YEAR(tb_order.invdate)', (int)$year);
+            $this->db->where('YEAR(o.invdate)', (int)$year);
         }
         if (!empty($order_type)) {
-        $this->db->where('tb_order.orderstatus', (int)$order_type);
+            $this->db->where('o.orderstatus', $order_type); // jangan di-cast ke int
         }
-        $this->db->where('tb_order.status !=', '9');
+        $this->db->where('o.status !=', '9');
+
         if (!empty($search)) {
-        $this->db->group_start()
-            ->like('tb_order.code', $search)
-            ->or_like('tb_order.projectname', $search)
-            ->or_like('tb_ order.basevalue', $search)
-        ->group_end();
+            $this->db->group_start()
+                ->like('o.code', $search)
+                ->or_like('o.projectname', $search)
+                ->or_like('o.basevalue', $search)
+            ->group_end();
         }
 
-        $this->db->group_by('tb_order.orderid');
+        $this->db->group_by('o.orderid');
 
         // ordering
         if ($order && isset($order['column']) ) {
-        // translate datatable column index to db column name as needed
-        $cols = ['orderid','code','projectname','spb_count','basevalue','invdate'];
-        $col = isset($cols[$order['column']]) ? $cols[$order['column']] : 'invdate';
-        $dir = ($order['dir']=='asc') ? 'asc' : 'desc';
-        $this->db->order_by($col, $dir);
+            $cols = ['o.orderid','o.code','o.projectname','spb_count','o.basevalue','o.invdate'];
+            $col = isset($cols[$order['column']]) ? $cols[$order['column']] : 'o.invdate';
+            $dir = ($order['dir']=='asc') ? 'asc' : 'desc';
+            $this->db->order_by($col, $dir);
         } else {
-        $this->db->order_by('tb_order.invdate','desc');
+            $this->db->order_by('o.invdate','desc');
         }
 
-        if ($length>0) $this->db->limit((int)$length, (int)$start);
+        if ($length > 0) {
+            $this->db->limit((int)$length, (int)$start);
+        }
+
         $q = $this->db->get();
         return $q->result_array();
     }
 
     public function count_invoices_filtered($year=null, $order_type=null, $search=null) {
-        // default tahun berjalan
         if ($year === null) {
             $year = date('Y');
         }
-
-        // default panjar berjalan
         if ($order_type === null) {
             $order_type = 'PRPO';
         }
         
-        $this->db->select('COUNT(DISTINCT tb_order.orderid) AS cnt');
-        $this->db->from('order');
-        $this->db->join('spb','spb.orderid = order.orderid','left');
-        if (!empty($year)) $this->db->where('YEAR(tb_order.invdate)', (int)$year);
-        if (!empty($order_type)) $this->db->where('tb_order.orderstatus', (int)$order_type);
-        $this->db->where('tb_order.status !=', '9');
-        if (!empty($search)) {
-        $this->db->group_start()
-            ->like('tb_order.code', $search)
-            ->or_like('tb_order.projectname', $search)
-        ->group_end();
+        $this->db->select('COUNT(DISTINCT o.orderid) AS cnt');
+        $this->db->from('`order` o');
+        $this->db->join('spb s','s.orderid = o.orderid','left');
+
+        if (!empty($year)) {
+            $this->db->where('YEAR(o.invdate)', (int)$year);
         }
+        if (!empty($order_type)) {
+            $this->db->where('o.orderstatus', $order_type);
+        }
+        $this->db->where('o.status !=', '9');
+
+        if (!empty($search)) {
+            $this->db->group_start()
+                ->like('o.code', $search)
+                ->or_like('o.projectname', $search)
+            ->group_end();
+        }
+
         $r = $this->db->get()->row();
         return $r ? (int)$r->cnt : 0;
     }
