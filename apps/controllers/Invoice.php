@@ -198,8 +198,8 @@ class Invoice extends CI_Controller
 				$this->intppnvalue = $row['ppnvalue'];
 				$this->intpphvalue = $row['pphvalue'];
 				$this->intnetvalue = $row['netvalue'];
-				$this->intmarginvalue = $row['estvalue'] - $row['netvalue'];
-				$this->intestvalue = $row['estvalue'];
+				$this->intmarginvalue = $row['pphvalue'] - $row['netvalue'];
+				$this->intestvalue = $row['pphvalue'];
 				//$this->intjstvalue = $row['jstvalue'];
 				//$this->intnegovalue = $row['negovalue'];
 				

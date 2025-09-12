@@ -152,7 +152,7 @@
               html += '</tbody></table>';
               row.child(html).show();
             }
-            $(this).text('[-]');
+            $(this).html('<i class="ti fs-6 ti-minus"></i>');
           }.bind(this)).fail(function(){
             row.child('<div class="child-row">Gagal fetch SPB</div>').show();
             $(this).html('<i class="ti fs-6 ti-minus"></i>');
