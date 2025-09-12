@@ -89,47 +89,70 @@ class Mapping extends CI_Controller
     }
 
     // endpoint for DataTables AJAX
-    public function ajax_list(){
-        // DataTables v4 uses start/length etc similar to v1.x
-        //header('Content-Type: application/json'); // penting!
+    // endpoint for DataTables AJAX
+    public function ajax_list()
+    {
+        header('Content-Type: application/json'); // penting biar JSON valid
+
         $post = $this->input->post();
 
-        $start = isset($post['start']) ? (int)$post['start'] : 0;
+        $start  = isset($post['start']) ? (int)$post['start'] : 0;
         $length = isset($post['length']) ? (int)$post['length'] : 10;
         $search = isset($post['search']['value']) ? $post['search']['value'] : null;
+
         $order = null;
         if (isset($post['order'][0])) {
-        $order = ['column'=>$post['order'][0]['column'], 'dir'=>$post['order'][0]['dir']];
+            $order = [
+                'column' => $post['order'][0]['column'],
+                'dir'    => $post['order'][0]['dir']
+            ];
         }
-        $filter_year = $this->input->post('filter_year');
+
+        $filter_year       = $this->input->post('filter_year');
         $filter_order_type = $this->input->post('filter_order_type');
 
-        $data = $this->mpgmd->get_invoices_with_count($filter_year, $filter_order_type, $start, $length, $search, $order);
-        $recordsFiltered = $this->mpgmd->count_invoices_filtered($filter_year, $filter_order_type, $search);
-        $recordsTotal = $this->db->count_all('order');
+        // ambil data utama
+        $data = $this->mpgmd->get_invoices_with_count(
+            $filter_year,
+            $filter_order_type,
+            $start,
+            $length,
+            $search,
+            $order
+        );
 
-        // prepare rows: include links for invoice & (later) child rows show SPB
+        // count data filtered
+        $recordsFiltered = $this->mpgmd->count_invoices_filtered(
+            $filter_year,
+            $filter_order_type,
+            $search
+        );
+
+        // count total semua data (jangan pakai "order", reserved word)
+        $recordsTotal = $this->db->count_all('tb_order'); 
+
+        // siapkan rows untuk DataTables
         $rows = [];
-        foreach($data as $r){
+        foreach ($data as $r) {
             $rows[] = [
-                'id' => $r['orderid'],
-                'invoice_no' => '<a target="_blank" href="'.site_url('invoice/details/'.$r['orderid']).'">'.htmlspecialchars($r['code']).'</a>',
+                'id'           => $r['orderid'],
+                'invoice_no'   => '<a target="_blank" href="' . site_url('mapping/details/' . $r['orderid']) . '">' . htmlspecialchars($r['code']) . '</a>',
                 'project_name' => htmlspecialchars($r['projectname']),
-                'spb_count' => (int)$r['spb_count'],
-                'amount' => number_format($r['basevalue'],2,',','.'),
+                'spb_count'    => (int)$r['spb_count'],
+                'amount'       => number_format($r['basevalue'], 2, ',', '.'),
                 'invoice_date' => $r['invdate'] ? date('Y-m-d', strtotime($r['invdate'])) : ''
             ];
         }
 
-        //print_r($rows); exit;
-
+        // output sesuai format DataTables
         echo json_encode([
-        'draw' => isset($post['draw']) ? (int)$post['draw'] : 1,
-        'recordsTotal' => $recordsTotal,
-        'recordsFiltered' => $recordsFiltered,
-        'data' => $rows
-        ]);
-        //exit;
+            'draw'            => isset($post['draw']) ? (int)$post['draw'] : 1,
+            'recordsTotal'    => $recordsTotal,
+            'recordsFiltered' => $recordsFiltered,
+            'data'            => $rows
+        ], JSON_UNESCAPED_UNICODE);
+
+        exit;
     }
 
     // return SPB list for a given invoice (for expand)
