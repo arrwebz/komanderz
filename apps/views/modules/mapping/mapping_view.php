@@ -69,7 +69,7 @@
                 </div>
                 <div class="card-body collapse show">
                     <div class="table-responsive pb-9">
-                        <table id="invoice_table" class="display table border table-striped table-bordered display text-nowrap table-hover" style="width: 100%">
+                        <table id="invoice_table" class="table border table-striped table-bordered display text-nowrap table-hover" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th></th> <!-- expand -->
@@ -109,7 +109,7 @@
             }
         },
         columns: [
-            { data: null, orderable: false, render: function(d,t,r){ return '<span class="expand-btn" data-id="'+r.id+'">[+]</span>'; } },
+            { data: null, orderable: false, render: function(d,t,r){ return '<span class="expand-btn" data-id="'+r.id+'"><i class="ti fs-6 ti-plus"></i></span>'; } },
             { data: 'id' },
             { data: 'invoice_no' },
             { data: 'project_name' },
@@ -138,14 +138,14 @@
         const invoiceId = $(this).data('id');
         if (row.child.isShown()){
           row.child.hide();
-          $(this).text('[+]');
+          $(this).html('<i class="ti fs-6 ti-plus"></i>');
         } else {
           // fetch spbs
           $.getJSON('<?= site_url("mapping/ajax_spb_by_invoice") ?>/'+invoiceId, function(spbs){
             if (!spbs || spbs.length === 0){
               row.child('<div class="child-row">No SPB Payments</div>').show();
             } else {
-              let html = '<table style="width:100%; border-collapse:collapse;" border="1"><thead><tr><th>SPB No</th><th>Amount</th><th>Payment Date</th></tr></thead><tbody>';
+              let html = '<table style="width:50%; border-collapse:collapse;" border="1"><thead><tr><th>SPB No</th><th>Amount</th><th>Payment Date</th></tr></thead><tbody>';
               spbs.forEach(function(s){
                 html += '<tr><td>'+s.spb_no_link+'</td><td style="text-align:right">'+s.spb_amount_fmt+'</td><td>'+s.payment_date+'</td></tr>';
               });
@@ -155,7 +155,7 @@
             $(this).text('[-]');
           }.bind(this)).fail(function(){
             row.child('<div class="child-row">Gagal fetch SPB</div>').show();
-            $(this).text('[-]');
+            $(this).html('<i class="ti fs-6 ti-minus"></i>');
           }.bind(this));
         }
       });

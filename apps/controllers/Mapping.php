@@ -136,11 +136,11 @@ class Mapping extends CI_Controller
         foreach ($data as $r) {
             $rows[] = [
                 'id'           => $r['orderid'],
-                'invoice_no'   => '<a target="_blank" href="' . site_url('mapping/details/' . $r['orderid']) . '">' . htmlspecialchars($r['code']) . '</a>',
-                'project_name' => htmlspecialchars($r['projectname']),
+                'invoice_no'   => '<a target="_blank" href="' . base_url('invoice/details/' . $r['orderid']) . '">' . htmlspecialchars($r['code']) . '</a>',
+                'project_name' => substr(htmlspecialchars($r['projectname']), 0, 50),
                 'spb_count'    => (int)$r['spb_count'],
-                'amount'       => $r['basevalue'],
-                'invoice_date' => $r['invdate']
+                'amount'       => strrev(implode('.',str_split(strrev(strval($r['basevalue'])),3))),
+                'invoice_date' => date('d-m-Y', strtotime($r['invdate']))
             ];
         }
 
@@ -160,9 +160,9 @@ class Mapping extends CI_Controller
         $spbs = $this->mpgmd->get_spb_by_invoice($invoice_id);
         // create HTML table fragment or JSON - we'll return JSON array to JS
         foreach($spbs as &$s){
-        $s['spb_no_link'] = '<a target="_blank" href="'.site_url('kspb/details/'.$s['spbid']).'">'.htmlspecialchars($s['code']).'</a>';
-        $s['spb_amount_fmt'] = number_format($s['value'],2,',','.');
-        $s['payment_date'] = $s['spbdat'];
+        $s['spb_no_link'] = '<a target="_blank" href="'.base_url('kspb/details/'.$s['spbid']).'">'.htmlspecialchars($s['code']).'</a>';
+        $s['spb_amount_fmt'] = strrev(implode('.',str_split(strrev(strval($s['value'])),3)));
+        $s['payment_date'] = date('d-m-Y', strtotime($s['spbdat']));
         }
         echo json_encode($spbs);
     }
