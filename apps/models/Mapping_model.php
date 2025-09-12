@@ -159,7 +159,7 @@ class Mapping_model extends CI_Model {
             $order_type = 'PRPO';
         }
         
-        $this->db->select('COUNT(DISTINCT order.orderid) AS cnt');
+        $this->db->select('COUNT(DISTINCT tb_order.orderid) AS cnt');
         $this->db->from('order');
         $this->db->join('spb','spb.orderid = order.orderid','left');
         if (!empty($year)) $this->db->where('YEAR(tb_order.invdate)', (int)$year);
