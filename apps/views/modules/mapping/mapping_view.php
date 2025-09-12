@@ -42,10 +42,8 @@
                         <label for="optSegment" class="form-label fw-semibold">Customers</label>
                             <select id="filter_order_type" class="form-control selectpicker">
                             <option value="">All</option>
-                            <?php foreach($order_types as $ot): ?>
                                 <option value="PRPO" selected>PRPO</option>
                                 <option value="OBL">OBL</option>
-                            <?php endforeach; ?>
                             </select>
                     </div>
                 </div>

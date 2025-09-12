@@ -116,21 +116,21 @@ class Mapping_model extends CI_Model {
         $this->db->join('spb', 'spb.orderid = order.orderid', 'left');
 
         if (!empty($year)) {
-        $this->db->where('YEAR(order.invdate)', (int)$year);
+        $this->db->where('YEAR(tb_order.invdate)', (int)$year);
         }
         if (!empty($order_type)) {
-        $this->db->where('order.order_type_id', (int)$order_type);
+        $this->db->where('tb_order.order_type_id', (int)$order_type);
         }
-        $this->db->where('status !=', '9');
+        $this->db->where('tb_order.status !=', '9');
         if (!empty($search)) {
         $this->db->group_start()
-            ->like('order.code', $search)
-            ->or_like('order.projectname', $search)
-            ->or_like('order.basevalue', $search)
+            ->like('tb_order.code', $search)
+            ->or_like('tb_order.projectname', $search)
+            ->or_like('tb_ order.basevalue', $search)
         ->group_end();
         }
 
-        $this->db->group_by('order.orderid');
+        $this->db->group_by('tb_order.orderid');
 
         // ordering
         if ($order && isset($order['column']) ) {
@@ -140,7 +140,7 @@ class Mapping_model extends CI_Model {
         $dir = ($order['dir']=='asc') ? 'asc' : 'desc';
         $this->db->order_by($col, $dir);
         } else {
-        $this->db->order_by('order.invdate','desc');
+        $this->db->order_by('tb_order.invdate','desc');
         }
 
         if ($length>0) $this->db->limit((int)$length, (int)$start);
@@ -162,13 +162,13 @@ class Mapping_model extends CI_Model {
         $this->db->select('COUNT(DISTINCT order.orderid) AS cnt');
         $this->db->from('order');
         $this->db->join('spb','spb.orderid = order.orderid','left');
-        if (!empty($year)) $this->db->where('YEAR(order.invdate)', (int)$year);
-        if (!empty($order_type)) $this->db->where('order.order_type_id', (int)$order_type);
-        $this->db->where('status !=', '9');
+        if (!empty($year)) $this->db->where('YEAR(tb_order.invdate)', (int)$year);
+        if (!empty($order_type)) $this->db->where('tb_order.order_type_id', (int)$order_type);
+        $this->db->where('tb_order.status !=', '9');
         if (!empty($search)) {
         $this->db->group_start()
-            ->like('order.code', $search)
-            ->or_like('order.projectname', $search)
+            ->like('tb_order.code', $search)
+            ->or_like('tb_order.projectname', $search)
         ->group_end();
         }
         $r = $this->db->get()->row();
