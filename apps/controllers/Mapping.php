@@ -139,7 +139,7 @@ class Mapping extends CI_Controller
                 'invoice_no'   => '<a target="_blank" href="' . site_url('mapping/details/' . $r['orderid']) . '">' . htmlspecialchars($r['code']) . '</a>',
                 'project_name' => htmlspecialchars($r['projectname']),
                 'spb_count'    => (int)$r['spb_count'],
-                'amount'       => number_format($r['basevalue'], 2, ',', '.'),
+                'amount'       => $r['basevalue'],
                 'invoice_date' => $r['invdate'] ? date('Y-m-d', strtotime($r['invdate'])) : ''
             ];
         }
