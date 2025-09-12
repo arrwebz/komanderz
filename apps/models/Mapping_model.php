@@ -119,7 +119,7 @@ class Mapping_model extends CI_Model {
         $this->db->where('YEAR(tb_order.invdate)', (int)$year);
         }
         if (!empty($order_type)) {
-        $this->db->where('tb_order.order_type_id', (int)$order_type);
+        $this->db->where('tb_order.orderstatus', (int)$order_type);
         }
         $this->db->where('tb_order.status !=', '9');
         if (!empty($search)) {
