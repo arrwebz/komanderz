@@ -43,7 +43,7 @@
                             <select id="filter_order_type">
                             <option value="">All</option>
                             <?php foreach($order_types as $ot): ?>
-                                <option value="<?= $ot->id ?>"><?= htmlspecialchars($ot->name) ?></option>
+                                <option value="<?= $ot->orderstatus ?>"><?= htmlspecialchars($ot->orderstatus) ?></option>
                             <?php endforeach; ?>
                             </select>
                     </div>
@@ -98,37 +98,28 @@
     $(document).ready(function(){
       const table = $('#invoice_table').DataTable({
         ajax: {
-          url: '<?= site_url("mapping/ajax_list") ?>',
-          type: 'POST',
-          data: function(d){
+            url: '<?= site_url("mapping/ajax_list") ?>',
+            type: 'POST',
+            data: function(d){
             d.filter_year = $('#filter_year').val();
             d.filter_order_type = $('#filter_order_type').val();
-          },
-          dataSrc: function(json){
-            // json.data is array; we will return it
-            return json.data;
-          }
+            },
+            error: function(xhr, error, thrown){
+            console.log("AJAX Error:", xhr.responseText);
+            alert("AJAX Error: " + xhr.status + " " + thrown);
+            }
         },
         columns: [
-          {
-            data: null,
-            orderable: false,
-            render: function(data,type,row){
-              return '<span class="expand-btn" data-id="'+row.id+'">[+]</span>';
-            }
-          },
-          {
-            data: 'id',
-            render: function(d,t,r){ return r.id; }
-          },
-          { data: 'invoice_no' },
-          { data: 'project_name' },
-          { data: 'spb_count' },
-          { data: 'amount' },
-          { data: 'invoice_date' }
+            { data: null, orderable: false, render: function(d,t,r){ return '<span class="expand-btn" data-id="'+r.id+'">[+]</span>'; } },
+            { data: 'id' },
+            { data: 'invoice_no' },
+            { data: 'project_name' },
+            { data: 'spb_count' },
+            { data: 'amount' },
+            { data: 'invoice_date' }
         ],
         pageLength: 10
-      });
+        });
 
       // filter button
       $('#btn_filter').on('click', function(){ table.ajax.reload(); });

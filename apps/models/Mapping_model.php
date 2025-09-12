@@ -101,7 +101,7 @@ class Mapping_model extends CI_Model {
     // For DataTables: fetch invoices with count of spb
     public function get_invoices_with_count($year = null, $order_type = null, $start=0, $length=0, $search=null, $order=null) {
         // base select
-        $this->db->select('order.*, COUNT(spb.spbid) AS spb_count');
+        $this->db->select('order.*, COUNT(tb_spb.spbid) AS spb_count');
         $this->db->from('order');
         $this->db->join('spb', 'spb.orderid = order.orderid', 'left');
 

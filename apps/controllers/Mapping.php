@@ -92,7 +92,9 @@ class Mapping extends CI_Controller
     // endpoint for DataTables AJAX
     public function ajax_list(){
         // DataTables v4 uses start/length etc similar to v1.x
+        header('Content-Type: application/json'); // penting!
         $post = $this->input->post();
+
         $start = isset($post['start']) ? (int)$post['start'] : 0;
         $length = isset($post['length']) ? (int)$post['length'] : 10;
         $search = isset($post['search']['value']) ? $post['search']['value'] : null;
@@ -126,6 +128,7 @@ class Mapping extends CI_Controller
         'recordsFiltered' => $recordsFiltered,
         'data' => $rows
         ]);
+        exit;
     }
 
     // return SPB list for a given invoice (for expand)
