@@ -344,15 +344,7 @@
                                         <div class="round-16 d-flex align-items-center justify-content-center">
                                             <i class="ti ti-circle"></i>
                                         </div>
-                                        <span class="hide-menu">SPB PANJAR</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="<?php echo site_url('mtrack');?>" class="sidebar-link">
-                                        <div class="round-16 d-flex align-items-center justify-content-center">
-                                            <i class="ti ti-circle"></i>
-                                        </div>
-                                        <span class="hide-menu">SPB BILLCOMP</span>
+                                        <span class="hide-menu">SPB to Invoice</span>
                                     </a>
                                 </li>
                             </ul>

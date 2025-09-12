@@ -29,27 +29,34 @@
                 <div class="col-md-6">
                     <div class="form-group mb-4">
                         <label for="exampleInputname" class="form-label fw-semibold">Order Type</label>
-                            <select id="filterYear">
-                                <?php for ($y = date('Y'); $y >= 2020; $y--): ?>
-                                <option value="<?= $y ?>"><?= $y ?></option>
-                            <?php endfor; ?>
-                        </select>
+                            <select id="filter_year">
+                                <option value="">All</option>
+                                <?php foreach($years as $y): ?>
+                                    <option value="<?= $y['y'] ?>"><?= $y['y'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group mb-4">
                         <label for="optSegment" class="form-label fw-semibold">Customers</label>
-                            <select id="filterOrderType">
-                            <option value="">All Types</option>
-                            <option value="PRPO">PANJAR</option>
-                            <option value="OBL">OBL</option>
-                        </select>
+                            <select id="filter_order_type">
+                            <option value="">All</option>
+                            <?php foreach($order_types as $ot): ?>
+                                <option value="<?= $ot->id ?>"><?= htmlspecialchars($ot->name) ?></option>
+                            <?php endforeach; ?>
+                            </select>
                     </div>
                 </div>
             </div>
-            <button type="submit" name="cmdsave" id="btnExport" class="btn btn-dark font-medium rounded-pill px-4 mb-6">
+            <button id="btn_filter" class="btn btn-dark font-medium rounded-pill px-4 mb-6">
                 <div class="d-flex align-items-center">
-                    <i class="ti ti-send me-2 fs-4"></i> Excel
+                    <i class="ti ti-send me-2 fs-4"></i> Filter
+                </div>
+            </button>
+            <button id="btn_export" class="btn btn-dark font-medium rounded-pill px-4 mb-6">
+                <div class="d-flex align-items-center">
+                    <i class="ti ti-send me-2 fs-4"></i> Export
                 </div>
             </button>
         </div>
@@ -63,47 +70,19 @@
                 </div>
                 <div class="card-body collapse show">
                     <div class="table-responsive pb-9">
-                        <table id="datatables" class="table border table-striped table-bordered display text-nowrap table-hover" style="width: 100%">
+                        <table id="invoice_table" class="display table border table-striped table-bordered display text-nowrap table-hover" style="width: 100%">
                             <thead>
                                 <tr>
+                                    <th></th> <!-- expand -->
                                     <th>No</th>
                                     <th>Invoice</th>
                                     <th>Project Name</th>
-                                    <th>SPB Number</th>
+                                    <th>SPB Count</th>
                                     <th>Amount</th>
                                     <th>Payment Date</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <?php $no = 1; ?>
-                                <?php foreach ($invoices as $inv): ?>
-                                <?php 
-                                    $countSpb = max(1, count($inv['spbs']));
-                                    $firstSpb = array_shift($inv['spbs']);
-                                ?>
-                                <tr>
-                                    <td rowspan="<?= $countSpb ?>"><?= $no++ ?></td>
-                                    <td rowspan="<?= $countSpb ?>"><a href="<?php echo base_url().$this->router->fetch_class(). '/knopes/details/'.$inv['inv_id']; ?>" target="_blank"><?= htmlspecialchars($inv['inv_number']) ?></a></td>
-                                    <td rowspan="<?= $countSpb ?>"><?= htmlspecialchars(substr($inv['inv_project'], 0, 50)) ?></td>
-                                    <?php if ($firstSpb): ?>
-                                    <td><a href="<?php echo base_url().$this->router->fetch_class(). '/kspb/details/'.$firstSpb['spb_id']; ?>" target="_blank"><?= htmlspecialchars($firstSpb['spb_number']) ?></a></td>
-                                    <td style="text-align:right"><?= number_format($firstSpb['amount'], 2, ',', '.') ?></td>
-                                    <td><?= $firstSpb['spb_date'] ?></td>
-                                    <?php else: ?>
-                                    <td colspan="3" style="text-align:center">– No SPB –</td>
-                                    <?php endif; ?>
-                                </tr>
-
-                                <?php foreach ($inv['spbs'] as $spb): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($spb['spb_number']) ?></td>
-                                    <td style="text-align:right"><?= number_format($spb['amount'], 2, ',', '.') ?></td>
-                                    <td><?= $spb['spb_date'] ?></td>
-                                </tr>
-                                <?php endforeach; ?>
-
-                                <?php endforeach; ?>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                     <!-- /.box-body -->
@@ -115,21 +94,81 @@
     </div>
 </section>
 
-<script type="text/javascript">
-	$(document).ready(function() {
-		var table = $('#datatables').DataTable({
-			'responsive'  : true,
-			'paging'      : true,
-			'lengthChange': false,
-			'searching'   : false,
-			'ordering'    : false,
-			'info'        : false,
-			'autoWidth'   : true
+<script>
+    $(document).ready(function(){
+      const table = $('#invoice_table').DataTable({
+        ajax: {
+          url: '<?= site_url("mapping/ajax_list") ?>',
+          type: 'POST',
+          data: function(d){
+            d.filter_year = $('#filter_year').val();
+            d.filter_order_type = $('#filter_order_type').val();
+          },
+          dataSrc: function(json){
+            // json.data is array; we will return it
+            return json.data;
+          }
+        },
+        columns: [
+          {
+            data: null,
+            orderable: false,
+            render: function(data,type,row){
+              return '<span class="expand-btn" data-id="'+row.id+'">[+]</span>';
+            }
+          },
+          {
+            data: 'id',
+            render: function(d,t,r){ return r.id; }
+          },
+          { data: 'invoice_no' },
+          { data: 'project_name' },
+          { data: 'spb_count' },
+          { data: 'amount' },
+          { data: 'invoice_date' }
+        ],
+        pageLength: 10
+      });
 
-		});
-		$('.selectpicker').select2();
-	});
+      // filter button
+      $('#btn_filter').on('click', function(){ table.ajax.reload(); });
 
+      // export
+      $('#btn_export').on('click', function(){
+        const y = $('#filter_year').val();
+        const t = $('#filter_order_type').val();
+        const url = '<?= site_url("mapping/export_excel") ?>?filter_year='+encodeURIComponent(y)+'&filter_order_type='+encodeURIComponent(t);
+        window.location = url;
+      });
 
+      // handle expand click (child rows show SPB table)
+      $('#invoice_table tbody').on('click', '.expand-btn', function(){
+        const tr = $(this).closest('tr');
+        const row = table.row(tr);
+        const invoiceId = $(this).data('id');
+        if (row.child.isShown()){
+          row.child.hide();
+          $(this).text('[+]');
+        } else {
+          // fetch spbs
+          $.getJSON('<?= site_url("mapping/ajax_spb") ?>/'+invoiceId, function(spbs){
+            if (!spbs || spbs.length === 0){
+              row.child('<div class="child-row">No SPB Payments</div>').show();
+            } else {
+              let html = '<table style="width:100%; border-collapse:collapse;" border="1"><thead><tr><th>SPB No</th><th>Amount</th><th>Payment Date</th></tr></thead><tbody>';
+              spbs.forEach(function(s){
+                html += '<tr><td>'+s.spb_no_link+'</td><td style="text-align:right">'+s.spb_amount_fmt+'</td><td>'+s.payment_date+'</td></tr>';
+              });
+              html += '</tbody></table>';
+              row.child(html).show();
+            }
+            $(this).text('[-]');
+          }.bind(this)).fail(function(){
+            row.child('<div class="child-row">Gagal fetch SPB</div>').show();
+            $(this).text('[-]');
+          }.bind(this));
+        }
+      });
 
-</script>
+    });
+  </script>
