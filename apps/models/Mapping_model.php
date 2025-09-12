@@ -98,8 +98,8 @@ class Mapping_model extends CI_Model {
         return $this->db->get()->result_array();
     }
 
-   // For DataTables: fetch invoices with count of spb
-    public function get_invoices_with_count($year = null, $order_type = null, $start=0, $length=0, $search=null, $order=null) {
+    // Untuk DataTables: fetch invoices with count of spb
+    public function get_invoices_with_count($year = null, $order_type = null, $start=0, $length=10, $search=null, $order=null) {
         // default tahun berjalan
         if ($year === null) {
             $year = date('Y');
@@ -109,20 +109,25 @@ class Mapping_model extends CI_Model {
         if ($order_type === null) {
             $order_type = 'PRPO';
         }
-        
-        // select kolom secukupnya
-        $this->db->select('o.orderid, o.code, o.projectname, o.basevalue, o.invdate, COUNT(s.spbid) AS spb_count');
-        $this->db->from('order o');  // pakai alias biar aman
-        $this->db->join('spb s', 's.orderid = o.orderid', 'left');
 
+        $this->db->select('o.orderid, o.code, o.projectname, o.basevalue, o.invdate, o.orderstatus, COUNT(s.spbid) AS spb_count');
+        $this->db->from('tb_order o');
+        $this->db->join('tb_spb s', 's.orderid = o.orderid', 'left');
+
+        // filter tahun invoice
         if (!empty($year)) {
             $this->db->where('YEAR(o.invdate)', (int)$year);
         }
-        if (!empty($order_type)) {
-            $this->db->where('o.orderstatus', $order_type); // jangan di-cast ke int
-        }
-        $this->db->where('o.status !=', '9');
 
+        // filter tipe order (varchar, jangan di-casting!)
+        if (!empty($order_type)) {
+            $this->db->where('o.orderstatus', $order_type);
+        }
+
+        // exclude status 9
+        $this->db->where('o.status !=', 9);
+
+        // search
         if (!empty($search)) {
             $this->db->group_start()
                 ->like('o.code', $search)
@@ -134,7 +139,7 @@ class Mapping_model extends CI_Model {
         $this->db->group_by('o.orderid');
 
         // ordering
-        if ($order && isset($order['column']) ) {
+        if ($order && isset($order['column'])) {
             $cols = ['o.orderid','o.code','o.projectname','spb_count','o.basevalue','o.invdate'];
             $col = isset($cols[$order['column']]) ? $cols[$order['column']] : 'o.invdate';
             $dir = ($order['dir']=='asc') ? 'asc' : 'desc';
@@ -143,6 +148,7 @@ class Mapping_model extends CI_Model {
             $this->db->order_by('o.invdate','desc');
         }
 
+        // limit (pagination DataTables)
         if ($length > 0) {
             $this->db->limit((int)$length, (int)$start);
         }
@@ -155,21 +161,24 @@ class Mapping_model extends CI_Model {
         if ($year === null) {
             $year = date('Y');
         }
+
         if ($order_type === null) {
             $order_type = 'PRPO';
         }
-        
+
         $this->db->select('COUNT(DISTINCT o.orderid) AS cnt');
-        $this->db->from('order o');
-        $this->db->join('spb s','s.orderid = o.orderid','left');
+        $this->db->from('tb_order o');
+        $this->db->join('tb_spb s','s.orderid = o.orderid','left');
 
         if (!empty($year)) {
             $this->db->where('YEAR(o.invdate)', (int)$year);
         }
+
         if (!empty($order_type)) {
             $this->db->where('o.orderstatus', $order_type);
         }
-        $this->db->where('o.status !=', '9');
+
+        $this->db->where('o.status !=', 9);
 
         if (!empty($search)) {
             $this->db->group_start()
@@ -185,9 +194,10 @@ class Mapping_model extends CI_Model {
     public function get_spb_by_invoice($invoice_id) {
         return $this->db->where('orderid', (int)$invoice_id)
                         ->order_by('spbdat','asc')
-                        ->get('spb')
+                        ->get('tb_spb')
                         ->result_array();
     }
+
 
     public function get_invoice($id) {
         return $this->db->where('orderid',(int)$id)->get('order')->row_array();
@@ -197,12 +207,6 @@ class Mapping_model extends CI_Model {
     //     $this->db->insert('spb_payments', $data);
     //     return $this->db->insert_id();
     // }
-
-
-
-
-
-
 
 
 	
