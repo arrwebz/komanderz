@@ -100,6 +100,16 @@ class Mapping_model extends CI_Model {
 
     // For DataTables: fetch invoices with count of spb
     public function get_invoices_with_count($year = null, $order_type = null, $start=0, $length=0, $search=null, $order=null) {
+        // default tahun berjalan
+        if ($year === null) {
+            $year = date('Y');
+        }
+
+        // default panjar berjalan
+        if ($order_type === null) {
+            $order_type = 'PRPO';
+        }
+        
         // base select
         $this->db->select('order.*, COUNT(tb_spb.spbid) AS spb_count');
         $this->db->from('order');
@@ -111,6 +121,7 @@ class Mapping_model extends CI_Model {
         if (!empty($order_type)) {
         $this->db->where('order.order_type_id', (int)$order_type);
         }
+        $this->db->where('status !=', '9');
         if (!empty($search)) {
         $this->db->group_start()
             ->like('order.code', $search)
@@ -138,11 +149,22 @@ class Mapping_model extends CI_Model {
     }
 
     public function count_invoices_filtered($year=null, $order_type=null, $search=null) {
+        // default tahun berjalan
+        if ($year === null) {
+            $year = date('Y');
+        }
+
+        // default panjar berjalan
+        if ($order_type === null) {
+            $order_type = 'PRPO';
+        }
+        
         $this->db->select('COUNT(DISTINCT order.orderid) AS cnt');
         $this->db->from('order');
         $this->db->join('spb','spb.orderid = order.orderid','left');
         if (!empty($year)) $this->db->where('YEAR(order.invdate)', (int)$year);
         if (!empty($order_type)) $this->db->where('order.order_type_id', (int)$order_type);
+        $this->db->where('status !=', '9');
         if (!empty($search)) {
         $this->db->group_start()
             ->like('order.code', $search)

@@ -121,7 +121,7 @@ class Mapping extends CI_Controller
             ];
         }
 
-        print_r($rows); exit;
+        //print_r($rows); exit;
 
         echo json_encode([
         'draw' => isset($post['draw']) ? (int)$post['draw'] : 1,
