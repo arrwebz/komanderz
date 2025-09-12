@@ -140,7 +140,7 @@ class Mapping extends CI_Controller
                 'project_name' => htmlspecialchars($r['projectname']),
                 'spb_count'    => (int)$r['spb_count'],
                 'amount'       => $r['basevalue'],
-                'invoice_date' => $r['invdate'] ? date('Y-m-d', strtotime($r['invdate'])) : ''
+                'invoice_date' => $r['invdate']
             ];
         }
 
@@ -162,6 +162,7 @@ class Mapping extends CI_Controller
         foreach($spbs as &$s){
         $s['spb_no_link'] = '<a target="_blank" href="'.site_url('kspb/details/'.$s['spbid']).'">'.htmlspecialchars($s['code']).'</a>';
         $s['spb_amount_fmt'] = number_format($s['value'],2,',','.');
+        $s['payment_date'] = $s['spbdat'];
         }
         echo json_encode($spbs);
     }
