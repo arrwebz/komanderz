@@ -112,7 +112,7 @@ class Mapping_model extends CI_Model {
         
         // select kolom secukupnya
         $this->db->select('o.orderid, o.code, o.projectname, o.basevalue, o.invdate, COUNT(s.spbid) AS spb_count');
-        $this->db->from('`order` o');  // pakai alias biar aman
+        $this->db->from('order o');  // pakai alias biar aman
         $this->db->join('spb s', 's.orderid = o.orderid', 'left');
 
         if (!empty($year)) {
@@ -160,7 +160,7 @@ class Mapping_model extends CI_Model {
         }
         
         $this->db->select('COUNT(DISTINCT o.orderid) AS cnt');
-        $this->db->from('`order` o');
+        $this->db->from('order o');
         $this->db->join('spb s','s.orderid = o.orderid','left');
 
         if (!empty($year)) {
