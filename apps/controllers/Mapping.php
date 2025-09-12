@@ -64,7 +64,6 @@ class Mapping extends CI_Controller
         
         $data = [
 			'years' => $this->mpgmd->get_years(),
-			'order_types' => $this->mpgmd->get_order_types(),
             'title' => 'Mapping',
             'brand' => 'Mapping Invoice to SPB',
             'tnk' => $this->repmd->countnopeskomet(),
@@ -112,15 +111,17 @@ class Mapping extends CI_Controller
         // prepare rows: include links for invoice & (later) child rows show SPB
         $rows = [];
         foreach($data as $r){
-        $rows[] = [
-            'id' => $r['orderid'],
-            'invoice_no' => '<a target="_blank" href="'.site_url('invoice/details/'.$r['orderid']).'">'.htmlspecialchars($r['code']).'</a>',
-            'project_name' => htmlspecialchars($r['projectname']),
-            'spb_count' => (int)$r['spb_count'],
-            'amount' => number_format($r['basevalue'],2,',','.'),
-            'invoice_date' => $r['invdate'] ? date('Y-m-d', strtotime($r['invdate'])) : ''
-        ];
+            $rows[] = [
+                'id' => $r['orderid'],
+                'invoice_no' => '<a target="_blank" href="'.site_url('invoice/details/'.$r['orderid']).'">'.htmlspecialchars($r['code']).'</a>',
+                'project_name' => htmlspecialchars($r['projectname']),
+                'spb_count' => (int)$r['spb_count'],
+                'amount' => number_format($r['basevalue'],2,',','.'),
+                'invoice_date' => $r['invdate'] ? date('Y-m-d', strtotime($r['invdate'])) : ''
+            ];
         }
+
+        print_r($rows); exit;
 
         echo json_encode([
         'draw' => isset($post['draw']) ? (int)$post['draw'] : 1,

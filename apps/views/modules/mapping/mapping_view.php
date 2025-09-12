@@ -29,7 +29,7 @@
                 <div class="col-md-6">
                     <div class="form-group mb-4">
                         <label for="exampleInputname" class="form-label fw-semibold">Order Type</label>
-                            <select id="filter_year">
+                            <select id="filter_year" class="form-control selectpicker">
                                 <option value="">All</option>
                                 <?php foreach($years as $y): ?>
                                     <option value="<?= $y['y'] ?>"><?= $y['y'] ?></option>
@@ -40,10 +40,11 @@
                 <div class="col-md-6">
                     <div class="form-group mb-4">
                         <label for="optSegment" class="form-label fw-semibold">Customers</label>
-                            <select id="filter_order_type">
+                            <select id="filter_order_type" class="form-control selectpicker">
                             <option value="">All</option>
                             <?php foreach($order_types as $ot): ?>
-                                <option value="<?= $ot->orderstatus ?>"><?= htmlspecialchars($ot->orderstatus) ?></option>
+                                <option value="PRPO" selected>PRPO</option>
+                                <option value="OBL">OBL</option>
                             <?php endforeach; ?>
                             </select>
                     </div>
@@ -160,6 +161,6 @@
           }.bind(this));
         }
       });
-
+      $('.selectpicker').select2();
     });
   </script>

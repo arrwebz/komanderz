@@ -53,9 +53,9 @@ $route['default_controller'] = 'login';
 $route['404_override'] = 'notfound';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['mapping'] = 'mapping/index';
-$route['mapping/ajax_list'] = 'mapping/ajax_list';
-$route['mapping/ajax_spb/(:num)'] = 'mapping/ajax_spb_by_invoice/$1';
-$route['mapping/ajax_add_spb'] = 'mapping/ajax_add_spb';
-$route['mapping/export_excel'] = 'mapping/export_excel';
-$route['mapping/detail/(:num)'] = 'mapping/detail/$1';
+// $route['mapping'] = 'mapping/index';
+// $route['mapping/ajax_list'] = 'mapping/ajax_list';
+// $route['mapping/ajax_spb/(:num)'] = 'mapping/ajax_spb_by_invoice/$1';
+// $route['mapping/ajax_add_spb'] = 'mapping/ajax_add_spb';
+// $route['mapping/export_excel'] = 'mapping/export_excel';
+// $route['mapping/detail/(:num)'] = 'mapping/detail/$1';
