@@ -141,7 +141,7 @@
           $(this).text('[+]');
         } else {
           // fetch spbs
-          $.getJSON('<?= site_url("mapping/ajax_spb") ?>/'+invoiceId, function(spbs){
+          $.getJSON('<?= site_url("mapping/ajax_spb_by_invoice") ?>/'+invoiceId, function(spbs){
             if (!spbs || spbs.length === 0){
               row.child('<div class="child-row">No SPB Payments</div>').show();
             } else {
