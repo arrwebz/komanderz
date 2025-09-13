@@ -110,9 +110,19 @@ class Mapping_model extends CI_Model {
             $order_type = 'PRPO';
         }
 
-        $this->db->select('o.orderid, o.code, o.projectname, o.basevalue, o.invdate, o.orderstatus, COUNT(s.spbid) AS spb_count');
+        $this->db->select('o.orderid, o.code, o.projectname, 
+        o.basevalue, o.invdate, o.orderstatus, 
+        COUNT(s.spbid) AS spb_count,
+        CASE 
+            WHEN o.orderstatus = 'OBL' THEN o.invdate
+            WHEN o.orderstatus = 'PRPO' THEN o.crdat
+            ELSE o.invdate
+        END AS invoice_date');
         $this->db->from('tb_order o');
         $this->db->join('tb_spb s', 's.orderid = o.orderid', 'left');
+
+        // Hanya ambil invdate >= 2021
+        $this->db->where("YEAR(o.invdate) >=", 2021);
 
         // filter tahun invoice
         if (!empty($year)) {
