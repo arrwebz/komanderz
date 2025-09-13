@@ -122,7 +122,7 @@ class Mapping_model extends CI_Model {
 
         // filter tahun dinamis (default tahun sekarang)
         if (!empty($year)) {
-            $this->db->where('YEAR(IF(o.orderstatus = "PRPO", o.crdate, o.invdate)) =', (int)$year);
+            $this->db->where('YEAR(IF(o.orderstatus = "PRPO", o.crdat, o.invdate)) =', (int)$year);
         }
 
 
