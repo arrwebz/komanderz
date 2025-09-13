@@ -96,6 +96,8 @@
 <script>
     $(document).ready(function(){
       const table = $('#invoice_table').DataTable({
+        processing: true,
+        serverSide: true,
         ajax: {
             url: '<?= site_url("mapping/ajax_list") ?>',
             type: 'POST',
@@ -103,6 +105,8 @@
             d.filter_year = $('#filter_year').val();
             d.filter_order_type = $('#filter_order_type').val();
             },
+            pageLength: 100,   // default tampil 100 row
+            lengthMenu: [ [10, 25, 50, 100, 1000], [10, 25, 50, 100, 1000] ] 
             error: function(xhr, error, thrown){
             console.log("AJAX Error:", xhr.responseText);
             alert("AJAX Error: " + xhr.status + " " + thrown);
