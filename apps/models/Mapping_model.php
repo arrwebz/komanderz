@@ -111,13 +111,13 @@ class Mapping_model extends CI_Model {
         }
 
         $this->db->select('o.orderid, o.code, o.projectname, 
-        o.basevalue, o.invdate, o.orderstatus, 
+        o.basevalue, o.orderstatus, 
         COUNT(s.spbid) AS spb_count,
         CASE 
             WHEN o.orderstatus = "OBL" THEN o.invdate
             WHEN o.orderstatus = "PRPO" THEN o.crdat
             ELSE o.invdate
-        END AS invoice_date');
+        END AS invdate');
         $this->db->from('tb_order o');
         $this->db->join('tb_spb s', 's.orderid = o.orderid', 'left');
 
