@@ -116,7 +116,7 @@ class Mapping_model extends CI_Model {
 
         // filter tahun invoice
         if (!empty($year)) {
-            $this->db->where('YEAR(o.invdate)', $year);
+            $this->db->where('YEAR(o.invdate)', (int)$year);
         }
 
         // filter tipe order (varchar, jangan di-casting!)
