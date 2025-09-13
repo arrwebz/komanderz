@@ -116,7 +116,7 @@ class Mapping_model extends CI_Model {
 
         // filter tahun invoice
         if (!empty($year)) {
-            $this->db->where('YEAR(o.invdate)', (int)$year);
+            $this->db->where('YEAR(o.invdate)', $year);
         }
 
         // filter tipe order (varchar, jangan di-casting!)
@@ -149,12 +149,12 @@ class Mapping_model extends CI_Model {
         }
 
         // limit (pagination DataTables)
-        if ($length > 0) {
-            $this->db->limit((int)$length, (int)$start);
-        }
+        // if ($length > 0) {
+        //     $this->db->limit((int)$length, (int)$start);
+        // }
 
         $q = $this->db->get();
-        echo '<pre>'; print_r($q); exit; 
+        echo '<pre>'; print_r($q->result_array()); exit;
         return $q->result_array();
     }
 
