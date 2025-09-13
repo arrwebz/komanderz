@@ -140,7 +140,7 @@ class Mapping extends CI_Controller
                 'project_name' => substr(htmlspecialchars($r['projectname']), 0, 50),
                 'spb_count'    => (int)$r['spb_count'],
                 'amount'       => strrev(implode('.',str_split(strrev(strval($r['basevalue'])),3))),
-                'invoice_date' => date('d-m-Y', strtotime($r['invdate']))
+                'invoice_date' => date('d-m-Y', strtotime($r['invoice_date']))
             ];
         }
 
