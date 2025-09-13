@@ -112,14 +112,15 @@
                 <div class="card shadow-none border">
                     <div class="card-body">
                         <h4 class="fw-semibold mb-3">Presensi<span class="badge text-bg-light fs-2 rounded-4 py-1 px-2 ms-2"><i class="ti ti-clock"></i></span></h4>
-                        <p>Silakan klik tombol berikut untuk kehadiran dan jangan lupa klik tombol ketika tiba waktunya untuk pulang.</p>
+                        <p>Silakan klik tombol berikut untuk menuju aplikasi kehadiran dan jangan lupa klik tombol ketika tiba waktunya untuk pulang.</p>
                         <div class="d-flex align-items-center justify-content-center my-4 gap-3">
-                            <a href="<?php echo site_url('attendances/clockin');?>" class="btn btn-primary">Masuk</a>
-                            <a href="<?php echo site_url('attendances/clockout');?>" class="btn btn-outline-dark">Pulang</a>
+                            <!-- <a href="<?php echo site_url('attendances/clockin');?>" class="btn btn-primary">Masuk</a> -->
+                            <!-- <a href="<?php echo site_url('attendances/clockout');?>" class="btn btn-outline-dark">Pulang</a> -->
                         </div>
-                        <p>Silakan klik tombol ini untuk lembur pada pukul 18:00 </p>
+                        <!-- <p>Silakan klik tombol ini untuk lembur pada pukul 18:00 </p> -->
                         <div class="d-flex align-items-center justify-content-center my-4 gap-3">
-                            <a href="<?php echo site_url('attendances/overtime');?>" class="btn bg-primary-subtle text-primary">Mulai Lembur</a>
+                            <a href="https://account.mekari.com/users/sign_in?client_id=TAL-73645&return_to=L2F1dGg_Y2xpZW50X2lkPVRBTC03MzY0NSZyZXNwb25zZV90eXBlPWNvZGUmc2NvcGU9c3NvOnByb2ZpbGU%3D" target="_blank" class="btn bg-primary-subtle text-primary">Mekari Talenta</a>
+                            <!-- <a href="<?php echo site_url('attendances/overtime');?>" class="btn bg-primary-subtle text-primary">Mulai Lembur</a> -->
                         </div>
                     </div>
                 </div>
@@ -130,7 +131,7 @@
                         <h4 class="fw-semibold mb-3">Action Plan Today</h4>
                         <div class="card-body">
                             <div class="form-floating mb-3">
-                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 137px">
+                                <textarea class="form-control" id="floatingTextarea2" style="height: 137px">
 									<?php
                                     if(count($drd) < 1){
                                         echo ' ';
@@ -138,6 +139,7 @@
                                         echo $drd[0]['notes'];
                                     }
                                     ?>
+                                    Tetap semangat dan jaga kesehatan ya!
 								</textarea>
 
                             </div>
@@ -151,7 +153,7 @@
             <div class="col-md-12">
                 <div class="card" style="margin-bottom:50px;">
                     <div class="card-header d-flex align-items-center" style="background-color: #d72027; ">
-                        <h4 class="card-title text-white mb-0">Presensi Saya</h4>
+                        <h4 class="card-title text-white mb-0"></h4>
                     </div>
                     <div class="card-body collapse show">
                         <div class="table-responsive pb-9">
