@@ -117,12 +117,12 @@ class Mapping_model extends CI_Model {
         $this->db->from('tb_order o');
         $this->db->join('tb_spb s', 's.orderid = o.orderid', 'left');
 
-        // Hanya ambil invdate >= 2021
+        /// filter tahun mulai dari 2021
         $this->db->where('YEAR(o.invdate) >=', 2021);
 
-        /// filter tahun dinamis
+        // filter tahun dinamis (default tahun sekarang)
         if (!empty($year)) {
-            $this->db->where("YEAR(IF(o.orderstatus = 'PRPO', o.crdate, o.invdate))", (int)$year);
+            $this->db->where('YEAR(IF(o.orderstatus = 'PRPO', o.crdate, o.invdate)) =', (int)$year);
         }
 
 
