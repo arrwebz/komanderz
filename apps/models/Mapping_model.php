@@ -149,12 +149,11 @@ class Mapping_model extends CI_Model {
         }
 
         // limit (pagination DataTables)
-        // if ($length > 0) {
-        //     $this->db->limit((int)$length, (int)$start);
-        // }
+        if ($length > 0) {
+            $this->db->limit((int)$length, (int)$start);
+        }
 
         $q = $this->db->get();
-        echo '<pre>'; print_r($q->result_array()); exit;
         return $q->result_array();
     }
 
