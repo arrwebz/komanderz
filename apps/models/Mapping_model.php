@@ -99,7 +99,7 @@ class Mapping_model extends CI_Model {
     }
 
     // Untuk DataTables: fetch invoices with count of spb
-    public function get_invoices_with_count($year = null, $order_type = null, $start=0, $length=10, $search=null, $order=null) {
+    public function get_invoices_with_count($year = null, $order_type = null, $start=0, $length=500, $search=null, $order=null) {
         // default tahun berjalan
         if ($year === null) {
             $year = date('Y');
