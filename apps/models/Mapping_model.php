@@ -110,25 +110,14 @@ class Mapping_model extends CI_Model {
             $order_type = 'PRPO';
         }
 
-        $this->db->select('o.orderid,
-        o.code,
-        o.projectname,
-        o.basevalue,
-        o.orderstatus,
-        COUNT(s.spbid) AS spb_count,
-        IF(o.orderstatus = "PRPO", o.crdat, o.invdate) AS invoice_date');
-
+        $this->db->select('o.orderid, o.code, o.projectname, o.basevalue, o.invdate AS invoice_date, o.orderstatus, COUNT(s.spbid) AS spb_count');
         $this->db->from('tb_order o');
         $this->db->join('tb_spb s', 's.orderid = o.orderid', 'left');
 
-        /// filter tahun mulai dari 2021
-        $this->db->where('YEAR(o.invdate) >=', 2021);
-
-        // filter tahun dinamis (default tahun sekarang)
+        // filter tahun invoice
         if (!empty($year)) {
-            $this->db->where('YEAR(IF(o.orderstatus = "PRPO", o.crdat, o.invdate)) =', (int)$year);
+            $this->db->where('YEAR(o.invdate)', (int)$year);
         }
-
 
         // filter tipe order (varchar, jangan di-casting!)
         if (!empty($order_type)) {
