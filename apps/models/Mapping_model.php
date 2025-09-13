@@ -122,7 +122,7 @@ class Mapping_model extends CI_Model {
         $this->db->join('tb_spb s', 's.orderid = o.orderid', 'left');
 
         // Hanya ambil invdate >= 2021
-        $this->db->where("YEAR(o.invdate) >=", 2021);
+        $this->db->where('YEAR(o.invdate) >=', 2021);
 
         // filter tahun invoice
         if (!empty($year)) {
