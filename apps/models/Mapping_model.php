@@ -114,8 +114,8 @@ class Mapping_model extends CI_Model {
         o.basevalue, o.invdate, o.orderstatus, 
         COUNT(s.spbid) AS spb_count,
         CASE 
-            WHEN o.orderstatus = 'OBL' THEN o.invdate
-            WHEN o.orderstatus = 'PRPO' THEN o.crdat
+            WHEN o.orderstatus = "OBL" THEN o.invdate
+            WHEN o.orderstatus = "PRPO" THEN o.crdat
             ELSE o.invdate
         END AS invoice_date');
         $this->db->from('tb_order o');
