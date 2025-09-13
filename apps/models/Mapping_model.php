@@ -154,6 +154,7 @@ class Mapping_model extends CI_Model {
         }
 
         $q = $this->db->get();
+        echo '<pre>'; print_r($q); exit; 
         return $q->result_array();
     }
 
