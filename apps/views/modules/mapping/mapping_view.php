@@ -78,7 +78,7 @@
                                     <th>Project Name</th>
                                     <th>SPB Count</th>
                                     <th>Amount</th>
-                                    <th>Payment Date</th>
+                                    <th>Invoice Date</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -148,9 +148,9 @@
             if (!spbs || spbs.length === 0){
               row.child('<div class="child-row">No SPB Payments</div>').show();
             } else {
-              let html = '<table style="width:50%; border-collapse:collapse;" border="1"><thead><tr><th>SPB No</th><th>Amount</th><th>Payment Date</th></tr></thead><tbody>';
+              let html = '<table style="width:50%; border-collapse:collapse;" border="1"><thead><tr><th>SPB No</th><th>Amount</th><th>SPB Date</th></tr></thead><tbody>';
               spbs.forEach(function(s){
-                html += '<tr><td>'+s.spb_no_link+'</td><td style="text-align:right">'+s.spb_amount_fmt+'</td><td>'+s.payment_date+'</td></tr>';
+                html += '<tr><td>'+s.spb_no_link+'</td><td style="text-align:left">'+s.spb_amount_fmt+'</td><td>'+s.payment_date+'</td></tr>';
               });
               html += '</tbody></table>';
               row.child(html).show();
