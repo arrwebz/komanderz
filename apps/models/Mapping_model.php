@@ -204,18 +204,21 @@ class Mapping_model extends CI_Model {
     }
 
     
+    /**
+     * Ambil orders + concat SPB per order (untuk export)
+     * $year = tahun filter (numeric) atau null => default date('Y')
+     * $order_type = orderstatus filter (PRPO/OBL) atau null => semua
+     */
     public function get_orders_with_spb($year = null, $order_type = null)
     {
-        // default tahun berjalan
-        if ($year === null) {
-            $year = date('Y');
+        // default tahun = tahun berjalan
+        if (empty($year)) {
+            $year = (int) date('Y');
+        } else {
+            $year = (int) $year;
         }
 
-        // default order_type
-        if ($order_type === null) {
-            $order_type = 'PRPO';
-        }
-        
+        // select dengan GROUP_CONCAT, false supaya CI tidak escape
         $this->db->select("
             o.orderid,
             o.code,
@@ -224,26 +227,35 @@ class Mapping_model extends CI_Model {
             o.orderstatus,
             o.invdate,
             GROUP_CONCAT(CONCAT(s.code, ' (', DATE_FORMAT(s.spbdat, '%d-%m-%Y'), ')') SEPARATOR ', ') AS spb_list
-        ", false);
+        ", FALSE);
+
         $this->db->from('tb_order o');
         $this->db->join('tb_spb s', 's.orderid = o.orderid', 'left');
-        // filter tahun
-        if ($year) {
-            $this->db->where("YEAR(IF(o.orderstatus = 'PRPO', o.crdat, o.invdate))", $year);
-        } else {
-            $this->db->where("YEAR(o.invdate) >=", year);
-        }
 
-        // filter order status
-        if ($order_type) {
+        // hanya invdate mulai 2021
+        $this->db->where("YEAR(o.invdate) >=", 2021);
+
+        // filter tahun berdasarkan IF (PRPO => crdat, selain => invdate)
+        // PENTING: pakai operator '=' jelas supaya query valid
+        $this->db->where("YEAR(IF(o.orderstatus = 'PRPO', o.crdat, o.invdate)) =", $year);
+
+        // filter orderstatus jika diberikan
+        if (!empty($order_type)) {
             $this->db->where("o.orderstatus", $order_type);
         }
 
+        // exclude deleted/void (status 9)
         $this->db->where("o.status !=", 9);
+
         $this->db->group_by("o.orderid");
         $this->db->order_by("o.invdate", "DESC");
 
-        return $this->db->get()->result_array();
+        $q = $this->db->get();
+
+        // debug: jika perlu lihat SQL terakhir
+        // log_message('debug', $this->db->last_query());
+
+        return $q->result_array();
     }
 
 	
