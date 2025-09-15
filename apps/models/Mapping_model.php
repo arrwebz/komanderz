@@ -218,44 +218,73 @@ class Mapping_model extends CI_Model {
             $year = (int) $year;
         }
 
-        // select dengan GROUP_CONCAT, false supaya CI tidak escape
-        $this->db->select("
-            o.orderid,
-            o.code,
-            o.projectname,
-            o.basevalue,
-            o.orderstatus,
-            o.invdate,
-            GROUP_CONCAT(CONCAT(s.code, ' (', DATE_FORMAT(s.spbdat, '%d-%m-%Y'), ')') SEPARATOR ', ') AS spb_list
-        ", FALSE);
+        // query
+        $sql = "
+            SELECT 
+                o.orderid,
+                o.code AS invoice_no,
+                o.projectname,
+                o.basevalue,
+                o.orderstatus,
+                IF(o.orderstatus = 'PRPO', o.crdate, o.invdate) AS used_date,
+                GROUP_CONCAT(
+                    CONCAT(s.code, ' (', DATE_FORMAT(s.spbdat, '%d-%m-%Y'), ')')
+                    SEPARATOR ', '
+                ) AS spb_list
+            FROM tb_order o
+            LEFT JOIN tb_spb s ON s.orderid = o.orderid
+            WHERE o.status != 9 ";
 
-        $this->db->from('tb_order o');
-        $this->db->join('tb_spb s', 's.orderid = o.orderid', 'left');
-
-        // hanya invdate mulai 2021
-        $this->db->where("YEAR(o.invdate) >=", 2021);
-
-        // filter tahun berdasarkan IF (PRPO => crdat, selain => invdate)
-        // PENTING: pakai operator '=' jelas supaya query valid
-        $this->db->where("YEAR(IF(o.orderstatus = 'PRPO', o.crdat, o.invdate)) =", (int)$year);
-
-        // filter orderstatus jika diberikan
-        if (!empty($order_type)) {
-            $this->db->where("o.orderstatus", $order_type);
+        if ($order_type == "PRPO") {
+            $sql .= " YEAR(o.crdat) >= 2021 AND o.orderstatus = 'PRPO' ";
+        } else
+        {
+            $sql .= " YEAR(o.invdate) >= $year AND o.orderstatus = 'OBL'";
         }
 
-        // exclude deleted/void (status 9)
-        $this->db->where("o.status !=", 9);
+        $sql .=" GROUP BY o.orderid
+                ORDER BY o.orderid DESC";
+        $stmt = $this->db->query($sql);
+        return $stmt->result_array();
 
-        $this->db->group_by("o.orderid");
-        $this->db->order_by("o.invdate", "DESC");
+    }
 
-        $q = $this->db->get();
-
-        // debug: jika perlu lihat SQL terakhir
-        // log_message('debug', $this->db->last_query());
-
-        return $q->result_array();
+    public function getsearchnopes($unit="",$segmen="",$invmonth="",$invyear="",$invnum="",$tipeodr="",$spk="",$spb="") {
+        $sql = "SELECT `a`.`orderid`, `a`.`spbid`, `a`.`orderstatus`, `a`.`code`, `a`.`invnum`, `a`.`faknum`, `a`.`invdate`, `a`.`unit`, `a`.`jobtype`, `a`.`file`,
+		(select `z`.`code` from `tb_division` `z` where `z`.`divisionid` = `a`.`division` limit 0,1) AS `division`, 
+		(select `z`.`code` from `tb_segment` `z` where `z`.`segmentid` = `a`.`segment` limit 0,1) AS `segment`,
+		`a`.`amuser`, `a`.`amkomet`, `a`.`projectname`, `a`.`sentdate`, `a`.`spknum`, `a`.`spkindat`,
+		`a`.`spkdat`, `a`.`basevalue`, `a`.`ppnvalue`, `a`.`netvalue`, `a`.`jstvalue`, `a`.`negovalue`,
+		(select count(`z`.`spbid`) from `tb_spb` `z` where `z`.`orderid` = `a`.`orderid` and `z`.`status` != '9' limit 0,1) AS `countspb`,
+		`a`.`status`,`a`.`procdat`, DATEDIFF(CURDATE(),`a`.`invdate`) AS `intervaldat`
+		FROM $this->tbname `a` WHERE `a`.`orderinv`='1'";
+        if ($unit != "") {
+            $sql .= " AND `a`.`unit`='$unit'";
+        }
+        if ($segmen != "") {
+            $sql .= " AND `a`.`segment`='$segmen'";
+        }
+        if ($invmonth != "") {
+            $sql .= " AND MONTH(`a`.`invdate`) = '$invmonth'";
+        }
+        if ($invyear != "") {
+            $sql .= " AND YEAR(`a`.`invdate`) = '$invyear'";
+        }
+        if ($invnum != "") {
+            $sql .= " AND `a`.`invnum` = '$invnum'";
+        }
+        if ($tipeodr != "") {
+            $sql .= " AND `a`.`orderstatus` = '$tipeodr'";
+        }
+        if ($spk!= "") {
+            $sql .= " AND `a`.`spknum` = '$spk'";
+        }
+        if ($spb!= "") {
+            $sql .= " AND `a`.`spbid` = '$spb'";
+        }
+        $sql .=" ORDER BY `a`.`code` DESC ";
+        $stmt = $this->db->query($sql);
+        return $stmt->result_array();
     }
 
 	
