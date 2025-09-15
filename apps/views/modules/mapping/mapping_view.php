@@ -53,9 +53,9 @@
                     <i class="ti ti-send me-2 fs-4"></i> Filter
                 </div>
             </button>
-            <button id="btn_export" class="btn btn-dark font-medium rounded-pill px-4 mb-6">
+            <button id="btn_export" class="btn btn-success font-medium rounded-pill px-4 mb-6">
                 <div class="d-flex align-items-center">
-                    <i class="ti ti-send me-2 fs-4"></i> Export
+                    <i class="ti ti-layout-sidebar me-2 fs-4"></i> Export
                 </div>
             </button>
         </div>
