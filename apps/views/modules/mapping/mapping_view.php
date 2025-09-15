@@ -127,12 +127,13 @@
       $('#btn_filter').on('click', function(){ table.ajax.reload(); });
 
       // export
-      $('#btn_export').on('click', function(){
-        const y = $('#filter_year').val();
-        const t = $('#filter_order_type').val();
-        const url = '<?= site_url("mapping/export_excel") ?>?filter_year='+encodeURIComponent(y)+'&filter_order_type='+encodeURIComponent(t);
-        window.location = url;
-      });
+      $('#btn_export').on('click', function () {
+        let year = $('#filter_year').val();
+        let orderType = $('#filter_order_type').val();
+
+        // langsung arahkan browser ke URL export
+        window.location.href = base_url + "mapping/export_excel?filter_year=" + year + "&filter_order_type=" + orderType;
+        });
 
       // handle expand click (child rows show SPB table)
       $('#invoice_table tbody').on('click', '.expand-btn', function(){

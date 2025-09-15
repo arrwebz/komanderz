@@ -174,14 +174,88 @@ class Mapping extends CI_Controller
         $this->load->view('mapping/detail',$data);
     }
 
+    public function export_excel()
+    {
+
+        $filter_year = $this->input->get('filter_year'); 
+        $filter_order_type = $this->input->get('filter_order_type');
+
+        // Default tahun = tahun ini
+        if (empty($filter_year)) {
+            $filter_year = date('Y');
+        }
+
+        $orders = $this->mpgmd->get_orders_with_spb($filter_year, $filter_order_type);
+
+        $data['orders'] = $orders;
+        $data['filter_year'] = $filter_year;
+        $data['filter_order_type'] = $filter_order_type;
+
+        $this->load->view('mapping/export_view', $data);
+    }
+
     // export excel
-    public function export_excel(){
+    public function exportexcel(){
         $filter_year = $this->input->get('filter_year');
         $filter_order_type = $this->input->get('filter_order_type');
         $data['invoices'] = $this->mpgmd->get_invoices_with_spbs($filter_year, $filter_order_type);
+        $strftitle = 'mapping-invoice-spb/'.$filter_year.'-'.$filter_order_type;
         $data['year'] = $filter_year;
         $data['order_type'] = $filter_order_type;
-        $this->load->view('invoice/export_excel',$data);
+        $data['title'] = $strftitle;
+        $this->load->view('invoice/export',$data);
+    }
+
+    public function exportfilter(){
+        $txtStartInvdate = $_GET['txtStartInvdate'];
+        $txtEndInvdate = $_GET['txtEndInvdate'];
+        $strftitle = 'all-report/'.$txtStartInvdate.'-'.$txtEndInvdate;
+
+        $get = $_GET;
+        $drd = $this->repmd->prinallreport($get);
+        $t['drd'] = $drd;
+        for($i=0; $i<count($drd); $i++){ 
+            $spb = $this->spbmd->getspbbyinvoice($drd[$i]['orderid']);
+
+            if(trim($drd[$i]['procdat']) != NULL){
+                $t['drd'][$i]['tanggalcair'] = 'ada';
+                $tgl_cair_now = $drd[$i]['procdat'];
+            }else{
+                $t['drd'][$i]['tanggalcair'] = 'kosong';
+                $tgl_cair_now = date('Y-m-d');
+            }
+
+            $tgl1 = date_create("".$tgl_cair_now);
+
+            $t['drd'][$i]['profitshare'] = 0;
+            for($j=0; $j<count($spb); $j++){
+                $tgl_spb = $spb[$j]['spbdat'];
+
+                $tgl2 = date_create("".$tgl_spb);
+
+                $diff  = date_diff( $tgl2, $tgl1);
+
+                $spb[$j]['now'] = $tgl1;
+                $spb[$j]['spbdate'] = $tgl2;
+                $spb[$j]['jarak'] = $diff->d;
+                $jarak[$j] = $diff->d;
+                $spb[$j]['nilaiA'] = ceil($jarak[$j]/30);
+
+                $nilaiA = ceil($jarak[$j]/30);
+                $spb[$j]['nilaiB'] = $nilaiA*$spb[$j]['value']*(1.25/100);
+
+                if(count($spb) > 1){
+                    $t['drd'][$i]['profitshare'] += floor($spb[$j]['nilaiB']);
+                }else{
+                    $t['drd'][$i]['profitshare'] = floor($spb[$j]['nilaiB']);
+                }
+            }
+
+            $t['drd'][$i]['totalvalspb2'] = $spb;
+        }
+        $t['title'] = $strftitle;
+
+        $this->load->view('modules/dashboard/excel_allreport_view',$t);
     }
 
 

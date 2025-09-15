@@ -99,7 +99,7 @@ class Mapping_model extends CI_Model {
     }
 
     // Untuk DataTables: fetch invoices with count of spb
-    public function get_invoices_with_count($year = null, $order_type = null, $start=0, $length=500, $search=null, $order=null) {
+    public function get_invoices_with_count($year = null, $order_type = null, $start=0, $length=0, $search=null, $order=null) {
         // default tahun berjalan
         if ($year === null) {
             $year = date('Y');
@@ -203,11 +203,48 @@ class Mapping_model extends CI_Model {
         return $this->db->where('orderid',(int)$id)->get('order')->row_array();
     }
 
-    // public function add_spb($data) {
-    //     $this->db->insert('spb_payments', $data);
-    //     return $this->db->insert_id();
-    // }
+    
+    public function get_orders_with_spb($year = null, $order_type = null)
+    {
+        // default tahun berjalan
+        if ($year === null) {
+            $year = date('Y');
+        }
 
+        // default order_type
+        if ($order_type === null) {
+            $order_type = 'PRPO';
+        }
+        
+        $this->db->select("
+            o.orderid,
+            o.code,
+            o.projectname,
+            o.basevalue,
+            o.orderstatus,
+            o.invdate,
+            GROUP_CONCAT(CONCAT(s.code, ' (', DATE_FORMAT(s.spbdat, '%d-%m-%Y'), ')') SEPARATOR ', ') AS spb_list
+        ", false);
+        $this->db->from('tb_order o');
+        $this->db->join('tb_spb s', 's.orderid = o.orderid', 'left');
+        // filter tahun
+        if ($year) {
+            $this->db->where("YEAR(IF(o.orderstatus = 'PRPO', o.crdat, o.invdate))", $year);
+        } else {
+            $this->db->where("YEAR(o.invdate) >=", year);
+        }
+
+        // filter order status
+        if ($order_type) {
+            $this->db->where("o.orderstatus", $order_type);
+        }
+
+        $this->db->where("o.status !=", 9);
+        $this->db->group_by("o.orderid");
+        $this->db->order_by("o.invdate", "DESC");
+
+        return $this->db->get()->result_array();
+    }
 
 	
     
