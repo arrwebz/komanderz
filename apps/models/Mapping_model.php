@@ -226,7 +226,6 @@ class Mapping_model extends CI_Model {
                 o.projectname,
                 o.basevalue,
                 o.orderstatus,
-                IF(o.orderstatus = 'PRPO', o.crdate, o.invdate) AS used_date,
                 GROUP_CONCAT(
                     CONCAT(s.code, ' (', DATE_FORMAT(s.spbdat, '%d-%m-%Y'), ')')
                     SEPARATOR ', '
