@@ -235,10 +235,10 @@ class Mapping_model extends CI_Model {
             WHERE o.status != 9 ";
 
         if ($order_type == "PRPO") {
-            $sql .= " AND YEAR(o.crdat) >= 2021 AND o.orderstatus = 'PRPO' ";
+            $sql .= " AND YEAR(o.crdat) >= '2021' AND o.orderstatus = 'PRPO' ";
         } else
         {
-            $sql .= " AND YEAR(o.invdate) >= $year AND o.orderstatus = 'OBL'";
+            $sql .= " AND YEAR(o.invdate) >= (int)$year AND o.orderstatus = 'OBL'";
         }
 
         $sql .=" GROUP BY o.orderid
