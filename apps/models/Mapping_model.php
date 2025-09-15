@@ -237,7 +237,7 @@ class Mapping_model extends CI_Model {
 
         // filter tahun berdasarkan IF (PRPO => crdat, selain => invdate)
         // PENTING: pakai operator '=' jelas supaya query valid
-        $this->db->where("YEAR(IF(o.orderstatus = 'PRPO', o.crdat, o.invdate)) =", $year);
+        $this->db->where("YEAR(IF(o.orderstatus = 'PRPO', o.crdat, o.invdate)) =", (int)$year);
 
         // filter orderstatus jika diberikan
         if (!empty($order_type)) {
