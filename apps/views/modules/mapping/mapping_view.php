@@ -111,7 +111,7 @@
             }
         },
         columns: [
-            { data: null, orderable: false, render: function(d,t,r){ return '<span class="expand-btn" data-id="'+r.id+'"><div class="avatar-initial bg-label-danger rounded"><i class="ti fs-6 ti-plus"></i></div></span>'; } },
+            { data: null, orderable: false, render: function(d,t,r){ return '<span class="expand-btn" data-id="'+r.id+'"><div class="avatar-initial bg-label-danger rounded-3"><i class="ti fs-6 ti-plus"></i></div></span>'; } },
             { data: 'id' },
             { data: 'invoice_no' },
             { data: 'project_name' },
@@ -141,7 +141,7 @@
         const invoiceId = $(this).data('id');
         if (row.child.isShown()){
           row.child.hide();
-          $(this).html('<div class="avatar-initial bg-label-danger rounded"><i class="ti fs-6 ti-plus"></i></div>');
+          $(this).html('<div class="avatar-initial bg-label-danger rounded-3"><i class="ti fs-6 ti-plus"></i></div>');
         } else {
           // fetch spbs
           $.getJSON('<?= site_url("mapping/ajax_spb_by_invoice") ?>/'+invoiceId, function(spbs){
@@ -155,10 +155,10 @@
               html += '</tbody></table>';
               row.child(html).show();
             }
-            $(this).html('<div class="avatar-initial bg-label-danger rounded"><i class="ti fs-6 ti-minus"></i></div>');
+            $(this).html('<div class="avatar-initial bg-label-danger rounded-3"><i class="ti fs-6 ti-minus"></i></div>');
           }.bind(this)).fail(function(){
             row.child('<div class="child-row">Gagal fetch SPB</div>').show();
-            $(this).html('<div class="avatar-initial bg-label-danger rounded"><i class="ti fs-6 ti-minus"></i></div>');
+            $(this).html('<div class="avatar-initial bg-label-danger rounded-3"><i class="ti fs-6 ti-minus"></i></div>');
           }.bind(this));
         }
       });
