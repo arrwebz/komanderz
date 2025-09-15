@@ -211,13 +211,6 @@ class Mapping_model extends CI_Model {
      */
     public function get_orders_with_spb($year = null, $order_type = null)
     {
-        // default tahun = tahun berjalan
-        if (empty($year)) {
-            $year = (int) date('Y');
-        } else {
-            $year = (int) $year;
-        }
-
         // query
         $sql = "
             SELECT 
@@ -238,7 +231,7 @@ class Mapping_model extends CI_Model {
             $sql .= " AND YEAR(o.crdat) >= '2021' AND o.orderstatus = 'PRPO' ";
         } else
         {
-            $sql .= " AND YEAR(o.invdate) >= (int)$year AND o.orderstatus = 'OBL'";
+            $sql .= " AND YEAR(o.invdate) >= '$year' AND o.orderstatus = 'OBL'";
         }
 
         $sql .=" GROUP BY o.orderid
