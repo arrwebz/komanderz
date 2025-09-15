@@ -132,7 +132,9 @@
         let orderType = $('#filter_order_type').val();
 
         // langsung arahkan browser ke URL export
-        window.location.href = base_url + "mapping/export_excel?filter_year=" + year + "&filter_order_type=" + orderType;
+        let url = "<?= site_url('mapping/export_excel'); ?>?filter_year=" + year + "&filter_order_type=" + orderType;
+        window.location.href = url;
+        
         });
 
       // handle expand click (child rows show SPB table)
