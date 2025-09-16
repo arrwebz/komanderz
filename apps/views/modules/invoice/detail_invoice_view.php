@@ -117,7 +117,11 @@
 			</h3>
 		  </div>
 		  <div class="p-3">
-			<a href="<?php echo base_url().$this->router->fetch_class();?>/preview/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print Invoice</a>
+			<a href="<?php echo base_url().$this->router->fetch_class();?>/preview/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print Atch Invoice</a>
+      <a href="<?php echo base_url().$this->router->fetch_class();?>/printinvoice/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print Acc Invoice</a>
+      <a href="<?php echo base_url().$this->router->fetch_class();?>/printreceipt/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print Recceipt Invoice</a>
+      <a href="<?php echo base_url().$this->router->fetch_class();?>/printbast/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print BAST</a>
+      <a href="<?php echo base_url().$this->router->fetch_class();?>/printsp/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print SP Invoice</a>
 		  </div>
 		</div>
 	  </div>

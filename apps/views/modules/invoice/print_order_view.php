@@ -256,7 +256,7 @@
   
   <br/>
   
-  <p align="center" style="font-size: 10px;">© <?php echo date('Y');?> KMZ Application. </p>
+  <p align="center" style="font-size: 10px;">© <?php echo date('Y');?> KMS Application. </p>
 
 </body>
 </html>
