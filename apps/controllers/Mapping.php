@@ -186,12 +186,12 @@ class Mapping extends CI_Controller
         }
 
         $orders = $this->mpgmd->get_orders_with_spb($filter_year, $filter_order_type);
-        echo "<pre>";
-        print_r($orders);
-        echo "</pre>";
-        exit;
+        // echo "<pre>";
+        // print_r($orders);
+        // echo "</pre>";
+        // exit;
 
-        $data['orders'] = $orders;
+        $data['results'] = $orders;
         $data['filter_year'] = $filter_year;
         $data['filter_order_type'] = $filter_order_type;
 
