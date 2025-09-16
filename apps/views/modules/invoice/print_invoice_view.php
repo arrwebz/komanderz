@@ -214,15 +214,15 @@
         </div>
         <div class="col-md-12 text-right bg-kmt" style="margin-top: 20px; height: 180px;">
             <div>Sincerly,</div>
-            <div style="margin-top: 50px;"><b><u>Alfian Insani Fadil S.T </u></b></div>
-            <div><b>Director</b></div>
+            <div style="margin-top: 50px;"><b><u>Radian Sigit Dwiananto</u></b></div>
+            <div><b>Ketua</b></div>
         </div>
     </main>
-	<footer style="margin-top:10px;">
-		<p align="center" style="font-size: 10px;"><strong>PT. Rafindio Insantama Oceanindo</strong></p>
-		<p align="center" style="font-size: 10px;margin-top:-10px;">JL. KH. Muchtar Tabrani, No.2, Summarecon Kota Bekasi, Marga Mulya, Kecamatan Bekasi Utara, Kota Bekasi, Jawa Barat 17124</p>
-		<p align="center" style="font-size: 10px;margin-top:-10px;">Phone: 081381112795 | Email: rafindioinsantama@gmail.com</p>
-		<p align="center" style="font-size: 10px;margin-top:-10px;">www.rafindio.com</p>
+	<footer style="margin-top:50px;">
+		<p align="center" style="font-size: 10px;"><strong>Koperasi Konsumen Metropolitan PT. Telkom</strong></p>
+		<p align="center" style="font-size: 10px;margin-top:-10px;">Menara Multimedia, Jl. Kebon Sirih No.10 11, RT.11/RW.2, Gambir, Kecamatan Gambir, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10110</p>
+		<p align="center" style="font-size: 10px;margin-top:-10px;">Phone: 021 2139 7196 | Email: komet.metropolitan@gmail.com</p>
+		<p align="center" style="font-size: 10px;margin-top:-10px;">www.kopegtel-metropolitan.co.id</p>
 	</footer>
 </body>
 </html>

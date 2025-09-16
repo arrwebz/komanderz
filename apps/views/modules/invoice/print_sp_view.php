@@ -156,9 +156,9 @@
 		<div class="box" style="margin-top:-60px;">
 			<p style="font-size: 12px;">Kami berharap pembayaran dapat dilakukan setelah surat ini diterima, dengan transfer ke rekening kami di:</p>
 			<ul>
-				<li>Nama Bank: <b>Bank Central Asia (BCA)</b></li>
-				<li>Nomor Rekening: <b>7391513493</b></li>
-				<li>Atas Nama: <b>Rafindio Insantama Ocean</b></li>
+				<li>Nama Bank: <b>Mandiri</b></li>
+				<li>Nomor Rekening: <b>1234567890</b></li>
+				<li>Atas Nama: <b>Koperasi Konsumen Metropolitan PT Telkom/b></li>
 			</ul>
 		</div>
 		

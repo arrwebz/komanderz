@@ -291,7 +291,6 @@ class Invoice extends CI_Controller
 				$this->strjobtype = $row['jobtype'];
 				$this->strdivision = $row['division'];
 				$this->strsegment = $row['segment'];
-				$this->strsegmentf = $row['segmentname'];
 				$this->strsegmentad = $row['segmentaddress'];
 				$this->stramuser = $row['amuser'];
 				$this->stramkomet = $row['amkomet'];
@@ -408,7 +407,6 @@ class Invoice extends CI_Controller
 				$this->strjobtype = $row['jobtype'];
 				$this->strdivision = $row['division'];
 				$this->strsegment = $row['segment'];
-				$this->strsegmentf = $row['segmentname'];
 				$this->strsegmentad = $row['segmentaddress'];
 				$this->stramuser = $row['amuser'];
 				$this->stramkomet = $row['amkomet'];

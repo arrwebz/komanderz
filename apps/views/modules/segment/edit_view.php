@@ -60,6 +60,10 @@
                             <label for="txtName" class="form-label fw-semibold">Name</label>	
                             <input name="txtName" type="text" class="form-control" value="<?php echo $nama ?>">
 						</div>
+						<div class="mb-4">							
+                            <label for="txtAddress" class="form-label fw-semibold">Alamat</label>	
+                            <input name="txtAddress" type="text" class="form-control" value="<?php echo $alamat ?>">
+						</div>
 						<div class="mb-4">						
                             <label for="optAm" class="form-label fw-semibold">Account Manager</label>
                             <select name="optAm" id="optAm" class="form-select" >

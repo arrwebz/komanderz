@@ -8,6 +8,7 @@ class Segment extends CI_Controller
 	public $intuseramid;
 	public $strcode;
 	public $strname;
+    public $straddress;
 	public $intpriority;
 	public $intstatus;
     public $strcruser;
@@ -92,6 +93,7 @@ class Segment extends CI_Controller
 				$this->intuseramid = $row['marketingid'];
 				$this->strcode = $row['code'];
                 $this->strname = $row['name'];
+                $this->straddress = $row['address'];
                 $this->strcruser = $row['cruser'];
                 $this->strcrdat = $row['crdat'];
                 $this->strchuser = $row['chuser'];
@@ -103,6 +105,7 @@ class Segment extends CI_Controller
             'id' => $this->intsegmentid,
 			'kode' => $this->strcode,
              'nama' =>   $this->strname,
+              'alamat' =>   $this->straddress,
              'buat' =>   $this->strcruser, 
               'tglbuat' =>  $this->strcrdat,
               'edit' =>  $this->strchuser,
@@ -130,6 +133,7 @@ class Segment extends CI_Controller
                 $this->sgmd->intuseramid = $this->input->post('optUseram');
 				$this->sgmd->strcode = $this->input->post('txtCode');
                 $this->sgmd->strname = $this->input->post('txtName');
+                $this->sgmd->straddress = $this->input->post('txtAddress');
 				$this->sgmd->intpriority = $this->input->post('optPriority');
 				$this->sgmd->intstatus = $this->input->post('optStatus');
 
@@ -173,6 +177,7 @@ class Segment extends CI_Controller
                 $this->sgmd->intuseramid = $this->input->post('optUseram');
 				$this->sgmd->strcode = $this->input->post('txtCode');
                 $this->sgmd->strname = $this->input->post('txtName');
+                $this->sgmd->straddress = $this->input->post('txtAddress');
 				$this->sgmd->intpriority = $this->input->post('optPriority');
                 $this->sgmd->intstatus = $this->input->post('optStatus');
 				
@@ -193,6 +198,7 @@ class Segment extends CI_Controller
 				$this->intuseramid = $row['marketingid'];
 				$this->strcode = $row['code'];
                 $this->strname = $row['name'];
+                $this->straddress = $row['address'];
                 $this->intpriority = $row['priority'];
                 $this->intstatus = $row['status'];
                 $this->strcruser = $row['cruser'];
@@ -209,6 +215,7 @@ class Segment extends CI_Controller
 			'useramid' => $this->intuseramid,
 			'kode' => $this->strcode,
              'nama' =>   $this->strname,
+                'alamat' =>   $this->straddress,
              'prioritas' =>   $this->intpriority,
              'status' =>   $this->intstatus,
              'buat' =>   $this->strcruser,

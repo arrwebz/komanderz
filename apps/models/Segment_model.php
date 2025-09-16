@@ -7,6 +7,8 @@ class Segment_model extends CI_Model {
 	public $intuseramid;
 	public $strcode;
 	public $strname;
+    public $straddress;
+    public $intstatus;
 	public $intpriority;
     public $strcruser;
     public $strcrdat;
@@ -35,16 +37,16 @@ class Segment_model extends CI_Model {
     }
 	
 	public function getsinglesegment($id) {
-        $sql = "SELECT `segmentid`, `divisionid`, `marketingid`, `code`, `name`, `priority`, `status`, `cruser`, `crdat`, `chuser`, `chdat`
+        $sql = "SELECT `segmentid`, `divisionid`, `marketingid`, `code`, `name`, `address`, `priority`, `status`, `cruser`, `crdat`, `chuser`, `chdat`
         FROM $this->tbname WHERE segmentid='$id' ";
         $stmt = $this->db->query($sql);
         return $stmt->result_array();
     }
 	
 	public function addsegment() {
-        $sql= sprintf("INSERT INTO $this->tbname VALUES ('%u','%u','%u','%s','%s','%u','%u',
+        $sql= sprintf("INSERT INTO $this->tbname VALUES ('%u','%u','%u','%s','%s','%s','%u','%u',
 		'%u','%s','%u','%s')",
-            '',$this->intdivisionid, $this->intuseramid, $this->strcode, $this->strname, $this->intpriority, $this->intstatus, $this->strcruser,$this->strcrdat,'','' );
+            '',$this->intdivisionid, $this->intuseramid, $this->strcode, $this->strname, $this->straddress, $this->intpriority, $this->intstatus, $this->strcruser,$this->strcrdat,'','' );
 		/* echo '<pre>';
 		print_r($sql); exit;	 */
 		$this->db->query($sql);
@@ -52,8 +54,8 @@ class Segment_model extends CI_Model {
 	
 	public function editsegment() {
         $sql = sprintf("UPDATE $this->tbname SET `divisionid`='%u', `marketingid`='%u',
-		`code`='%s', `name`='%s', `priority`='%u', `status`='%u', `chuser`='%u', `chdat`='%s' WHERE segmentid='%u'",
-            $this->intdivisionid, $this->intuseramid, $this->strcode, $this->strname, $this->intpriority, $this->intstatus, $this->strchuser,$this->strchdat,$this->intsegmentid);
+		`code`='%s', `name`='%s', `address`='%s',`priority`='%u', `status`='%u', `chuser`='%u', `chdat`='%s' WHERE segmentid='%u'",
+            $this->intdivisionid, $this->intuseramid, $this->strcode, $this->strname, $this->straddress, $this->intpriority, $this->intstatus, $this->strchuser,$this->strchdat,$this->intsegmentid);
         $this->db->query($sql);
     } 
 	

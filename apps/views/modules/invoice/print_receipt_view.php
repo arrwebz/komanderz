@@ -171,7 +171,7 @@
         <div class="col-md-12 text-right bg-kmt" style="margin-top: 20px; height: 180px;">
             <div>Jakarta, <?php echo date('d F Y', strtotime($tglinv));?></div>
             <div style="margin-top: 120px;"><b><u>Radian Sigit Dwiananto</u></b></div>
-            <div><b>Director</b></div>
+            <div><b>Ketua</b></div>
         </div>
     </main>
 	<footer style="margin-top:50px;">

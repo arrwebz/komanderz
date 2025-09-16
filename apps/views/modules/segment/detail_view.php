@@ -24,6 +24,15 @@
 								</div>
 							</div>
 				</div>
+				<div class="row">
+					 <label class="col-sm-2 label-on-left">Alamat</label>
+								<div class="col-sm-3">
+									<div class="form-group">
+									<label class="control-label"></label>
+									<p><?php echo $alamat ?></p>
+								</div>
+							</div>
+				</div>
                 <br/><br/><br/>
                 <button type="button" class="btn btn-default" onClick="window.location.href = '<?php echo base_url();?>segment';return false;">Back</button>
 
