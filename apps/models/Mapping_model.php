@@ -260,23 +260,39 @@ class Mapping_model extends CI_Model {
 
     public function get_hc_mapping()
     {
-        $this->db->select(" o.orderid,
-                            o.code AS invoice_no,
-                            o.projectname,
-                            o.basevalue,
-                            o.orderstatus,
-                            o.invdate,
-                            GROUP_CONCAT(
-                                CONCAT(s.code, ' (', DATE_FORMAT(s.spbdat, '%d-%m-%Y'), ')')
-                                SEPARATOR ', '
-                            ) AS spb_list");
-        $this->db->from('tb_order o');
-        $this->db->join('tb_spb s', 's.orderid = o.orderid', 'left');
-        $this->db->where("o.status !=", 9);                
-        $this->db->where("YEAR(o.invdate)", 2021);
-        $this->db->where("o.orderstatus", 'OBL');
-        $q = $this->db->get();
-        return $q->result_array();
+        $sql = "
+                SELECT
+                    o.orderid,
+                    o.code AS invoice_no,
+                    o.projectname,
+                    o.basevalue,
+                    o.orderstatus,
+                    o.invdate,
+                    GROUP_CONCAT(
+                        CONCAT(
+                            s.code,
+                            ' (',
+                            DATE_FORMAT(s.spbdat, '%d-%m-%Y'),
+                            ')'
+                        ) SEPARATOR ', '
+                    ) AS spb_list
+                FROM
+                    tb_order o
+                LEFT JOIN tb_spb s ON
+                    s.orderid = o.orderid
+                WHERE
+                    YEAR(o.invdate) = 2021 AND `o`.`orderstatus` = 'OBL' AND o.status != 9
+                GROUP BY
+                    o.orderid
+                ORDER BY
+                    o.invdate
+                DESC
+                    ";
+        $query = $this->db->query($sql);
+        $data = $query->result_array();
+        $this->db->close();
+        return $data;
+        
     }
 
 
