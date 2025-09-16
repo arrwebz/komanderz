@@ -146,7 +146,7 @@ class Order_model extends CI_Model {
 	}
 	
 	public function getsingleinvoice($id) {
-        $sql = "SELECT * FROM `vw_order` WHERE `orderid`='25293' ";
+        $sql = "SELECT * FROM `vw_order` WHERE `orderid`='$id' ";
         $stmt = $this->db->query($sql);
         return $stmt->result_array();
     }
