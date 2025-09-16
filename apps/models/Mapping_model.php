@@ -211,74 +211,38 @@ class Mapping_model extends CI_Model {
      */
     public function get_orders_with_spb($year = null, $order_type = null)
     {
-        // query
-        $sql = "
-            SELECT 
-                o.orderid,
-                o.code AS invoice_no,
-                o.projectname,
-                o.basevalue,
-                o.orderstatus,
-                GROUP_CONCAT(
-                    CONCAT(s.code, ' (', DATE_FORMAT(s.spbdat, '%d-%m-%Y'), ')')
-                    SEPARATOR ', '
-                ) AS spb_list
-            FROM tb_order o
-            LEFT JOIN tb_spb s ON s.orderid = o.orderid
-            WHERE o.status != 9 ";
+        if ($year === null) {
+            $year = date('Y');
+        }
+        
+        $this->db->select("
+            o.orderid,
+            o.code,
+            o.projectname,
+            o.basevalue,
+            o.orderstatus,
+            o.invdate,
+            GROUP_CONCAT(CONCAT(s.spbcode, ' (', DATE_FORMAT(s.spbdate, '%d-%m-%Y'), ')') SEPARATOR ', ') AS spb_list
+        ", false);
+        $this->db->from('tb_order o');
+        $this->db->join('tb_spb s', 's.orderid = o.orderid', 'left');
+        $this->db->where("o.status !=", 9);
 
-        if ($order_type == "PRPO") {
-            $sql .= " AND YEAR(o.crdat) >= '2021' AND o.orderstatus = 'PRPO' ";
-        } else
-        {
-            $sql .= " AND YEAR(o.invdate) >= '$year' AND o.orderstatus = 'OBL'";
+        // filter tahun
+        if ($order_type == 'PRPO') {
+            $this->db->where("YEAR(o.crdat) >=", 2021);
+            $this->db->where("o.orderstatus", $order_type);
+        } else {
+            $this->db->where("YEAR(o.crdat) >=", $year);
+            $this->db->where("o.orderstatus", $order_type);
         }
 
-        $sql .=" GROUP BY o.orderid
-                ORDER BY o.orderid DESC";
-        $stmt = $this->db->query($sql);
-        return $stmt->result_array();
+        $this->db->where("o.status !=", 9);
+        $this->db->group_by("o.orderid");
+        $this->db->order_by("o.invdate", "DESC");
 
+        return $this->db->get()->result_array();
     }
 
-    public function getsearchnopes($unit="",$segmen="",$invmonth="",$invyear="",$invnum="",$tipeodr="",$spk="",$spb="") {
-        $sql = "SELECT `a`.`orderid`, `a`.`spbid`, `a`.`orderstatus`, `a`.`code`, `a`.`invnum`, `a`.`faknum`, `a`.`invdate`, `a`.`unit`, `a`.`jobtype`, `a`.`file`,
-		(select `z`.`code` from `tb_division` `z` where `z`.`divisionid` = `a`.`division` limit 0,1) AS `division`, 
-		(select `z`.`code` from `tb_segment` `z` where `z`.`segmentid` = `a`.`segment` limit 0,1) AS `segment`,
-		`a`.`amuser`, `a`.`amkomet`, `a`.`projectname`, `a`.`sentdate`, `a`.`spknum`, `a`.`spkindat`,
-		`a`.`spkdat`, `a`.`basevalue`, `a`.`ppnvalue`, `a`.`netvalue`, `a`.`jstvalue`, `a`.`negovalue`,
-		(select count(`z`.`spbid`) from `tb_spb` `z` where `z`.`orderid` = `a`.`orderid` and `z`.`status` != '9' limit 0,1) AS `countspb`,
-		`a`.`status`,`a`.`procdat`, DATEDIFF(CURDATE(),`a`.`invdate`) AS `intervaldat`
-		FROM $this->tbname `a` WHERE `a`.`orderinv`='1'";
-        if ($unit != "") {
-            $sql .= " AND `a`.`unit`='$unit'";
-        }
-        if ($segmen != "") {
-            $sql .= " AND `a`.`segment`='$segmen'";
-        }
-        if ($invmonth != "") {
-            $sql .= " AND MONTH(`a`.`invdate`) = '$invmonth'";
-        }
-        if ($invyear != "") {
-            $sql .= " AND YEAR(`a`.`invdate`) = '$invyear'";
-        }
-        if ($invnum != "") {
-            $sql .= " AND `a`.`invnum` = '$invnum'";
-        }
-        if ($tipeodr != "") {
-            $sql .= " AND `a`.`orderstatus` = '$tipeodr'";
-        }
-        if ($spk!= "") {
-            $sql .= " AND `a`.`spknum` = '$spk'";
-        }
-        if ($spb!= "") {
-            $sql .= " AND `a`.`spbid` = '$spb'";
-        }
-        $sql .=" ORDER BY `a`.`code` DESC ";
-        $stmt = $this->db->query($sql);
-        return $stmt->result_array();
-    }
 
-	
-    
 }
