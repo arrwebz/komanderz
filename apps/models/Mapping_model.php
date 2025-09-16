@@ -163,7 +163,7 @@ class Mapping_model extends CI_Model {
         }
 
         $q = $this->db->get();
-        echo $this->db->last_query(); exit;
+        // echo $this->db->last_query(); exit;
         return $q->result_array();
     }
 
