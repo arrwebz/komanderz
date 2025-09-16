@@ -28,7 +28,7 @@
 <br/>
   <table width="100%">
     <tr>
-        <td valign="top"><h3>DETAIL ORDER</h3></td>
+        <td valign="top"><h3>Attachment SPB</h3></td>
 		<td align="right">Koperasi Konsumen Metropolitan PT Telkom</td>
     </tr>
 
