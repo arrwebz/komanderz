@@ -122,7 +122,7 @@ class Mapping_model extends CI_Model {
             $this->db->from('tb_order o');
             $this->db->join('tb_spb s', 's.orderid = o.orderid', 'left');
         }
-        
+
         // filter tahun invoice
         if (!empty($year)) {
             $this->db->where('YEAR(o.invdate)', (int)$year);
@@ -163,6 +163,7 @@ class Mapping_model extends CI_Model {
         }
 
         $q = $this->db->get();
+        echo $this->db->last_query(); exit;
         return $q->result_array();
     }
 
