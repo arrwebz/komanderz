@@ -157,6 +157,14 @@ class Mapping extends CI_Controller
         exit;
     }
 
+    public function json_hc_mapping()
+    {
+        header('Content-Type: application/json');
+        $data = $this->mpgmd->get_hc_mapping();
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
     // return SPB list for a given invoice (for expand)
     public function ajax_spb_by_invoice($invoice_id){
         $spbs = $this->mpgmd->get_spb_by_invoice($invoice_id);

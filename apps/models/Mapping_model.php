@@ -258,5 +258,29 @@ class Mapping_model extends CI_Model {
         return $q;
     }
 
+    public function get_hc_mapping()
+    {
+        $this->db->select("SELECT 
+                            o.orderid,
+                            o.code AS invoice_no,
+                            o.projectname,
+                            o.basevalue,
+                            o.orderstatus,
+                            o.invdate,
+                            GROUP_CONCAT(
+                                CONCAT(s.code, ' (', DATE_FORMAT(s.spbdat, '%d-%m-%Y'), ')')
+                                SEPARATOR ', '
+                            ) AS spb_list
+                        FROM tb_order o
+                        LEFT JOIN tb_spb s ON s.orderid = o.orderid
+                        WHERE YEAR(o.invdate) = 2021
+                        AND `o`.`orderstatus` = 'OBL'
+                        AND o.status != 9
+                        GROUP BY o.orderid
+                        ORDER BY o.invdate DESC");
+        $q = $this->db->get();
+        return $q->result_array();
+    }
+
 
 }
