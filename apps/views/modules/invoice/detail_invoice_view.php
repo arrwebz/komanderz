@@ -296,7 +296,7 @@
 <div class="row">
   <div class="col-12">
     <div class="card">
-      <div class="card-header text-bg-info">
+      <div class="card-header d-flex align-items-center" style="background-color: #d72027; ">
           <h5 class="mb-0 text-white card-title">Invoice Items</h5>
       </div>
       <div class="card-body p-4 border-bottom">
