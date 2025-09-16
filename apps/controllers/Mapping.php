@@ -195,7 +195,7 @@ class Mapping extends CI_Controller
         $data['filter_year'] = $filter_year;
         $data['filter_order_type'] = $filter_order_type;
 
-        $this->load->view('modules/mapping/export_view', $data, TRUE);
+        $this->load->view('modules/mapping/export_view', $data);
     }
 
 

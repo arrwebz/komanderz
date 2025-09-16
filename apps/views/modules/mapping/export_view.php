@@ -1,14 +1,10 @@
 <?php
 header("Content-Type: application/vnd.ms-excel");
 header("Content-Disposition: attachment; filename=export_orders_{$filter_year}_".date('Ymd_His').".xls");
+header("Pragma: no-cache");
+header("Expires: 0");
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Export Excel</title>
-</head>
-<body>
+
     <h3>Data Invoice & SPB</h3>
     <table border="1" cellpadding="5" cellspacing="0">
         <thead>
@@ -40,5 +36,3 @@ header("Content-Disposition: attachment; filename=export_orders_{$filter_year}_"
             <?php } ?>
         </tbody>
     </table>
-</body>
-</html>
