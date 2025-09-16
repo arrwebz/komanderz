@@ -242,7 +242,7 @@ class Mapping_model extends CI_Model {
         $this->db->order_by("o.invdate", "DESC");
 
         $q = $this->db->get();
-        $this->db->last_query($q); exit;
+        print_r($q); exit;
         return $q->result_array();
     }
 
