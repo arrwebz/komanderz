@@ -29,7 +29,7 @@
   <table width="100%">
     <tr>
         <td valign="top"><h3>DETAIL ORDER</h3></td>
-		<td align="right">PT. Rafindio Insantama Oceanindo</td>
+		<td align="right">Koperasi Konsumen Metropolitan PT Telkom</td>
     </tr>
 
   </table>
@@ -256,7 +256,7 @@
   
   <br/>
   
-  <p align="center" style="font-size: 10px;">© <?php echo date('Y');?> OMS Application. </p>
+  <p align="center" style="font-size: 10px;">© <?php echo date('Y');?> KMZ Application. </p>
 
 </body>
 </html>
