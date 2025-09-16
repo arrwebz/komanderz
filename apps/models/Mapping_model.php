@@ -110,7 +110,14 @@ class Mapping_model extends CI_Model {
             $order_type = 'PRPO';
         }
 
-        $this->db->select('o.orderid, o.code, o.projectname, o.basevalue, o.invdate AS invoice_date, o.orderstatus, COUNT(s.spbid) AS spb_count');
+        if ($order_type == 'PRPO') {
+            $this->db->select('o.orderid, o.code, o.projectname, o.negovalue AS amount,
+            o.crdat AS invoice_date, o.orderstatus, COUNT(s.spbid) AS spb_count');
+        } else {
+            $this->db->select('o.orderid, o.code, o.projectname, o.basevalue AS amount,
+            o.invdate AS invoice_date, o.orderstatus, COUNT(s.spbid) AS spb_count');
+        }
+        
         $this->db->from('tb_order o');
         $this->db->join('tb_spb s', 's.orderid = o.orderid', 'left');
 
@@ -222,13 +229,15 @@ class Mapping_model extends CI_Model {
             o.basevalue,
             o.orderstatus,
             o.invdate,
+            o.negovalue,
+            o.crdat,
             GROUP_CONCAT(CONCAT(s.code, ' (', DATE_FORMAT(s.spbdat, '%d-%m-%Y'), ')') SEPARATOR ', ') AS spb_list
         ", false);
         $this->db->from('tb_order o');
         $this->db->join('tb_spb s', 's.orderid = o.orderid', 'left');
         $this->db->where("o.status !=", 9);
 
-        // filter tahun
+        // filter tipe order
         if ($order_type == 'PRPO') {
             $this->db->where("YEAR(o.crdat) >=", 2021);
             $this->db->where("o.orderstatus", $order_type);

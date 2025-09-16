@@ -26,9 +26,17 @@ header("Expires: 0");
                     <td><?= $no++ ?></td>
                     <td><?= $row['code'] ?></td>
                     <td><?= $row['projectname'] ?></td>
-                    <td><?= number_format($row['basevalue'], 0, ',', '.') ?></td>
+                    <?php if($row['orderstatus'] == 'OBL') { ?>
+                        <td><?= number_format($row['basevalue'], 0, ',', '.') ?></td>
+                    <?php } else { ?>
+                        <td><?= number_format($row['negovalue'], 0, ',', '.') ?></td>
+                    <?php } ?>
                     <td><?= $row['orderstatus'] ?></td>
-                    <td><?= date('d-m-Y', strtotime($row['invdate'])) ?></td>
+                    <?php if($row['orderstatus'] == 'OBL') { ?>
+                        <td><?= date('d-m-Y', strtotime($row['invdate'])) ?></td>
+                    <?php } else { ?>
+                        <td><?= date('d-m-Y', strtotime($row['crdat'])) ?></td>
+                    <?php } ?>
                     <td><?= !empty($row['spb_list']) ? $row['spb_list'] : '-' ?></td>
                 </tr>
             <?php } } else { ?>
