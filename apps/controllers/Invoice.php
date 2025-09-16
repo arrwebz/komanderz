@@ -445,7 +445,6 @@ class Invoice extends CI_Controller
 			 'jp' => $this->strjobtype,
              'divisi' =>   $this->strdivision,
              'segmen' =>  $this->strsegment,
-             'segmenpt' =>  $this->strsegmentf,
              'segmenalamat' =>  $this->strsegmentad,
 			 'amuser' => $this->stramuser,
 			'amkomet' => $this->stramkomet,

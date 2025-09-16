@@ -126,7 +126,7 @@
 				<thead>
                 <tbody class="row-unit" style="background: #fafafa;">
                         <tr>
-                            <td style="width: 5%;"><?php echo $segmenpt;?><br><?php echo $segmenalamat;?></td>
+                            <td style="width: 5%;"><?php echo $segmen;?><br><?php echo $segmenalamat;?></td>
                         </tr>
                 </tbody>
             </table>
