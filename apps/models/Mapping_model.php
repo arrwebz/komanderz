@@ -273,7 +273,7 @@ class Mapping_model extends CI_Model {
         $this->db->from('tb_order o');
         $this->db->join('tb_spb s', 's.orderid = o.orderid', 'left');
         $this->db->where("o.status !=", 9);                
-        $this->db->where("YEAR(o.invdate) =", 2021);
+        $this->db->where("YEAR(o.invdate)", 2021);
         $this->db->where("o.orderstatus", 'OBL');
         $q = $this->db->get();
         return $q->result_array();
