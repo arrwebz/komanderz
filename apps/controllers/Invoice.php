@@ -765,7 +765,6 @@ class Invoice extends CI_Controller
 				$this->strjobtype = $row['jobtype'];
 				$this->strdivision = $row['division'];
 				$this->strsegment = $row['segment'];
-				$this->strsegmentf = $row['segmentname'];
 				$this->stramuser = $row['amuser'];
 				$this->stramkomet = $row['amkomet'];
 				$this->strprojectname = $row['projectname'];
@@ -778,9 +777,9 @@ class Invoice extends CI_Controller
 				$this->intppnvalue = $row['basevalue']*11/100;
 				$this->intpphvalue = $row['pphvalue'];
 				$this->intnetvalue = $row['netvalue'];
-				
-				$this->intmarginvalue = $row['estvalue'] - $row['netvalue'];
-				$this->intestvalue = $row['estvalue'];
+
+				$this->intmarginvalue = (int)$row['basevalue'] - (int)$row['netvalue'];
+				$this->intestvalue = (int)$row['netvalue'] - (int)$row['pphvalue'];
 				
                 $this->strcruser = $row['cruser'];
                 $this->strcrdat = $row['crdat'];
