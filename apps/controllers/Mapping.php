@@ -121,6 +121,8 @@ class Mapping extends CI_Controller
             $order
         );
 
+        print_r($data); exit;
+
         // count data filtered
         $recordsFiltered = $this->mpgmd->count_invoices_filtered(
             $filter_year,
