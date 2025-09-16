@@ -214,7 +214,7 @@ class Mapping_model extends CI_Model {
         if ($year === null) {
             $year = date('Y');
         }
-        
+
         $this->db->select("
             o.orderid,
             o.code,
@@ -222,7 +222,7 @@ class Mapping_model extends CI_Model {
             o.basevalue,
             o.orderstatus,
             o.invdate,
-            GROUP_CONCAT(CONCAT(s.spbcode, ' (', DATE_FORMAT(s.spbdate, '%d-%m-%Y'), ')') SEPARATOR ', ') AS spb_list
+            GROUP_CONCAT(CONCAT(s.code, ' (', DATE_FORMAT(s.spbdat, '%d-%m-%Y'), ')') SEPARATOR ', ') AS spb_list
         ", false);
         $this->db->from('tb_order o');
         $this->db->join('tb_spb s', 's.orderid = o.orderid', 'left');
