@@ -241,7 +241,9 @@ class Mapping_model extends CI_Model {
         $this->db->group_by("o.orderid");
         $this->db->order_by("o.invdate", "DESC");
 
-        return $this->db->get()->result_array();
+        $q = $this->db->get();
+        $this->db->last_query($q); exit;
+        return $q->result_array();
     }
 
 
