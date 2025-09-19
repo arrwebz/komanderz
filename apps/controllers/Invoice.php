@@ -638,11 +638,28 @@ class Invoice extends CI_Controller
 
         // simpan invoice
         $this->db->insert('tb_order', [
+			'spbid'       => null,
+			'orderinv'    => 1,
             'orderstatus' => $post['orderstatus'],
+			'code'        => null,
+            'invnum'      => $nextInvnum,
             'invdate'     => $post['invdate'],
             'projectname' => $post['projectname'],
-            'invnum'      => $nextInvnum,
-            'status'      => 1
+            'status'      => 1,
+			'faknum'        => $post['faknum'] ?? null,
+			'delivery_date' => $post['tglkirim'] ?? null,
+			'nopes_number'  => $post['nopesnomor'] ?? null,
+			'nopes_date_in' => $post['tglmsknopes'] ?? null,
+			'nopes_date'    => $post['tglnopes'] ?? null,
+			'unit'          => $post['unit'] ?? null,
+			'division'      => $post['division'] ?? null,
+			'am_komet'      => $post['amkomet'] ?? null,
+			'job_type'      => $post['jobtype'] ?? null,
+			'segment'       => $post['segment'] ?? null,
+			'am_user'       => $post['amuser'] ?? null,
+			'bidr1'         => $post['bidr1'] ?? null,
+			'nidr3'         => $post['nidr3'] ?? null,
+			'pidr2'         => $post['pidr2'] ?? null,
         ]);
         $orderid = $this->db->insert_id();
 
@@ -691,7 +708,7 @@ class Invoice extends CI_Controller
 	// Tambah Item
     public function add_item_ajax() {
         $post = $this->input->post();
-        $this->db->insert('tb_order_item', [
+        $this->db->insert('tb_orderitem', [
             'orderid'     => $post['orderid'],
             'description' => $post['description'],
             'qty'         => $post['qty'],
@@ -710,7 +727,7 @@ class Invoice extends CI_Controller
 
     // Delete Item
     public function delete_item_ajax($itemid) {
-        $this->db->where('itemid', $itemid)->delete('tb_order_item');
+        $this->db->where('itemid', $itemid)->delete('tb_orderitem');
         echo json_encode(['status' => 'success']);
     }
 

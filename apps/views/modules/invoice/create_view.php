@@ -51,7 +51,7 @@
                                     <div class="input-group-text">
                                         <i class="ti ti-calendar"></i>
                                     </div>
-                                    <input name="txtTglinv" type="date" class="form-control datepicker" autocomplete="off">
+                                    <input id="txtTglinv" name="txtTglinv" type="date" class="form-control datepicker" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                                     <div class="input-group-text">
                                         <strong><?php if(!empty($fakturpajak[0])){ echo $fakturpajak[0]['code']; }?></strong>
                                     </div>
-                                    <input name="txtFaknum" type="text" class="form-control" autocomplete="off">
+                                    <input id="txtFaknum" name="txtFaknum" type="text" class="form-control" autocomplete="off">
                                 </div>
                             </div>
                             <div class="mb-4">
@@ -71,7 +71,7 @@
                                     <div class="input-group-text">
                                         <i class="ti ti-calendar"></i>
                                     </div>
-                                    <input name="txtTglkirim" type="date" class="form-control datepicker" autocomplete="off">
+                                    <input id="txtTglkirim" name="txtTglkirim" type="date" class="form-control datepicker" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -83,20 +83,20 @@
                         <div class="col-lg-6">
                             <div class="mb-4">
                                 <label class="form-label fw-semibold">Tel/SPK/VSO PADI</label>
-                                <input name="txtNopesnomor" type="text" class="form-control">
+                                <input id="txtNopesnomor" name="txtNopesnomor" type="text" class="form-control">
                             </div>
                             <div class="mb-4">
                                 <label class="form-label fw-semibold">SPK Entry Date</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="ti ti-calendar"></i></span>
-                                    <input name="txtTglmsknopes" type="date" class="form-control datepicker" autocomplete="off">
+                                    <input id="txtTglmsknopes" name="txtTglmsknopes" type="date" class="form-control datepicker" autocomplete="off">
                                 </div>
                             </div> 
                         </div>
                         <div class="col-lg-6">
                             <div class="mb-4">
                                 <label class="form-label fw-semibold">Order Type</label>
-                                <select name="optOrderstatus" class="form-control selectpicker" style="width: 100%">
+                                <select id="optOrderstatus" name="optOrderstatus" class="form-control selectpicker" style="width: 100%">
                                     <option disabled selected>Select</option>
                                     <option value="NOPES">NOPES</option>
                                     <option value="PADI">PADI</option>
@@ -108,7 +108,7 @@
                                 <label class="form-label fw-semibold">SPK Date</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="ti ti-calendar"></i></span>
-                                    <input name="txtTglnopes" type="date" class="form-control datepicker" autocomplete="off">
+                                    <input id="txtTglnopes" name="txtTglnopes" type="date" class="form-control datepicker" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -120,7 +120,7 @@
                         <div class="col-lg-6">
                             <div class="mb-4">
                                 <label class="form-label fw-semibold">Unit</label>
-                                <select name="optUnit" class="form-control selectpicker" style="width: 100%">
+                                <select id="optUnit" name="optUnit" class="form-control selectpicker" style="width: 100%">
                                     <option disabled>Select</option>
                                     <option value="KOMET" selected>KOMET</option>
                                 </select>
@@ -163,15 +163,11 @@
                                         ?>
                                     </select>
                             </div>
-                            <div class="mb-4">
-                                <label class="form-label fw-semibold">Project Name</label>
-                                <input name="txtProject" type="text" class="form-control" style="height:108px">
-                            </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="mb-4">
                                 <label class="form-label fw-semibold">Job Type</label>
-                                <select name="optJobtype" class="form-control selectpicker" style="width: 100%">
+                                <select id="optJobtype" name="optJobtype" class="form-control selectpicker" style="width: 100%">
                                     <option disabled selected>Select</option>
                                     <option value="IT">IT</option>
                                     <option value="BS">BS</option>
@@ -182,7 +178,7 @@
                             </div>
                             <div class="mb-4">
                                 <label class="form-label fw-semibold">Customers</label>
-                                <select name="optSegment" class="form-control selectpicker" style="width: 100%">
+                                <select id="optSegment" name="optSegment" class="form-control selectpicker" style="width: 100%">
                                     <option disabled selected>Select</option>
                                     <?php
 
@@ -203,9 +199,15 @@
                             </div>
                             <div class="mb-4">
                                 <label class="form-label fw-semibold">PIC Customer</label>
-                                <input name="txtAmuser" type="text" class="form-control">
+                                <input id="txtAmuser" name="txtAmuser" type="text" class="form-control">
                             </div>
                         </div> 
+                        <div class="col-lg-12">
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">Project Name</label>
+                                <input id="txtProject" name="txtProject" type="text" class="form-control" style="height:108px">
+                            </div>
+                        </div>    
                     </div>
                 </div>
                 <div class="card-body p-4 border-bottom">
@@ -259,7 +261,7 @@
                     <button id="btnSave" type="button" class="btn bg-success-subtle font-medium rounded-pill px-4 mb-6">Save</button>
                     <button id="btnUpdate" type="button" class="btn bg-success-subtle font-medium rounded-pill px-4 mb-6">Update</button>
                     <button id="btnDelete" type="button" class="btn bg-danger-subtle font-medium rounded-pill px-4 mb-6">Delete</button>
-                    <a href="<?php echo base_url().$this->router->fetch_class();?>" class="btn btn-light rounded-pill px-4 waves-effect waves-light">Cancel</a>
+                    <a href="<?php echo base_url().$this->router->fetch_class();?>" class="btn btn-light rounded-pill px-4 mb-6 waves-effect waves-light">Cancel</a>
                 </div>
             </div>
             </form>

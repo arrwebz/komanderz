@@ -256,7 +256,7 @@ class Order_model extends CI_Model {
     }
 
     public function get_items($orderid) {
-        return $this->db->get_where('tb_order_item', ['orderid' => $orderid])->result_array();
+        return $this->db->get_where('tb_orderitem', ['orderid' => $orderid])->result_array();
     }
 
 
