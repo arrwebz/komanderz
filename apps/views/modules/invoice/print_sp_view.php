@@ -158,7 +158,7 @@
 			<ul>
 				<li>Nama Bank: <b>Mandiri</b></li>
 				<li>Nomor Rekening: <b>1234567890</b></li>
-				<li>Atas Nama: <b>Koperasi Konsumen Metropolitan PT Telkom/b></li>
+				<li>Atas Nama: <b>Koperasi Konsumen Metropolitan PT Telkom</b></li>
 			</ul>
 		</div>
 		

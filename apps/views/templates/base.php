@@ -38,7 +38,7 @@
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
                     <a href="javascript:" class="text-nowrap logo-img">
-                        <img data-src="<?php echo $this->config->item('images_uri');?>logos/kmz-logo.svg" class="dark-logo lazyload" alt="Logo-Dark" style="height: 40px;margin-left: -35px;">
+                        <img data-src="<?php echo $this->config->item('images_uri');?>logos/kmz-logo.svg" class="dark-logo lazyload" alt="Logo-dark" style="height: 40px;margin-left: -35px;">
                         <img data-src="<?php echo $this->config->item('images_uri');?>logos/kmz-logo.svg" class="light-logo lazyload" alt="Logo-light" style="height: 40px;margin-left: -35px;">
                     </a>
                     <a href="javascript:void(0)" class="sidebartoggler ms-auto text-decoration-none fs-5 d-block d-xl-none">

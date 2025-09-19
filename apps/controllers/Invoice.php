@@ -164,7 +164,7 @@ class Invoice extends CI_Controller
 			'joindate' => $this->session->userdata('joindate')
 		];
 		
-		$data['content'] = $this->load->view('modules/knopes/search_knopes_view', $data, TRUE);
+		$data['content'] = $this->load->view('modules/invoice/search_invoice_view', $data, TRUE);
         $this->load->view('templates/base', $data, FALSE);
     }
 	
@@ -273,6 +273,746 @@ class Invoice extends CI_Controller
         $this->load->view('templates/base', $data, FALSE);
 	}
 	
+	public function addinvoice() {
+		if (isset($_POST['cmdsave'])) {
+            $error = [
+                'required' => '<div style="color:white;"> %s still empty!</div>'
+            ];
+            $this->form_validation->set_error_delimiters('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>', '</div>');
+            $this->form_validation->set_rules('optOrderstatus', 'Tipe Order', 'required', $error);
+            $this->form_validation->set_rules('txtNopesnomor', 'Nomor Tel/SPK/', 'required', $error);
+            $this->form_validation->set_rules('txtAmuser', 'User', 'required', $error);
+            if ($this->form_validation->run() == TRUE) {
+				$datestring = '%Y-%m-%d %H:%i:%s';
+                $time = time();
+				
+				$this->ordermd->intspbid = '';
+				$this->ordermd->intorderinv = '1';
+                $this->ordermd->strstatorder = $this->input->post('optOrderstatus');
+				
+				$this->ordermd->strspknum = $this->input->post('txtNopesnomor');
+                $inspk = $this->input->post('txtTglmsknopes');
+                $this->ordermd->strspkindat = date('Y-m-d', strtotime($inspk));
+                $datespk = $this->input->post('txtTglnopes');
+                $this->ordermd->strspkdat = date('Y-m-d', strtotime($datespk));
+				
+				$nd = $this->input->post('txtNilaidasar');
+				$this->ordermd->intbasevalue =  str_replace(".", "", $nd);
+				
+				$np = $this->input->post('txtNilaippn');
+				$this->ordermd->intppnvalue = str_replace(".", "", $np);
+				
+				$nh = $this->input->post('txtNilaipph');
+				$this->ordermd->intpphvalue = str_replace(".", "", $nh);
+				
+				$nn = $this->input->post('txtNilainet');
+				$this->ordermd->intnetvalue = str_replace(".", "", $nn);
+				
+				$this->ordermd->intnvnum = $this->input->post('txtInvnum');
+                $fp = $this->ordermd->getFakturPajak('KOMET');
+                $this->ordermd->intfaknum = $fp[0]['code'].$this->input->post('txtFaknum');
+				/* $faknum = $this->input->post('txtFaknum');
+                if($this->input->post('optUnit') == 'KOMET'){
+                    $formatfaknum = '1596'.$faknum;
+                    $this->ordermd->intfaknum = $formatfaknum;
+                } elseif($this->input->post('optUnit') == 'MESRA'){
+                    $formatfaknum = '2880'.$faknum;
+                    $this->ordermd->intfaknum = $formatfaknum;
+                } */
+								
+				$dateinv = $this->input->post('txtTglinv');
+                $this->ordermd->strinvdat = date('Y-m-d', strtotime($dateinv));
+                $sentdat = $this->input->post('txtTglkirim');
+                $this->ordermd->strsentdat = date('Y-m-d', strtotime($sentdat));
+				
+				$this->ordermd->strunit = $this->input->post('optUnit');
+			 
+				$this->ordermd->strjobtype = $this->input->post('optJobtype');
+                $this->ordermd->stramuser = $this->input->post('txtAmuser');
+                $this->ordermd->strdivision = $this->input->post('optDivision');
+                $this->ordermd->strsegment = $this->input->post('optSegment');
+                $this->ordermd->stramkomet = $this->input->post('txtAmkomet');
+                $this->ordermd->strprojectname = addslashes($this->input->post('txtProject'));
+				
+				
+                if (! empty($_FILES['txtFile']['name'])) {
+                    $this->ordermd->strfiles = $this->doupload();
+                }
+                
+				$this->ordermd->intjstvalue = '';
+				$this->ordermd->intnegovalue = '';
+				$this->ordermd->intstatinv = '0';
+				$this->ordermd->strfrom = '';
+				$this->ordermd->strprocdat = '';
+                
+                $this->ordermd->strcruser = $this->session->userdata('userid');
+                $this->ordermd->strcrdat = mdate($datestring, $time);
+				
+				/* add autonumbers 
+				$code = $this->getid();
+				$addcode = $code[0]['lastid']+1;
+				$formatcode = str_pad($addcode, 4, '0', STR_PAD_LEFT); */
+				
+				
+				
+				/* KODE NOMOR ORDER 1234/ODR/K/IT/02/18*/
+                $intnomor = $this->input->post('txtInvnum');
+                $strordertype = $this->input->post('optOrderstatus');
+                if($strordertype == 'IBL'){
+                    $strordertype = 'IBL';
+                } elseif($strordertype == 'OBL'){
+                    $strordertype = 'OBL';
+                } else {
+                    $strordertype = 'ODR';
+                }
+				//$strunit = $this->input->post('optUnit');
+				$strjobtype = $this->input->post('optJobtype');
+                $month = date('m', strtotime($dateinv));
+                $year = date('y', strtotime($dateinv));
+                $strformat = $intnomor ."/".$strordertype."/K". /* $strunit[0]. */$strjobtype . "/". $month . "/" . $year;
+                $this->ordermd->strcode = $strformat;
+                //$this->ordermd->intorderinv = '1';
+				
+				$orderid = $this->ordermd->addinvoice();
+
+				/* start add orderitem */
+                $post = $this->input->post();
+                $totalRow = count($post['description']);
+                if($totalRow>0){
+                    for($i=0; $i<$totalRow; $i++){
+                        $this->ordermd->intorderid = $orderid;
+                        $this->ordermd->strorderitemdescription = $post['description'][$i];
+                        $this->ordermd->strorderitemqty = $post['qty'][$i];
+                        $this->ordermd->strorderitemunit = $post['unit'][$i];
+                        $this->ordermd->strorderitemprice = $post['price'][$i];
+                        $this->ordermd->strorderitemtotal = $post['total'][$i];
+                        $this->ordermd->addinvoiceitem();
+                    }
+                }
+				/* end add orderitem */
+
+                redirect(base_url($this->router->fetch_class()));
+            }
+        }
+		
+		$data = [ 
+			'title' => 'Invoice',
+			'brand' => 'Buat Baru',
+			'division' => $this->drdmd->getalldiv(),
+			'segment' => $this->drdmd->getallseg(),
+			'marketing' => $this->drdmd->getalluseram(),
+			'fakturpajak' => $this->drdmd->getfakturpajak('RIO'),
+			'gencode' => $this->ordermd->generate_invoice_code(),
+			'geninv' => $this->ordermd->generate_invoice_number(),
+			'tnk' => $this->repmd->countnopeskomet(),
+			'tpk' => $this->repmd->countprpokomet(),
+			'tsk' => $this->repmd->countspbkomet(),
+			'tnm' => $this->repmd->countnopesmesra(),
+			'tpm' => $this->repmd->countprpomesra(),
+			'tsm' => $this->repmd->countspbmesra(),
+			'userid' => $this->session->userdata('userid'),
+			'role' => $this->session->userdata('role'),
+			'group' => $this->session->userdata('group'),
+			'fullname' => $this->session->userdata('userfullname'),
+			'photo' => $this->session->userdata('photo'),
+			'position' => $this->session->userdata('position'),
+			'joindate' => $this->session->userdata('joindate')
+		];
+		$data['content'] = $this->load->view('modules/invoice/add_invoice_view', $data, TRUE);
+        $this->load->view('templates/base', $data, FALSE);
+	}
+	
+	public function editinvoice() {
+	if (isset($_POST['cmdsave'])) {
+		$error = [
+                'required' => '<div style="color:red;"> %s still empty!</div>'
+            ];
+            $this->form_validation->set_rules('optOrderstatus', 'Tipe Order', 'required', $error);
+            $this->form_validation->set_rules('txtNopesnomor', 'Nomor Tel/SPK/', 'required', $error);
+            $this->form_validation->set_rules('txtAmuser', 'AM User', 'required', $error);
+            if ($this->form_validation->run() == TRUE) {
+				$datestring = '%Y-%m-%d %H:%i:%s';
+                $time = time();
+				$this->ordermd->intorderid = $this->input->post('hdnOrderid');
+                $this->ordermd->strstatorder = $this->input->post('optOrderstatus');
+				$this->ordermd->strcode = $this->input->post('txtKodenomor');
+				$this->ordermd->intnvnum = $this->input->post('txtInvnum');
+				$this->ordermd->intfaknum = $this->input->post('txtFaknum');
+				
+				$dateinv = $this->input->post('txtTglinv');
+				$this->ordermd->strinvdat = date('Y-m-d', strtotime($dateinv));
+				$sentdat = $this->input->post('txtTglkirim');
+				$this->ordermd->strsentdat = date('Y-m-d', strtotime($sentdat));
+				
+				$this->ordermd->strunit = 'KOMET';
+				$this->ordermd->strjobtype = $this->input->post('optJobtype');
+				$this->ordermd->strdivision = $this->input->post('optDivision');
+				$this->ordermd->strsegment = $this->input->post('optSegment');
+				$this->ordermd->stramuser = $this->input->post('txtAmuser');
+				$this->ordermd->stramkomet = $this->input->post('txtAmkomet');
+				$this->ordermd->strprojectname = addslashes($this->input->post('txtProject'));
+				
+				$this->ordermd->strspknum = $this->input->post('txtNopesnomor');
+				$inspk = $this->input->post('txtTglmsknopes');
+				$this->ordermd->strspkindat = date('Y-m-d', strtotime($inspk)); 
+				$datespk = $this->input->post('txtTglnopes');
+                $this->ordermd->strspkdat = date('Y-m-d', strtotime($datespk));
+				
+				$nd = $this->input->post('txtNilaidasar');
+				$this->ordermd->intbasevalue =  str_replace(".", "", $nd);				
+				$np = $this->input->post('txtNilaippn');
+				$this->ordermd->intppnvalue = str_replace(".", "", $np);				
+				$nn = $this->input->post('txtNilainet');
+				$this->ordermd->intnetvalue = str_replace(".", "", $nn);			
+				
+                if (! empty($_FILES['txtFile']['name'])) {
+                    $this->ordermd->strfiles = $this->doupload();
+                }
+				
+				$this->ordermd->intstatinv = $this->input->post('optStatinv');
+                
+                $this->ordermd->strchuser = $this->session->userdata('userid');
+                $this->ordermd->strchdat = mdate($datestring, $time);
+				
+				/* add autonumbers 
+				$code = $this->getid();
+				$addcode = $code[0]['lastid']+1;
+				$formatcode = str_pad($addcode, 4, '0', STR_PAD_LEFT); */
+								
+				$this->ordermd->editnopes();
+				//add log files
+				
+                redirect(base_url($this->router->fetch_class()));
+				
+            }
+        }
+		
+		$drd = $this->ordermd->getsingleditnopes($this->uri->segment(3));
+        if (count($drd) > 0) {
+            foreach ($drd as $row) {
+                $this->intorderid = $row['orderid'];
+				$this->intspbid = $row['spbid'];
+				$this->strstatorder = $row['orderstatus'];
+				$this->strcode = $row['code'];
+				$this->intnvnum = $row['invnum'];
+				$this->intfaknum = $row['faknum'];
+				
+				$this->strinvdat = date('d-m-Y', strtotime($row['invdate'])); 
+				$this->strsentdat = date('d-m-Y', strtotime($row['sentdate'])); 
+				
+				$this->strunit = $row['unit'];
+				$this->strjobtype = $row['jobtype'];
+				$this->strdivision = $row['division'];
+				$this->strsegment = $row['segment'];
+				$this->stramuser = $row['amuser'];
+				$this->stramkomet = $row['amkomet'];
+				$this->strprojectname = $row['projectname'];
+				
+				$this->strspknum = $row['spknum'];
+				$this->strspkindat = date('d-m-Y', strtotime($row['spkindat'])); 
+				$this->strspkdat = date('d-m-Y', strtotime($row['spkdat'])); 
+				
+				$this->intbasevalue = $row['basevalue'];
+				$this->intppnvalue = $row['ppnvalue'];
+				$this->intnetvalue = $row['netvalue'];
+				//$this->intjstvalue = $row['jstvalue'];
+				//$this->intnegovalue = $row['negovalue'];
+				$this->intstatinv = $row['status'];
+				
+                $this->strcruser = $row['cruser'];
+                $this->strcrdat = $row['crdat'];
+                $this->strchuser = $row['chuser'];
+                $this->strchdat = $row['chdat'];
+            }
+        }
+		if($this->strspkindat == '01-01-1970') {
+			$this->strspkindat = ' ';
+		}
+		if($this->strspkdat == '01-01-1970') {
+			$this->strspkdat = ' ';
+		}
+		if($this->strinvdat == '01-01-1970') {
+			$this->strinvdat = ' ';
+		}
+		if($this->strsentdat == '01-01-1970') {
+			$this->strsentdat = ' ';
+		}
+				
+		/* echo '<pre>'; print_r($this->strspkindat); exit; */
+		
+		$data = [
+            'orderid' => $this->intorderid,
+			'kodenomor' => $this->strcode,
+             'unit' =>   $this->strunit,
+			 'jp' => $this->strjobtype,
+             'divisi' =>   $this->strdivision,
+             'segmen' =>  $this->strsegment,
+			 'amuser' => $this->stramuser,
+			'amkomet' => $this->stramkomet,
+			'namaproyek' => $this->strprojectname,
+			
+			'nomorspk' => $this->strspknum,
+			'tglmskspk' => date('d-m-Y', strtotime($this->strspkindat)),
+			'tglspk' => $this->strspkdat,
+			
+			'nilaidasar' =>	strrev(implode('.',str_split(strrev(strval($this->intbasevalue)),3))),
+			'nilaippn' =>	strrev(implode('.',str_split(strrev(strval($this->intppnvalue)),3))),
+			'nilainet' => strrev(implode('.',str_split(strrev(strval($this->intnetvalue)),3))),
+			 
+			'inv' => $this->intnvnum,
+			'fak' => $this->intfaknum,
+			'tglinv' => $this->strinvdat,
+			'tglkrm' => $this->strsentdat,
+			'spbbyinvoice' => $this->spbmd->getspbbyinvoice($this->intorderid), 
+			'statusorder' => $this->strstatorder,
+			'statinv' => $this->intstatinv,
+             'buat' =>   $this->strcruser, 
+              'tglbuat' =>  $this->strcrdat,
+              'edit' =>  $this->strchuser,
+              'tgledit' =>  $this->strchdat,
+			'division' => $this->drdmd->getalldiv(),
+			'segment' => $this->drdmd->getallseg(),
+			'marketing' => $this->drdmd->getalluseram(),
+            'title' => 'KOMET',
+			'brand' => 'Ubah NOPES',
+			'division' => $this->drdmd->getalldiv(),
+			'segment' => $this->drdmd->getallseg(),
+			'tnk' => $this->repmd->countnopeskomet(),
+			'tpk' => $this->repmd->countprpokomet(),
+			'tsk' => $this->repmd->countspbkomet(),
+			'tnm' => $this->repmd->countnopesmesra(),
+			'tpm' => $this->repmd->countprpomesra(),
+			'tsm' => $this->repmd->countspbmesra(),
+			'userid' => $this->session->userdata('userid'),
+			'role' => $this->session->userdata('role'),
+			'group' => $this->session->userdata('group'),
+			'fullname' => $this->session->userdata('userfullname'),
+			'photo' => $this->session->userdata('photo'),
+			'position' => $this->session->userdata('position'),
+			'joindate' => $this->session->userdata('joindate')
+        ];
+		$data['content'] = $this->load->view('modules/knopes/edit_knopes_view', $data, TRUE);
+        $this->load->view('templates/base', $data, FALSE);
+	
+	}
+	
+	///////////////// AJAX ///////////////////////
+
+	public function create_invoice() {
+		
+		$data = [ 
+			'title' => 'Invoice',
+			'brand' => 'Buat Baru',
+			'division' => $this->drdmd->getalldiv(),
+			'segment' => $this->drdmd->getallseg(),
+			'marketing' => $this->drdmd->getalluseram(),
+			'fakturpajak' => $this->drdmd->getfakturpajak('RIO'),
+			'gencode' => $this->ordermd->generate_invoice_code(),
+			'geninv' => $this->ordermd->generate_invoice_number(),
+			'tnk' => $this->repmd->countnopeskomet(),
+			'tpk' => $this->repmd->countprpokomet(),
+			'tsk' => $this->repmd->countspbkomet(),
+			'tnm' => $this->repmd->countnopesmesra(),
+			'tpm' => $this->repmd->countprpomesra(),
+			'tsm' => $this->repmd->countspbmesra(),
+			'userid' => $this->session->userdata('userid'),
+			'role' => $this->session->userdata('role'),
+			'group' => $this->session->userdata('group'),
+			'fullname' => $this->session->userdata('userfullname'),
+			'photo' => $this->session->userdata('photo'),
+			'position' => $this->session->userdata('position'),
+			'joindate' => $this->session->userdata('joindate')
+		];
+		$data['content'] = $this->load->view('modules/invoice/create_view', $data, TRUE);
+        $this->load->view('templates/base', $data, FALSE);
+	}
+
+	// Create Invoice
+    public function create() {
+        $post = $this->input->post();
+        $year = date('Y', strtotime($post['invdate']));
+
+        // cek invnum terakhir untuk tahun ini
+        $last = $this->ordermd->get_last_invnum($year);
+        $nextInvnum = $last ? $last + 1 : 1;
+
+        // simpan invoice
+        $this->db->insert('tb_order', [
+            'orderstatus' => $post['orderstatus'],
+            'invdate'     => $post['invdate'],
+            'projectname' => $post['projectname'],
+            'invnum'      => $nextInvnum,
+            'status'      => 1
+        ]);
+        $orderid = $this->db->insert_id();
+
+        // generate code
+        $month = date('m', strtotime($post['invdate']));
+        $shortYear = date('y', strtotime($post['invdate']));
+        $code = str_pad($nextInvnum, 4, '0', STR_PAD_LEFT)
+              . '/' . $post['orderstatus']
+              . '/KIT/' . $month
+              . '/' . $shortYear;
+
+        // update code
+        $this->ordermd->update_code($orderid, $code);
+
+        echo json_encode([
+            'status'   => 'success',
+            'orderid'  => $orderid,
+            'invnum'   => $nextInvnum,
+            'code'     => $code
+        ]);
+    }
+
+	// Update Invoice
+    public function update($orderid) {
+        $post = $this->input->post();
+        $this->db->where('orderid', $orderid)->update('tb_order', [
+            'projectname' => $post['projectname'],
+            'orderstatus' => $post['orderstatus'],
+            'invdate'     => $post['invdate']
+        ]);
+        echo json_encode(['status' => 'success']);
+    }
+
+	// Get single invoice (detail)
+    public function detail($orderid) {
+        $data = $this->ordermd->get_invoice($orderid);
+        echo json_encode($data);
+    }
+
+	// Delete invoice
+    public function delete($orderid) {
+        $this->db->where('orderid', $orderid)->delete('tb_order');
+        echo json_encode(['status' => 'success']);
+    }
+
+	// Tambah Item
+    public function add_item() {
+        $post = $this->input->post();
+        $this->db->insert('tb_order_item', [
+            'orderid'     => $post['orderid'],
+            'description' => $post['description'],
+            'qty'         => $post['qty'],
+            'unit'        => $post['unit'],
+            'price'       => $post['price'],
+            'total'       => $post['qty'] * $post['price']
+        ]);
+        echo json_encode(['status' => 'success']);
+    }
+
+	// List Items
+    public function get_items($orderid) {
+        $data = $this->itemmd->get_items($orderid);
+        echo json_encode($data);
+    }
+
+    // Delete Item
+    public function delete_item($itemid) {
+        $this->db->where('itemid', $itemid)->delete('tb_order_item');
+        echo json_encode(['status' => 'success']);
+    }
+
+	/////////////////////////////////////////
+	 
+	public function addspb() {
+		if (isset($_POST['cmdsave'])) {
+            
+            $error = [
+                'required' => '<div style="color:red;"> %s still empty!</div>'
+            ];
+            $this->form_validation->set_rules('optJobtype', 'jobtype', 'required', $error);
+            if ($this->form_validation->run() == TRUE) {
+                $this->spbmd->intorderid = $this->input->post('hdnOrderid');
+				$this->spbmd->intarcoid = '';
+                $this->spbmd->strjobtype = $this->input->post('optJobtype');
+				$this->spbmd->strapplicant = $this->input->post('txtApplicant'); 
+				$v = $this->input->post('txtValue');
+				$this->spbmd->intvalue =  str_replace(".", "", $v);
+				
+				$this->spbmd->strcustomer = $this->input->post('txtCustomer');
+				$this->spbmd->strinfo = addslashes($this->input->post('txtInfo'));
+				$this->spbmd->strtypeofpayment = $this->input->post('optPayment');
+				$this->spbmd->straccnumber = $this->input->post('txtAccnum');
+				$this->spbmd->straccname = $this->input->post('txtAccname');
+				$this->spbmd->strbank = $this->input->post('optBank');
+				$this->spbmd->strbankother = $this->input->post('txtBankother');
+				
+				$spbd = $this->input->post('txtSpbdate');
+                $this->spbmd->strspbdat = date('Y-m-d', strtotime($spbd));
+				$pd = $this->input->post('txtDate');
+                $this->spbmd->strprocessdate = date('Y-m-d', strtotime($pd));
+                $this->spbmd->strfiles = '';
+                $datestring = '%Y-%m-%d %H:%i:%s';
+                $time = time();
+                $this->spbmd->strcruser = $this->session->userdata('userid');
+                $this->spbmd->strcrdat = mdate($datestring, $time);
+				$this->spbmd->intstatus = "0";
+				
+				$intnomor = $this->input->post('txtKodenomor');
+				$strdivisi = $this->input->post('optJobtype');
+				$intmonth = date('m', strtotime($spbd));
+				$intyear = date('y', strtotime($spbd));
+
+                // $lpdbbcas = '';
+                // if(isset($_POST['optTipecek'])){
+                    // if($_POST['optTipecek'] == 'LPDB'){
+                        // $lpdbbcas = 'L';
+                    // }elseif($_POST['optTipecek'] == 'BCAS'){
+                        // $lpdbbcas = 'S';
+                    // }else{
+                        // $lpdbbcas = '';
+                    // }
+                // }
+
+				$strformat = "SPB".$intnomor;
+				/* var_dump($strformat); exit; */
+                $this->spbmd->strcode = $strformat;
+				
+                $this->spbmd->addspb();
+				
+				$this->ordermd->intorderid = $this->spbmd->intorderid; 
+				$valspb = $this->input->post('hdnSpbid');
+				if ($valspb == '0') {
+					$this->ordermd->intspbid = '1';
+				} else {
+					$this->ordermd->intspbid = $valspb + '1';
+				}
+				$this->ordermd->updatetotalspb();
+				// onclick="swal('Good job!', ' Success insert data', 'success', {buttons: false,timer: 3000,})"
+                redirect(base_url($this->router->fetch_class()));
+            }
+        }
+		
+		$drd = $this->ordermd->getsinglenopes($this->uri->segment(3));
+        if (count($drd) > 0) {
+            foreach ($drd as $row) {
+                $this->intorderid = $row['orderid'];
+				$this->intspbid = $row['spbid'];
+				$this->strstatorder = $row['orderstatus'];
+				$this->strcode = $row['code'];
+				$this->intnvnum = $row['invnum'];
+				$this->intfaknum = $row['faknum'];
+				$this->stramuser = $row['amuser'];
+				$this->stramkomet = $row['amkomet'];
+				$this->strsegment = $row['segment'];
+				$this->strsegmentf = $row['segmentname'];
+				$this->strprojectname = $row['projectname'];
+				$this->intbasevalue = $row['basevalue'];
+				$this->intppnvalue = $row['ppnvalue'];
+				$this->intnetvalue = $row['netvalue'];				
+            }
+        }
+		
+		$data = [
+            'orderid' => $this->intorderid,
+			'spbid' => $this->intspbid,
+            'statusorder' => $this->strstatorder,
+			'gencode' => $this->spbmd->generate_spb_code(),
+			'genspb' => $this->spbmd->generate_spb_number(),
+			'kodenomor' => $this->strcode,
+			'invoice' => $this->intnvnum,
+			'faktur' => $this->intfaknum,
+			'segmen' => $this->strsegment,
+			'segmenpt' => $this->strsegmentf,
+			'amuser' => $this->stramuser,
+			'amkomet' => $this->stramkomet,
+			'namaproyek' => $this->strprojectname,
+			'nilaidasar' => $this->intbasevalue,
+			'nilaippn' => $this->intppnvalue,
+			'nilainet' => strrev(implode('.',str_split(strrev(strval($this->intnetvalue)),3))),
+            'title' => 'KOMET',
+			'brand' => 'Pengajuan SPB',
+			'tnk' => $this->repmd->countnopeskomet(),
+			'tpk' => $this->repmd->countprpokomet(),
+			'tsk' => $this->repmd->countspbkomet(),
+			'tnm' => $this->repmd->countnopesmesra(),
+			'tpm' => $this->repmd->countprpomesra(),
+			'tsm' => $this->repmd->countspbmesra(),
+			'userid' => $this->session->userdata('userid'),
+			'role' => $this->session->userdata('role'),
+			'group' => $this->session->userdata('group'),
+			'fullname' => $this->session->userdata('userfullname'),
+			'photo' => $this->session->userdata('photo'),
+			'position' => $this->session->userdata('position'),
+			'joindate' => $this->session->userdata('joindate'),
+			'code_spb' => $this->spbmd->getlastcodespb(),
+        ];
+		$data['content'] = $this->load->view('modules/invoice/add_spb_view', $data, TRUE);
+        $this->load->view('templates/base', $data, FALSE);
+	
+	}
+
+	// delete from view
+	public function delete(){
+		
+        if ($this->input->post()) {
+			$drd = $this->ordermd->getsingleorder($_POST['orderid']);
+			if (count($drd) > 0) {
+				foreach ($drd as $row) {
+					$this->strfiles = $row['file'];
+				}
+			}
+		$folder = $this->router->fetch_class();
+		$filename = $this->config->item('uploads_dir') . $folder . '/' . $this->strfiles;
+		if (file_exists($filename)) {
+			unlink($filename);
+		}
+            //$this->ordermd->deleteorder($_POST['orderid']);
+			//$this->spbmd->deletespbworder($_POST['orderid']);
+            echo "success"; /* mengembalikan kata 'success' untuk dikenali diview */
+        }
+    }
+	
+	public function ajax_details() {
+		if ($this->input->post()) {
+        $data = $this->ordermd->getsinglenopes($_POST['orderid']);
+		$qdata = array(
+			'code' => $data[0]['code'],
+			'invnum' => $data[0]['invnum'],
+			'faknum' => $data[0]['faknum'],
+			'spknum' => $data[0]['spknum'],
+			'division' => $data[0]['division'],
+			'segment' => $data[0]['segment'],
+			'amuser' => $data[0]['amuser'],
+			'amkomet' => $data[0]['amkomet'],
+			'projectname' => $data[0]['projectname']
+		);
+        //$data->dob = ($data->dob == '0000-00-00') ? '' : $data->dob; // if 0000-00-00 set tu empty for datepicker compatibility
+        echo json_encode($qdata);
+		}
+    }
+	
+	public function ajaxcheckinvoice() {
+		// $results = $this->ordermd->checkinvoice($inv);
+		//var_dump($results); exit;
+		// if ($results === TRUE) {
+				// echo '<span class="help-block" style="color:red;">Nomor invoice sudah terpakai</span>';
+			// } else {
+				// echo '<span class="help-block" style="color:green;">Nomor invoice tersedia</span>';
+			// }
+		if (isset($_POST['txtInvnum'])) {
+			$inv = $_POST['txtInvnum'];
+			$results = $this->ordermd->checkinvoicekp($inv);
+			if ($results === TRUE) {
+				echo 'FALSE';
+			} else {
+				echo 'TRUE';
+			}
+		} else {
+			echo '<span class="help-block" style="color: #f39c12;"><i class="fa fa-bell-o"></i> Nomor invoice tidak boleh kosong.</span>';
+		}
+			 
+    } 	
+
+    public function ajaxcheckspb() {
+		// $results = $this->ordermd->checkinvoice($inv);
+		//var_dump($results); exit;
+		// if ($results === TRUE) {
+				// echo '<span class="help-block" style="color:red;">Nomor invoice sudah terpakai</span>';
+			// } else {
+				// echo '<span class="help-block" style="color:green;">Nomor invoice tersedia</span>';
+			// }
+		if (isset($_POST['txtKodenomor'])) {
+			$spb = $_POST['txtKodenomor'];
+			$results = $this->ordermd->checkspb($spb);
+			if ($results === TRUE) {
+				echo 'FALSE';
+			} else {
+				echo 'TRUE';
+			}
+		} else {
+			echo '<span class="help-block" style="color: #f39c12;"><i class="fa fa-bell-o"></i> Nomor SPB tidak boleh kosong.</span>';
+		}
+
+    }
+
+	//ambil drd segmen
+	public function getsegment(){
+        $sid=$this->input->post('sid');
+        $data=$this->drdmd->getsegmentbydiv($sid);
+		/* echo '<pre>';
+		print_r($data); exit; */
+        echo json_encode($data);
+    }
+	
+	//ambil drd segmen
+	public function getsegment2($sid){
+        // $sid=$this->input->post('sid');
+        // $data['segment'] = $this->drdmd->getsegmentbydiv($sid);
+		/*echo '<pre>';print_r($data); exit;*/
+		// $this->load->view('modules/nopes/list_division', $data);
+		
+		echo '<style>
+		.optSegment{
+			width:216px;
+			height: 42px;
+			background-color: #999999;
+			color: #FFFFFF;
+			border-radius: 4px;
+		}
+		</style>';
+		
+        $segment = $this->drdmd->getsegmentbydiv($sid);
+		$sel = '';
+		$sel .= '<select name="optSegment" class="optSegment">';
+		if(!empty($segment)){		
+			foreach($segment as $row){ 
+				$sel .= '<option value="'.$row['segmentid'].'">'.$row['code'].'</option>';
+			}	
+		}else{
+			$sel .= '<option value="">Empty</option>';
+		}
+		$sel .= '</select>'; 
+		echo $sel;
+    }
+	
+	public function doupload()
+    {
+        $folder = $this->router->fetch_class();
+        $path = $this->config->item('uploads_dir') . $folder;
+		
+		
+		$search = ['@<script[^>]*?>.*?</script>@si', '@<[\/\!]*?[^<>]*?>@si', '@<style[^>]*?>.*?</style>@siU', '@<![\s\S]*?--[ \t\n\r]*>@' ];
+		
+		$normal = preg_replace($search,'',$_FILES ['txtFile'] ['name']);
+        $filename = strtolower( str_replace(" ","-",$normal) );
+		
+		
+        if (! file_exists($path)) {
+            if (! mkdir($path, 0777, true)) {
+                print_r(error_get_last());
+            }
+        }
+
+        $config = [
+            'upload_path' => $path.'/',
+            'allowed_types' => 'jpg|png',
+            'max_size' => '2000',
+			'file_ext_tolower' => TRUE,
+			'remove_spaces' => TRUE,
+			'detect_mime' => TRUE,
+			'mod_mime_fix' => TRUE,
+			'file_name' => $filename
+        ];
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+        $txtupload = 'txtFile';
+        if ($this->upload->do_upload($txtupload)) {
+            return $this->upload->data('file_name');
+        } else {
+            $this->session->set_flashdata('error_doupload',$this->upload->display_errors('<div style="color:red;">','</div>'));
+            redirect('order/add');
+        }
+    }
+	
+	/* public function getid(){
+		$h = $this->ordermd->getmaxcode();
+		var_dump($h);
+	} */
+	
+
 	public function printinvoice() {
 		$drd = $this->ordermd->getsingleinvoice($this->uri->segment(3));
         if (count($drd) > 0) {
@@ -861,628 +1601,6 @@ class Invoice extends CI_Controller
         // Output the generated PDF (1 = download and 0 = preview)
         $this->dompdf->stream($name, array("Attachment"=>0));
 	}
-	
-	public function addinvoice() {
-		if (isset($_POST['cmdsave'])) {
-            $error = [
-                'required' => '<div style="color:white;"> %s still empty!</div>'
-            ];
-            $this->form_validation->set_error_delimiters('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>', '</div>');
-            $this->form_validation->set_rules('optOrderstatus', 'Tipe Order', 'required', $error);
-            $this->form_validation->set_rules('txtNopesnomor', 'Nomor Tel/SPK/', 'required', $error);
-            $this->form_validation->set_rules('txtAmuser', 'User', 'required', $error);
-            if ($this->form_validation->run() == TRUE) {
-				$datestring = '%Y-%m-%d %H:%i:%s';
-                $time = time();
-				
-				$this->ordermd->intspbid = '';
-				$this->ordermd->intorderinv = '1';
-                $this->ordermd->strstatorder = $this->input->post('optOrderstatus');
-				
-				$this->ordermd->strspknum = $this->input->post('txtNopesnomor');
-				$inspk = '';
-				$this->ordermd->strspkindat = $inspk; 
-				$datespk = $this->input->post('txtTglnopes');
-                $this->ordermd->strspkdat = date('Y-m-d', strtotime($datespk));
-				
-				$nd = $this->input->post('txtNilaidasar');
-				$this->ordermd->intbasevalue =  str_replace(".", "", $nd);
-				
-				$np = $this->input->post('txtNilaippn');
-				$this->ordermd->intppnvalue = str_replace(".", "", $np);
-				
-				$nh = $this->input->post('txtNilaipph');
-				$this->ordermd->intpphvalue = str_replace(".", "", $nh);
-				
-				$nn = $this->input->post('txtNilainet');
-				$this->ordermd->intnetvalue = str_replace(".", "", $nn);
-				
-				$this->ordermd->intnvnum = $this->input->post('txtInvnum');
-				$fp = $this->ordermd->getFakturPajak('RIO');
-				$this->ordermd->intfaknum = $fp[0]['code'].$this->input->post('txtFaknum');
-				/* $faknum = $this->input->post('txtFaknum');
-				if($this->input->post('optUnit') == 'RIO'){
-					$formatfaknum = '1596'.$faknum;
-					$this->ordermd->intfaknum = $formatfaknum;
-				} elseif($this->input->post('optUnit') == 'MESRA'){
-					$formatfaknum = '2880'.$faknum;
-					$this->ordermd->intfaknum = $formatfaknum;
-				} */
-								
-				$dateinv = $this->input->post('txtTglinv');
-				$this->ordermd->strinvdat = date('Y-m-d', strtotime($dateinv));
-				$sentdat = '';
-				$this->ordermd->strsentdat = $sentdat;
-				
-				$this->ordermd->strunit = 'RIO';
-			 
-				$this->ordermd->strjobtype = $this->input->post('optJobtype');
-				$this->ordermd->stramuser = $this->input->post('txtAmuser');
-				$this->ordermd->strdivision = $this->input->post('optDivision');
-				$this->ordermd->strsegment = $this->input->post('optSegment');
-				$this->ordermd->stramkomet = $this->input->post('txtAmkomet');
-				$this->ordermd->strprojectname = addslashes($this->input->post('txtProject'));
-				
-				
-                if (! empty($_FILES['txtFile']['name'])) {
-                    $this->ordermd->strfiles = $this->doupload();
-                }
-                
-				$this->ordermd->intjstvalue = '';
-				$this->ordermd->intnegovalue = '';
-				$this->ordermd->intstatinv = '0';
-				$this->ordermd->strfrom = '';
-				$this->ordermd->strprocdat = '';
-                
-                $this->ordermd->strcruser = $this->session->userdata('userid');
-                $this->ordermd->strcrdat = mdate($datestring, $time);
-				
-				/* add autonumbers 
-				$code = $this->getid();
-				$addcode = $code[0]['lastid']+1;
-				$formatcode = str_pad($addcode, 4, '0', STR_PAD_LEFT); */
-				
-				
-				
-				/* KODE NOMOR ORDER NP202408200836450001*/
-                $strordertype = $this->input->post('optOrderstatus');
-                if($strordertype == 'IBL'){
-                    $strordertype = 'IB';
-                } elseif($strordertype == 'OBL'){
-                    $strordertype = 'OB';
-                } elseif($strordertype == 'PADI'){
-                    $strordertype = 'PD';
-                } else {
-					$strordertype = 'NP';
-				}
-				//$strunit = $this->input->post('optUnit');
-				$strjobtype = $this->input->post('optJobtype');
-				$month = date('m', strtotime($dateinv));
-				$year = date('y', strtotime($dateinv));
-				//$strformat = $intnomor ."/".$strordertype."/K". /* $strunit[0]. */$strjobtype . "/". $month . "/" . $year;
-				$strformat = $this->input->post('txtKodenomor');
-				$this->ordermd->strcode = $strordertype.$strformat;
-                //$this->ordermd->intorderinv = '1';
-				
-				$orderid = $this->ordermd->addinvoice();
-
-				/* start add orderitem */
-                $post = $this->input->post();
-                $totalRow = count($post['description']);
-                if($totalRow>0){
-                    for($i=0; $i<$totalRow; $i++){
-                        $this->ordermd->intorderid = $orderid;
-                        $this->ordermd->strorderitemdescription = $post['description'][$i];
-                        $this->ordermd->strorderitemqty = $post['qty'][$i];
-                        $this->ordermd->strorderitemunit = $post['unit'][$i];
-                        $this->ordermd->strorderitemprice = $post['price'][$i];
-                        $this->ordermd->strorderitemtotal = $post['total'][$i];
-                        $this->ordermd->addinvoiceitem();
-                    }
-                }
-				/* end add orderitem */
-
-                redirect(base_url($this->router->fetch_class()));
-            }
-        }
-		
-		$data = [ 
-			'title' => 'Invoice',
-			'brand' => 'Buat Baru',
-			'division' => $this->drdmd->getalldiv(),
-			'segment' => $this->drdmd->getallseg(),
-			'marketing' => $this->drdmd->getalluseram(),
-			'fakturpajak' => $this->drdmd->getfakturpajak('RIO'),
-			'gencode' => $this->ordermd->generate_invoice_code(),
-			'geninv' => $this->ordermd->generate_invoice_number(),
-			'tnk' => $this->repmd->countnopeskomet(),
-			'tpk' => $this->repmd->countprpokomet(),
-			'tsk' => $this->repmd->countspbkomet(),
-			'tnm' => $this->repmd->countnopesmesra(),
-			'tpm' => $this->repmd->countprpomesra(),
-			'tsm' => $this->repmd->countspbmesra(),
-			'userid' => $this->session->userdata('userid'),
-			'role' => $this->session->userdata('role'),
-			'group' => $this->session->userdata('group'),
-			'fullname' => $this->session->userdata('userfullname'),
-			'photo' => $this->session->userdata('photo'),
-			'position' => $this->session->userdata('position'),
-			'joindate' => $this->session->userdata('joindate')
-		];
-		$data['content'] = $this->load->view('modules/invoice/add_invoice_view', $data, TRUE);
-        $this->load->view('templates/base', $data, FALSE);
-	}
-	
-	public function editnopes() {
-	if (isset($_POST['cmdsave'])) {
-		$error = [
-                'required' => '<div style="color:red;"> %s still empty!</div>'
-            ];
-            $this->form_validation->set_rules('optOrderstatus', 'Tipe Order', 'required', $error);
-            $this->form_validation->set_rules('txtNopesnomor', 'Nomor Tel/SPK/', 'required', $error);
-            $this->form_validation->set_rules('txtAmuser', 'AM User', 'required', $error);
-            if ($this->form_validation->run() == TRUE) {
-				$datestring = '%Y-%m-%d %H:%i:%s';
-                $time = time();
-				$this->ordermd->intorderid = $this->input->post('hdnOrderid');
-                $this->ordermd->strstatorder = $this->input->post('optOrderstatus');
-				$this->ordermd->strcode = $this->input->post('txtKodenomor');
-				$this->ordermd->intnvnum = $this->input->post('txtInvnum');
-				$this->ordermd->intfaknum = $this->input->post('txtFaknum');
-				
-				$dateinv = $this->input->post('txtTglinv');
-				$this->ordermd->strinvdat = date('Y-m-d', strtotime($dateinv));
-				$sentdat = $this->input->post('txtTglkirim');
-				$this->ordermd->strsentdat = date('Y-m-d', strtotime($sentdat));
-				
-				$this->ordermd->strunit = 'KOMET';
-				$this->ordermd->strjobtype = $this->input->post('optJobtype');
-				$this->ordermd->strdivision = $this->input->post('optDivision');
-				$this->ordermd->strsegment = $this->input->post('optSegment');
-				$this->ordermd->stramuser = $this->input->post('txtAmuser');
-				$this->ordermd->stramkomet = $this->input->post('txtAmkomet');
-				$this->ordermd->strprojectname = addslashes($this->input->post('txtProject'));
-				
-				$this->ordermd->strspknum = $this->input->post('txtNopesnomor');
-				$inspk = $this->input->post('txtTglmsknopes');
-				$this->ordermd->strspkindat = date('Y-m-d', strtotime($inspk)); 
-				$datespk = $this->input->post('txtTglnopes');
-                $this->ordermd->strspkdat = date('Y-m-d', strtotime($datespk));
-				
-				$nd = $this->input->post('txtNilaidasar');
-				$this->ordermd->intbasevalue =  str_replace(".", "", $nd);				
-				$np = $this->input->post('txtNilaippn');
-				$this->ordermd->intppnvalue = str_replace(".", "", $np);				
-				$nn = $this->input->post('txtNilainet');
-				$this->ordermd->intnetvalue = str_replace(".", "", $nn);			
-				
-                if (! empty($_FILES['txtFile']['name'])) {
-                    $this->ordermd->strfiles = $this->doupload();
-                }
-				
-				$this->ordermd->intstatinv = $this->input->post('optStatinv');
-                
-                $this->ordermd->strchuser = $this->session->userdata('userid');
-                $this->ordermd->strchdat = mdate($datestring, $time);
-				
-				/* add autonumbers 
-				$code = $this->getid();
-				$addcode = $code[0]['lastid']+1;
-				$formatcode = str_pad($addcode, 4, '0', STR_PAD_LEFT); */
-								
-				$this->ordermd->editnopes();
-				//add log files
-				
-                redirect(base_url($this->router->fetch_class()));
-				
-            }
-        }
-		
-		$drd = $this->ordermd->getsingleditnopes($this->uri->segment(3));
-        if (count($drd) > 0) {
-            foreach ($drd as $row) {
-                $this->intorderid = $row['orderid'];
-				$this->intspbid = $row['spbid'];
-				$this->strstatorder = $row['orderstatus'];
-				$this->strcode = $row['code'];
-				$this->intnvnum = $row['invnum'];
-				$this->intfaknum = $row['faknum'];
-				
-				$this->strinvdat = date('d-m-Y', strtotime($row['invdate'])); 
-				$this->strsentdat = date('d-m-Y', strtotime($row['sentdate'])); 
-				
-				$this->strunit = $row['unit'];
-				$this->strjobtype = $row['jobtype'];
-				$this->strdivision = $row['division'];
-				$this->strsegment = $row['segment'];
-				$this->stramuser = $row['amuser'];
-				$this->stramkomet = $row['amkomet'];
-				$this->strprojectname = $row['projectname'];
-				
-				$this->strspknum = $row['spknum'];
-				$this->strspkindat = date('d-m-Y', strtotime($row['spkindat'])); 
-				$this->strspkdat = date('d-m-Y', strtotime($row['spkdat'])); 
-				
-				$this->intbasevalue = $row['basevalue'];
-				$this->intppnvalue = $row['ppnvalue'];
-				$this->intnetvalue = $row['netvalue'];
-				//$this->intjstvalue = $row['jstvalue'];
-				//$this->intnegovalue = $row['negovalue'];
-				$this->intstatinv = $row['status'];
-				
-                $this->strcruser = $row['cruser'];
-                $this->strcrdat = $row['crdat'];
-                $this->strchuser = $row['chuser'];
-                $this->strchdat = $row['chdat'];
-            }
-        }
-		if($this->strspkindat == '01-01-1970') {
-			$this->strspkindat = ' ';
-		}
-		if($this->strspkdat == '01-01-1970') {
-			$this->strspkdat = ' ';
-		}
-		if($this->strinvdat == '01-01-1970') {
-			$this->strinvdat = ' ';
-		}
-		if($this->strsentdat == '01-01-1970') {
-			$this->strsentdat = ' ';
-		}
-				
-		/* echo '<pre>'; print_r($this->strspkindat); exit; */
-		
-		$data = [
-            'orderid' => $this->intorderid,
-			'kodenomor' => $this->strcode,
-             'unit' =>   $this->strunit,
-			 'jp' => $this->strjobtype,
-             'divisi' =>   $this->strdivision,
-             'segmen' =>  $this->strsegment,
-			 'amuser' => $this->stramuser,
-			'amkomet' => $this->stramkomet,
-			'namaproyek' => $this->strprojectname,
-			
-			'nomorspk' => $this->strspknum,
-			'tglmskspk' => date('d-m-Y', strtotime($this->strspkindat)),
-			'tglspk' => $this->strspkdat,
-			
-			'nilaidasar' =>	strrev(implode('.',str_split(strrev(strval($this->intbasevalue)),3))),
-			'nilaippn' =>	strrev(implode('.',str_split(strrev(strval($this->intppnvalue)),3))),
-			'nilainet' => strrev(implode('.',str_split(strrev(strval($this->intnetvalue)),3))),
-			 
-			'inv' => $this->intnvnum,
-			'fak' => $this->intfaknum,
-			'tglinv' => $this->strinvdat,
-			'tglkrm' => $this->strsentdat,
-			'spbbyinvoice' => $this->spbmd->getspbbyinvoice($this->intorderid), 
-			'statusorder' => $this->strstatorder,
-			'statinv' => $this->intstatinv,
-             'buat' =>   $this->strcruser, 
-              'tglbuat' =>  $this->strcrdat,
-              'edit' =>  $this->strchuser,
-              'tgledit' =>  $this->strchdat,
-			'division' => $this->drdmd->getalldiv(),
-			'segment' => $this->drdmd->getallseg(),
-			'marketing' => $this->drdmd->getalluseram(),
-            'title' => 'KOMET',
-			'brand' => 'Ubah NOPES',
-			'division' => $this->drdmd->getalldiv(),
-			'segment' => $this->drdmd->getallseg(),
-			'tnk' => $this->repmd->countnopeskomet(),
-			'tpk' => $this->repmd->countprpokomet(),
-			'tsk' => $this->repmd->countspbkomet(),
-			'tnm' => $this->repmd->countnopesmesra(),
-			'tpm' => $this->repmd->countprpomesra(),
-			'tsm' => $this->repmd->countspbmesra(),
-			'userid' => $this->session->userdata('userid'),
-			'role' => $this->session->userdata('role'),
-			'group' => $this->session->userdata('group'),
-			'fullname' => $this->session->userdata('userfullname'),
-			'photo' => $this->session->userdata('photo'),
-			'position' => $this->session->userdata('position'),
-			'joindate' => $this->session->userdata('joindate')
-        ];
-		$data['content'] = $this->load->view('modules/knopes/edit_knopes_view', $data, TRUE);
-        $this->load->view('templates/base', $data, FALSE);
-	
-	}
-	
-	 
-	public function addspb() {
-		if (isset($_POST['cmdsave'])) {
-            
-            $error = [
-                'required' => '<div style="color:red;"> %s still empty!</div>'
-            ];
-            $this->form_validation->set_rules('optJobtype', 'jobtype', 'required', $error);
-            if ($this->form_validation->run() == TRUE) {
-                $this->spbmd->intorderid = $this->input->post('hdnOrderid');
-				$this->spbmd->intarcoid = '';
-                $this->spbmd->strjobtype = $this->input->post('optJobtype');
-				$this->spbmd->strapplicant = $this->input->post('txtApplicant'); 
-				$v = $this->input->post('txtValue');
-				$this->spbmd->intvalue =  str_replace(".", "", $v);
-				
-				$this->spbmd->strcustomer = $this->input->post('txtCustomer');
-				$this->spbmd->strinfo = addslashes($this->input->post('txtInfo'));
-				$this->spbmd->strtypeofpayment = $this->input->post('optPayment');
-				$this->spbmd->straccnumber = $this->input->post('txtAccnum');
-				$this->spbmd->straccname = $this->input->post('txtAccname');
-				$this->spbmd->strbank = $this->input->post('optBank');
-				$this->spbmd->strbankother = $this->input->post('txtBankother');
-				
-				$spbd = $this->input->post('txtSpbdate');
-                $this->spbmd->strspbdat = date('Y-m-d', strtotime($spbd));
-				$pd = $this->input->post('txtDate');
-                $this->spbmd->strprocessdate = date('Y-m-d', strtotime($pd));
-                $this->spbmd->strfiles = '';
-                $datestring = '%Y-%m-%d %H:%i:%s';
-                $time = time();
-                $this->spbmd->strcruser = $this->session->userdata('userid');
-                $this->spbmd->strcrdat = mdate($datestring, $time);
-				$this->spbmd->intstatus = "0";
-				
-				$intnomor = $this->input->post('txtKodenomor');
-				$strdivisi = $this->input->post('optJobtype');
-				$intmonth = date('m', strtotime($spbd));
-				$intyear = date('y', strtotime($spbd));
-
-                // $lpdbbcas = '';
-                // if(isset($_POST['optTipecek'])){
-                    // if($_POST['optTipecek'] == 'LPDB'){
-                        // $lpdbbcas = 'L';
-                    // }elseif($_POST['optTipecek'] == 'BCAS'){
-                        // $lpdbbcas = 'S';
-                    // }else{
-                        // $lpdbbcas = '';
-                    // }
-                // }
-
-				$strformat = "SPB".$intnomor;
-				/* var_dump($strformat); exit; */
-                $this->spbmd->strcode = $strformat;
-				
-                $this->spbmd->addspb();
-				
-				$this->ordermd->intorderid = $this->spbmd->intorderid; 
-				$valspb = $this->input->post('hdnSpbid');
-				if ($valspb == '0') {
-					$this->ordermd->intspbid = '1';
-				} else {
-					$this->ordermd->intspbid = $valspb + '1';
-				}
-				$this->ordermd->updatetotalspb();
-				// onclick="swal('Good job!', ' Success insert data', 'success', {buttons: false,timer: 3000,})"
-                redirect(base_url($this->router->fetch_class()));
-            }
-        }
-		
-		$drd = $this->ordermd->getsinglenopes($this->uri->segment(3));
-        if (count($drd) > 0) {
-            foreach ($drd as $row) {
-                $this->intorderid = $row['orderid'];
-				$this->intspbid = $row['spbid'];
-				$this->strstatorder = $row['orderstatus'];
-				$this->strcode = $row['code'];
-				$this->intnvnum = $row['invnum'];
-				$this->intfaknum = $row['faknum'];
-				$this->stramuser = $row['amuser'];
-				$this->stramkomet = $row['amkomet'];
-				$this->strsegment = $row['segment'];
-				$this->strsegmentf = $row['segmentname'];
-				$this->strprojectname = $row['projectname'];
-				$this->intbasevalue = $row['basevalue'];
-				$this->intppnvalue = $row['ppnvalue'];
-				$this->intnetvalue = $row['netvalue'];				
-            }
-        }
-		
-		$data = [
-            'orderid' => $this->intorderid,
-			'spbid' => $this->intspbid,
-            'statusorder' => $this->strstatorder,
-			'gencode' => $this->spbmd->generate_spb_code(),
-			'genspb' => $this->spbmd->generate_spb_number(),
-			'kodenomor' => $this->strcode,
-			'invoice' => $this->intnvnum,
-			'faktur' => $this->intfaknum,
-			'segmen' => $this->strsegment,
-			'segmenpt' => $this->strsegmentf,
-			'amuser' => $this->stramuser,
-			'amkomet' => $this->stramkomet,
-			'namaproyek' => $this->strprojectname,
-			'nilaidasar' => $this->intbasevalue,
-			'nilaippn' => $this->intppnvalue,
-			'nilainet' => strrev(implode('.',str_split(strrev(strval($this->intnetvalue)),3))),
-            'title' => 'KOMET',
-			'brand' => 'Pengajuan SPB',
-			'tnk' => $this->repmd->countnopeskomet(),
-			'tpk' => $this->repmd->countprpokomet(),
-			'tsk' => $this->repmd->countspbkomet(),
-			'tnm' => $this->repmd->countnopesmesra(),
-			'tpm' => $this->repmd->countprpomesra(),
-			'tsm' => $this->repmd->countspbmesra(),
-			'userid' => $this->session->userdata('userid'),
-			'role' => $this->session->userdata('role'),
-			'group' => $this->session->userdata('group'),
-			'fullname' => $this->session->userdata('userfullname'),
-			'photo' => $this->session->userdata('photo'),
-			'position' => $this->session->userdata('position'),
-			'joindate' => $this->session->userdata('joindate'),
-			'code_spb' => $this->spbmd->getlastcodespb(),
-        ];
-		$data['content'] = $this->load->view('modules/invoice/add_spb_view', $data, TRUE);
-        $this->load->view('templates/base', $data, FALSE);
-	
-	}
-
-	public function delete(){
-		
-        if ($this->input->post()) {
-			$drd = $this->ordermd->getsingleorder($_POST['orderid']);
-			if (count($drd) > 0) {
-				foreach ($drd as $row) {
-					$this->strfiles = $row['file'];
-				}
-			}
-		$folder = $this->router->fetch_class();
-		$filename = $this->config->item('uploads_dir') . $folder . '/' . $this->strfiles;
-		if (file_exists($filename)) {
-			unlink($filename);
-		}
-            //$this->ordermd->deleteorder($_POST['orderid']);
-			//$this->spbmd->deletespbworder($_POST['orderid']);
-            echo "success"; /* mengembalikan kata 'success' untuk dikenali diview */
-        }
-    }
-	
-	public function ajax_details() {
-		if ($this->input->post()) {
-        $data = $this->ordermd->getsinglenopes($_POST['orderid']);
-		$qdata = array(
-			'code' => $data[0]['code'],
-			'invnum' => $data[0]['invnum'],
-			'faknum' => $data[0]['faknum'],
-			'spknum' => $data[0]['spknum'],
-			'division' => $data[0]['division'],
-			'segment' => $data[0]['segment'],
-			'amuser' => $data[0]['amuser'],
-			'amkomet' => $data[0]['amkomet'],
-			'projectname' => $data[0]['projectname']
-		);
-        //$data->dob = ($data->dob == '0000-00-00') ? '' : $data->dob; // if 0000-00-00 set tu empty for datepicker compatibility
-        echo json_encode($qdata);
-		}
-    }
-	
-	public function ajaxcheckinvoice() {
-		// $results = $this->ordermd->checkinvoice($inv);
-		//var_dump($results); exit;
-		// if ($results === TRUE) {
-				// echo '<span class="help-block" style="color:red;">Nomor invoice sudah terpakai</span>';
-			// } else {
-				// echo '<span class="help-block" style="color:green;">Nomor invoice tersedia</span>';
-			// }
-		if (isset($_POST['txtInvnum'])) {
-			$inv = $_POST['txtInvnum'];
-			$results = $this->ordermd->checkinvoicekp($inv);
-			if ($results === TRUE) {
-				echo 'FALSE';
-			} else {
-				echo 'TRUE';
-			}
-		} else {
-			echo '<span class="help-block" style="color: #f39c12;"><i class="fa fa-bell-o"></i> Nomor invoice tidak boleh kosong.</span>';
-		}
-			 
-    } 	
-
-    public function ajaxcheckspb() {
-		// $results = $this->ordermd->checkinvoice($inv);
-		//var_dump($results); exit;
-		// if ($results === TRUE) {
-				// echo '<span class="help-block" style="color:red;">Nomor invoice sudah terpakai</span>';
-			// } else {
-				// echo '<span class="help-block" style="color:green;">Nomor invoice tersedia</span>';
-			// }
-		if (isset($_POST['txtKodenomor'])) {
-			$spb = $_POST['txtKodenomor'];
-			$results = $this->ordermd->checkspb($spb);
-			if ($results === TRUE) {
-				echo 'FALSE';
-			} else {
-				echo 'TRUE';
-			}
-		} else {
-			echo '<span class="help-block" style="color: #f39c12;"><i class="fa fa-bell-o"></i> Nomor SPB tidak boleh kosong.</span>';
-		}
-
-    }
-
-	//ambil drd segmen
-	public function getsegment(){
-        $sid=$this->input->post('sid');
-        $data=$this->drdmd->getsegmentbydiv($sid);
-		/* echo '<pre>';
-		print_r($data); exit; */
-        echo json_encode($data);
-    }
-	
-	//ambil drd segmen
-	public function getsegment2($sid){
-        // $sid=$this->input->post('sid');
-        // $data['segment'] = $this->drdmd->getsegmentbydiv($sid);
-		/*echo '<pre>';print_r($data); exit;*/
-		// $this->load->view('modules/nopes/list_division', $data);
-		
-		echo '<style>
-		.optSegment{
-			width:216px;
-			height: 42px;
-			background-color: #999999;
-			color: #FFFFFF;
-			border-radius: 4px;
-		}
-		</style>';
-		
-        $segment = $this->drdmd->getsegmentbydiv($sid);
-		$sel = '';
-		$sel .= '<select name="optSegment" class="optSegment">';
-		if(!empty($segment)){		
-			foreach($segment as $row){ 
-				$sel .= '<option value="'.$row['segmentid'].'">'.$row['code'].'</option>';
-			}	
-		}else{
-			$sel .= '<option value="">Empty</option>';
-		}
-		$sel .= '</select>'; 
-		echo $sel;
-    }
-	
-	public function doupload()
-    {
-        $folder = $this->router->fetch_class();
-        $path = $this->config->item('uploads_dir') . $folder;
-		
-		
-		$search = ['@<script[^>]*?>.*?</script>@si', '@<[\/\!]*?[^<>]*?>@si', '@<style[^>]*?>.*?</style>@siU', '@<![\s\S]*?--[ \t\n\r]*>@' ];
-		
-		$normal = preg_replace($search,'',$_FILES ['txtFile'] ['name']);
-        $filename = strtolower( str_replace(" ","-",$normal) );
-		
-		
-        if (! file_exists($path)) {
-            if (! mkdir($path, 0777, true)) {
-                print_r(error_get_last());
-            }
-        }
-
-        $config = [
-            'upload_path' => $path.'/',
-            'allowed_types' => 'jpg|png',
-            'max_size' => '2000',
-			'file_ext_tolower' => TRUE,
-			'remove_spaces' => TRUE,
-			'detect_mime' => TRUE,
-			'mod_mime_fix' => TRUE,
-			'file_name' => $filename
-        ];
-        $this->load->library('upload', $config);
-        $this->upload->initialize($config);
-        $txtupload = 'txtFile';
-        if ($this->upload->do_upload($txtupload)) {
-            return $this->upload->data('file_name');
-        } else {
-            $this->session->set_flashdata('error_doupload',$this->upload->display_errors('<div style="color:red;">','</div>'));
-            redirect('order/add');
-        }
-    }
-	
-	/* public function getid(){
-		$h = $this->ordermd->getmaxcode();
-		var_dump($h);
-	} */
-	
 	
 	
 

@@ -236,6 +236,32 @@ class Order_model extends CI_Model {
         return $stmt->result_array();
     }
 
+    ///////////////// AJAX ///////////////////////
+
+    public function get_last_invnum($year) {
+        $this->db->select_max('invnum');
+        $this->db->where('YEAR(invdate)', $year);
+        $query = $this->db->get('tb_order');
+        $row = $query->row();
+        return $row ? (int)$row->invnum : 0;
+    }
+
+    public function update_code($orderid, $code) {
+        $this->db->where('orderid', $orderid)
+                 ->update('tb_order', ['code' => $code]);
+    }
+
+    public function get_invoice($orderid) {
+        return $this->db->get_where('tb_order', ['orderid' => $orderid])->row_array();
+    }
+
+    public function get_items($orderid) {
+        return $this->db->get_where('tb_order_item', ['orderid' => $orderid])->result_array();
+    }
+
+
+    //////////////////////////////////////////////
+
     //new table order nopes
     //AND crdat = '2019'
     public function getallnopes() {
