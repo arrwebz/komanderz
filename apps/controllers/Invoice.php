@@ -628,7 +628,7 @@ class Invoice extends CI_Controller
 	}
 
 	// Create Invoice
-    public function create() {
+    public function create_ajax() {
         $post = $this->input->post();
         $year = date('Y', strtotime($post['invdate']));
 
@@ -666,7 +666,7 @@ class Invoice extends CI_Controller
     }
 
 	// Update Invoice
-    public function update($orderid) {
+    public function update_ajax($orderid) {
         $post = $this->input->post();
         $this->db->where('orderid', $orderid)->update('tb_order', [
             'projectname' => $post['projectname'],
@@ -677,19 +677,19 @@ class Invoice extends CI_Controller
     }
 
 	// Get single invoice (detail)
-    public function detail($orderid) {
+    public function detail_ajax($orderid) {
         $data = $this->ordermd->get_invoice($orderid);
         echo json_encode($data);
     }
 
 	// Delete invoice
-    public function delete($orderid) {
+    public function delete_ajax($orderid) {
         $this->db->where('orderid', $orderid)->delete('tb_order');
         echo json_encode(['status' => 'success']);
     }
 
 	// Tambah Item
-    public function add_item() {
+    public function add_item_ajax() {
         $post = $this->input->post();
         $this->db->insert('tb_order_item', [
             'orderid'     => $post['orderid'],
@@ -703,13 +703,13 @@ class Invoice extends CI_Controller
     }
 
 	// List Items
-    public function get_items($orderid) {
+    public function get_items_ajax($orderid) {
         $data = $this->itemmd->get_items($orderid);
         echo json_encode($data);
     }
 
     // Delete Item
-    public function delete_item($itemid) {
+    public function delete_item_ajax($itemid) {
         $this->db->where('itemid', $itemid)->delete('tb_order_item');
         echo json_encode(['status' => 'success']);
     }

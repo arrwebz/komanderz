@@ -223,13 +223,13 @@
                                 <label class="form-label fw-semibold">Net Value</label>
                                 <div id="boxNet" class="hidden">
                                     NET - 8% = <strong id="valueNet8"></strong>
-                                    <button id='btnAddNet8' type='button' class='btn mb-1 bg-primary text-white btn-sm' style='margin-bottom:7px'>Use -8%</button>
+                                    <button id="btnAddNet8" type="button" class="btn mb-1 bg-primary text-white btn-sm" style="margin-bottom:7px">Use -8%</button>
                                     <br>NET - 10% = <strong id="valueNet10"></strong>
-                                    <button id='btnAddNet10' type='button' class='btn mb-1 bg-primary text-white btn-sm' style='margin-bottom:7px'>Use -10%</button>
+                                    <button id="btnAddNet10" type="button" class="btn mb-1 bg-primary text-white btn-sm" style="margin-bottom:7px">Use -10%</button>
                                     <br>NET - 12% = <strong id="valueNet12"></strong>
-                                    <button id='btnAddNet12' type='button' class='btn mb-1 bg-primary text-white btn-sm' style='margin-bottom:7px'>Use -12%</button>
+                                    <button id="btnAddNet12" type="button" class="btn mb-1 bg-primary text-white btn-sm" style="margin-bottom:7px">Use -12%</button>
                                     <br>NET - 15% = <strong id="valueNet15"></strong>
-                                    <button id='btnAddNet15' type='button' class='btn mb-1 bg-primary text-white btn-sm' style='margin-bottom:7px'>Use -15%</button>
+                                    <button id="btnAddNet15" type="button" class="btn mb-1 bg-primary text-white btn-sm" style="margin-bottom:7px">Use -15%</button>
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-text">Rp</span>
@@ -242,9 +242,9 @@
                                 <label class="form-label fw-semibold">Base Value + PPN</label>
                                 <div id="boxPPN" class="hidden">
                                     PPN + 11% = <strong id="valueAutoPpn11"></strong>
-                                    <button id='btnAddPpn11' type='button' class='btn mb-1 bg-primary text-white btn-sm' style='margin-bottom:7px'>Use +11%</button>
+                                    <button id="btnAddPpn11" type="button" class="btn mb-1 bg-primary text-white btn-sm" style="margin-bottom:7px">Use +11%</button>
                                     <br>PPN + 12% = <strong id="valueAutoPpn12"></strong>
-                                    <button id='btnAddPpn12' type='button' class='btn mb-1 bg-primary text-white btn-sm' style='margin-bottom:7px'>Use +12%</button>
+                                    <button id="btnAddPpn12" type="button" class="btn mb-1 bg-primary text-white btn-sm" style="margin-bottom:7px">Use +12%</button>
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-text">Rp</span>
@@ -254,9 +254,9 @@
                         </div>
                     </div>
                 </div>
-                <button id="btnSave">Save</button>
-                <button id="btnUpdate">Update</button>
-                <button id="btnDelete">Delete</button>
+                <button id="btnSave" type="button" class="btn bg-success-subtle font-medium rounded-pill px-4 mb-6">Save</button>
+                <button id="btnUpdate" type="button" class="btn bg-success-subtle font-medium rounded-pill px-4 mb-6">Update</button>
+                <button id="btnDelete" type="button" class="btn bg-danger-subtle font-medium rounded-pill px-4 mb-6">Delete</button>
             </form>
         </div>
     </div>
@@ -293,10 +293,6 @@
                     </div>
             </div>
             <div class="card-footer">
-                <div class="col-md-12">
-                    <button type="submit" id="cmdsave" name="cmdsave" class="btn btn-success rounded-pill px-4 waves-effect waves-light">Submit</button>
-                    <a href="<?php echo base_url().$this->router->fetch_class();?>" class="btn btn-light rounded-pill px-4 waves-effect waves-light">Cancel</a>
-                </div>
             </div>
         </div>    
 </div>
@@ -417,7 +413,7 @@
         // Save Invoice
         $("#btnSave").on("click", function(e){
             e.preventDefault();
-            $.post("<?= site_url('invoice/create'); ?>", $("#formInvoice").serialize(), function(res){
+            $.post("<?= site_url('invoice/create_ajax'); ?>", $("#formInvoice").serialize(), function(res){
                 res = JSON.parse(res);
                 if(res.status === "success"){
                     $("#txtCode").val(res.code);
@@ -432,7 +428,7 @@
         $("#btnUpdate").on("click", function(e){
             e.preventDefault();
             var orderid = $("#orderid").val();
-            $.post("<?= site_url('invoice/update/'); ?>" + orderid, $("#formInvoice").serialize(), function(res){
+            $.post("<?= site_url('invoice/update_ajax/'); ?>" + orderid, $("#formInvoice").serialize(), function(res){
                 res = JSON.parse(res);
                 if(res.status === "success"){
                     alert("Invoice berhasil diupdate!");
@@ -444,7 +440,7 @@
         $("#btnDelete").on("click", function(e){
             e.preventDefault();
             var orderid = $("#orderid").val();
-            $.post("<?= site_url('invoice/delete/'); ?>" + orderid, function(res){
+            $.post("<?= site_url('invoice/delete_ajax/'); ?>" + orderid, function(res){
                 res = JSON.parse(res);
                 if(res.status === "success"){
                     alert("Invoice berhasil dihapus!");
@@ -456,7 +452,7 @@
         // Add Item
         $("#btnAddItem").on("click", function(e){
             e.preventDefault();
-            $.post("<?= site_url('invoice/add_item'); ?>", $("#formItem").serialize(), function(res){
+            $.post("<?= site_url('invoice/add_item_ajax'); ?>", $("#formItem").serialize(), function(res){
                 res = JSON.parse(res);
                 if(res.status === "success"){
                     loadItems($("#item_orderid").val());
@@ -466,7 +462,7 @@
 
         // Load Items
         function loadItems(orderid){
-            $.getJSON("<?= site_url('invoice/get_items/'); ?>" + orderid, function(data){
+            $.getJSON("<?= site_url('invoice/get_items_ajax/'); ?>" + orderid, function(data){
                 let rows = "";
                 $.each(data, function(i, item){
                     rows += "<tr>"
@@ -484,7 +480,7 @@
 
         // Delete Item
         function deleteItem(itemid){
-            $.post("<?= site_url('invoice/delete_item/'); ?>" + itemid, function(res){
+            $.post("<?= site_url('invoice/delete_item_ajax/'); ?>" + itemid, function(res){
                 res = JSON.parse(res);
                 if(res.status === "success"){
                     loadItems($("#item_orderid").val());
