@@ -254,9 +254,14 @@
                         </div>
                     </div>
                 </div>
-                <button id="btnSave" type="button" class="btn bg-success-subtle font-medium rounded-pill px-4 mb-6">Save</button>
-                <button id="btnUpdate" type="button" class="btn bg-success-subtle font-medium rounded-pill px-4 mb-6">Update</button>
-                <button id="btnDelete" type="button" class="btn bg-danger-subtle font-medium rounded-pill px-4 mb-6">Delete</button>
+                <div class="card-footer">
+                <div class="col-md-12">
+                    <button id="btnSave" type="button" class="btn bg-success-subtle font-medium rounded-pill px-4 mb-6">Save</button>
+                    <button id="btnUpdate" type="button" class="btn bg-success-subtle font-medium rounded-pill px-4 mb-6">Update</button>
+                    <button id="btnDelete" type="button" class="btn bg-danger-subtle font-medium rounded-pill px-4 mb-6">Delete</button>
+                    <a href="<?php echo base_url().$this->router->fetch_class();?>" class="btn btn-light rounded-pill px-4 waves-effect waves-light">Cancel</a>
+                </div>
+            </div>
             </form>
         </div>
     </div>
@@ -272,7 +277,7 @@
                         <input type="number" name="qty" placeholder="Qty">
                         <input type="text" name="unit" placeholder="Unit">
                         <input type="number" name="price" placeholder="Price">
-                        <button type="button" id="btnAddItem" class="btn mb-1 bg-success btn-circle btn-md d-inline-flex align-items-center justify-content-center"></button>
+                        <button type="button" id="btnAddItem" class="btn mb-1 bg-success btn-circle btn-md d-inline-flex align-items-center justify-content-center">Add Item</button>
                     </form>
                     <table id="itemTable" class="table">
                         <thead>
