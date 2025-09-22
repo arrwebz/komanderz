@@ -713,7 +713,7 @@ class Invoice extends CI_Controller
 
 		echo json_encode([
             'status'   => 'success',
-            'code'      => $nextInvnum,
+            'code'      => $nextCode,
 			'redirect_url' => site_url('invoice')
         ]);
 	}
