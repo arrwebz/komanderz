@@ -635,15 +635,25 @@ class Invoice extends CI_Controller
         // cek invnum terakhir untuk tahun ini
         $last = $this->ordermd->get_last_invnum($year);
         $nextInvnum = $last ? $last + 1 : 1;
-		echo '<pre>';print_r($nextInvnum); exit;
+		//echo '<pre>';print_r($nextInvnum); exit;
+
+		// generate code
+        $month = date('m', strtotime($post['invdate']));
+        $shortYear = date('y', strtotime($post['invdate']));
+		$strjobtype = $post['jobtype'];
+        $nextCode = str_pad($nextInvnum, 4, '0', STR_PAD_LEFT)
+              . '/' . $strordertype
+              . '/K' . $strjobtype
+              . '/' . $month
+              . '/' . $shortYear;
 
         // simpan invoice
         $this->db->insert('tb_order', [
 			'spbid'       => 0,
 			'orderinv'    => 1,
             'orderstatus' => $post['optOrderstatus'],
-			'code'        => null,
-            'invnum'      => $nextInvnum,
+			'code'        => $this->nextCode,
+            'invnum'      => $this->nextInvnum,
 			'faknum'        => $post['txtFaknum'] ?? null,
             'invdate'     => $post['txtTglinv'],
 			'unit'          => $post['optUnit'] ?? null,
@@ -686,18 +696,10 @@ class Invoice extends CI_Controller
 			$strordertype = 'ODR';
 		}
 
-        // generate code
-        $month = date('m', strtotime($post['invdate']));
-        $shortYear = date('y', strtotime($post['invdate']));
-		$strjobtype = $post['jobtype'];
-        $code = str_pad($nextInvnum, 4, '0', STR_PAD_LEFT)
-              . '/' . $strordertype
-              . '/K' . $strjobtype
-              . '/' . $month
-              . '/' . $shortYear;
+        
 
         // update code
-        $this->ordermd->update_code($orderid, $code);
+        // $this->ordermd->update_code($orderid, $code);
 
         echo json_encode([
             'status'   => 'success',
