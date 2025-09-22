@@ -630,7 +630,7 @@ class Invoice extends CI_Controller
 	// Create Invoice
     public function create_ajax() {
         $post = $this->input->post();
-        $year = date('Y', strtotime($post['invdate']));
+        $year = date('Y', strtotime($post['txtTglinv']));
 
         // cek invnum terakhir untuk tahun ini
         $last = $this->ordermd->get_last_invnum($year);
@@ -638,30 +638,30 @@ class Invoice extends CI_Controller
 
         // simpan invoice
         $this->db->insert('tb_order', [
-			'spbid'       => null,
+			'spbid'       => 0,
 			'orderinv'    => 1,
-            'orderstatus' => $post['orderstatus'],
+            'orderstatus' => $post['optOrderstatus'],
 			'code'        => null,
             'invnum'      => $nextInvnum,
-			'faknum'        => $post['faknum'] ?? null,
-            'invdate'     => $post['invdate'],
-			'unit'          => $post['unit'] ?? null,
-			'jobtype'      => $post['jobtype'] ?? null,
-			'division'      => $post['division'] ?? null,
-			'segment'       => $post['segment'] ?? null,
-			'amuser'       => $post['amuser'] ?? null,
-			'amkomet'      => $post['amkomet'] ?? null,
-            'projectname' => $post['projectname'],
-			'sentdate' => $post['tglkirim'] ?? null,
-			'spknum'  => $post['nopesnomor'] ?? null,
-			'spkindat' => $post['tglmsknopes'] ?? null,
-			'spkdat'    => $post['tglnopes'] ?? null,
-			'basevalue'         => $post['bidr1'] ?? null,
-			'ppnvalue'         => $post['pidr2'] ?? null,
-			'pphvalue'         => 0,
-			'ppnvalue'         => $post['pidr2'] ?? null,
-			'jstvalue'         => 0,
-			'negovalue'        => 0,
+			'faknum'        => $post['txtFaknum'] ?? null,
+            'invdate'     => $post['txtTglinv'],
+			'unit'          => $post['optUnit'] ?? null,
+			'jobtype'      => $post['optJobtype'] ?? null,
+			'division'      => $post['optDivision'] ?? null,
+			'segment'       => $post['optSegment'] ?? null,
+			'amuser'       => $post['txtAmuser'] ?? null,
+			'amkomet'      => $post['txtAmkomet'] ?? null,
+            'projectname' => $post['txtProject'] ?? null,
+			'sentdate' => $post['txtTglkirim'] ?? null,
+			'spknum'  => $post['txtNopesnomor'] ?? null,
+			'spkindat' => $post['txtTglmsknopes'] ?? null,
+			'spkdat'    => $post['txtTglnopes'] ?? null,
+			'basevalue' => $post['idr1'] ?? null,
+			'ppnvalue'  => $post['idr2'] ?? null,
+			'pphvalue'  => 0,
+			'netvalue'  => $post['idr3'] ?? null,
+			'jstvalue'  => 0,
+			'negovalue' => 0,
 			'file'        => null,
             'status'      => 0,
             'vrecnum'      => 0,
