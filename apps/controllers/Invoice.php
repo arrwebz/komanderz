@@ -635,6 +635,7 @@ class Invoice extends CI_Controller
         // cek invnum terakhir untuk tahun ini
         $last = $this->ordermd->get_last_invnum($year);
         $nextInvnum = $last ? $last + 1 : 1;
+		echo '<pre>';print_r($nextInvnum); exit;
 
         // simpan invoice
         $this->db->insert('tb_order', [
