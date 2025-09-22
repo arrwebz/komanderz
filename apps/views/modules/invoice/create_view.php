@@ -227,13 +227,13 @@
                                 <div id="boxNet" class="hidden">
                                     <p>Hitung NET:</p>
                                     <span id="valueNet8"></span>
-                                    <button type="button" id="btnAddNet8" class="btn btn-icon btn-primary btn-fab demo waves-effect waves-light">8%</button>
+                                    <button type="button" id="btnAddNet8" class="btn mb-1 bg-danger-subtle btn-circle btn-sm d-inline-flex align-items-center justify-content-center">8%</button><br>
                                     <span id="valueNet10"></span>
-                                    <button type="button" id="btnAddNet10" class="btn btn-icon btn-primary btn-fab demo waves-effect waves-light">10%</button>
+                                    <button type="button" id="btnAddNet10" class="btn mb-1 bg-danger-subtle btn-circle btn-sm d-inline-flex align-items-center justify-content-center">10%</button><br>
                                     <span id="valueNet12"></span>
-                                    <button type="button" id="btnAddNet12" class="btn btn-icon btn-primary btn-fab demo waves-effect waves-light">12%</button>
+                                    <button type="button" id="btnAddNet12" class="btn mb-1 bg-danger-subtle btn-circle btn-sm d-inline-flex align-items-center justify-content-center">12%</button><br>
                                     <span id="valueNet15"></span>
-                                    <button type="button" id="btnAddNet15" class="btn btn-icon btn-primary btn-fab demo waves-effect waves-light">15%</button>
+                                    <button type="button" id="btnAddNet15" class="btn mb-1 bg-danger-subtle btn-circle btn-sm d-inline-flex align-items-center justify-content-center">15%</button><br>
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-text">Rp</span>
@@ -248,9 +248,9 @@
                                 <div id="boxPPN" class="hidden">
                                     <p>Hitung PPN:</p>
                                     <span id="valueAutoPpn11"></span>
-                                    <button type="button" id="btnAddPpn11" class="btn btn-icon btn-primary btn-fab demo waves-effect waves-light">11%</button>
+                                    <button type="button" id="btnAddPpn11" class="btn mb-1 bg-primary btn-circle btn-sm d-inline-flex align-items-center justify-content-center">11%</button><br>
                                     <span id="valueAutoPpn12"></span>
-                                    <button type="button" id="btnAddPpn12" class="btn btn-icon btn-primary btn-fab demo waves-effect waves-light">12%</button>
+                                    <button type="button" id="btnAddPpn12" class="btn mb-1 bg-primary btn-circle btn-sm d-inline-flex align-items-center justify-content-center">12%</button><br>
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-text">Rp</span>
