@@ -647,6 +647,7 @@ class Invoice extends CI_Controller
               . '/' . $month
               . '/' . $shortYear;
 
+		echo '<pre>';print_r($nextCode); exit;
         // simpan invoice
         $this->db->insert('tb_order', [
 			'spbid'       => 0,
