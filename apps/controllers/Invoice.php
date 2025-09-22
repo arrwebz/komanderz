@@ -710,11 +710,8 @@ class Invoice extends CI_Controller
 			'chdat'       => '0000-00-00 00:00:00'
         ]);
         $orderid = $this->db->insert_id();
-	}
-        // update code
-        // $this->ordermd->update_code($orderid, $code);
 
-        echo json_encode([
+		echo json_encode([
             'status'   => 'success',
             'orderid'  => $orderid,
             'orderstatus' => $post['optOrderstatus'],
@@ -746,6 +743,8 @@ class Invoice extends CI_Controller
             'vrecvalue'      => 0,
 			'redirect_url' => site_url('invoice')
         ]);
+	}
+        
     }
 
 	// Update Invoice
