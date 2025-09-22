@@ -223,15 +223,17 @@
                             </div>
                             <div class="mb-4">
                                 <label class="form-label fw-semibold">Net Value</label>
+                                <!-- Box NET -->
                                 <div id="boxNet" class="hidden">
-                                    NET - 8% = <strong id="valueNet8"></strong>
-                                    <button id="btnAddNet8" type="button" class="btn mb-1 bg-primary text-white btn-sm" style="margin-bottom:7px">Use -8%</button>
-                                    <br>NET - 10% = <strong id="valueNet10"></strong>
-                                    <button id="btnAddNet10" type="button" class="btn mb-1 bg-primary text-white btn-sm" style="margin-bottom:7px">Use -10%</button>
-                                    <br>NET - 12% = <strong id="valueNet12"></strong>
-                                    <button id="btnAddNet12" type="button" class="btn mb-1 bg-primary text-white btn-sm" style="margin-bottom:7px">Use -12%</button>
-                                    <br>NET - 15% = <strong id="valueNet15"></strong>
-                                    <button id="btnAddNet15" type="button" class="btn mb-1 bg-primary text-white btn-sm" style="margin-bottom:7px">Use -15%</button>
+                                    <p>Hitung NET:</p>
+                                    <span id="valueNet8"></span>
+                                    <button type="button" id="btnAddNet8">Use -8%</button>
+                                    <span id="valueNet10"></span>
+                                    <button type="button" id="btnAddNet10">Use -10%</button>
+                                    <span id="valueNet12"></span>
+                                    <button type="button" id="btnAddNet12">Use -12%</button>
+                                    <span id="valueNet15"></span>
+                                    <button type="button" id="btnAddNet15">Use -15%</button>
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-text">Rp</span>
@@ -242,11 +244,13 @@
                         <div class="col-lg-6">
                             <div class="mb-4">
                                 <label class="form-label fw-semibold">Base Value + PPN</label>
+                                <!-- Box PPN -->
                                 <div id="boxPPN" class="hidden">
-                                    PPN + 11% = <strong id="valueAutoPpn11"></strong>
-                                    <button id="btnAddPpn11" type="button" class="btn mb-1 bg-primary text-white btn-sm" style="margin-bottom:7px">Use +11%</button>
-                                    <br>PPN + 12% = <strong id="valueAutoPpn12"></strong>
-                                    <button id="btnAddPpn12" type="button" class="btn mb-1 bg-primary text-white btn-sm" style="margin-bottom:7px">Use +12%</button>
+                                    <p>Hitung PPN:</p>
+                                    <span id="valueAutoPpn11"></span>
+                                    <button type="button" id="btnAddPpn11">Use +11%</button>
+                                    <span id="valueAutoPpn12"></span>
+                                    <button type="button" id="btnAddPpn12">Use +12%</button>
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-text">Rp</span>
@@ -309,112 +313,96 @@
 
 		$('.selectpicker').select2();
 
-		$('#idr1').on('input', function(){
-			var value = $('#idr1').val();
+        function number_format(number, decimals, dec_point, thousands_sep) {
+            number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+            var n = !isFinite(+number) ? 0 : +number,
+                prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+                sep = (typeof thousands_sep === 'undefined') ? '.' : thousands_sep,
+                dec = (typeof dec_point === 'undefined') ? ',' : dec_point,
+                s = '',
+                toFixedFix = function(n, prec) {
+                    var k = Math.pow(10, prec);
+                    return '' + Math.round(n * k) / k;
+                };
 
-			var convert = number_format(value,0,'','.');
+            s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+            if (s[0].length > 3) {
+                s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+            }
+            if ((s[1] || '').length < prec) {
+                s[1] = s[1] || '';
+                s[1] += new Array(prec - s[1].length + 1).join('0');
+            }
+            return s.join(dec);
+        }
 
-			$("#idr1").val(convert);
+		$('#idr1').on('input', function() {
+            var value = $('#idr1').val();
+            var cleanVal = value.replaceAll(".", "");
 
-			if(value != ''){
-				$("#boxPPN").removeClass("hidden");
-				$("#boxPPH").removeClass("hidden");
-				$("#boxNet").removeClass("hidden");
+            var convert = number_format(value, 0, '', '.');
+            $("#idr1").val(convert);
 
-				/* PPN*/
-				var cleanVal = value.replaceAll(".","");
-				let presentasePpn = (cleanVal * 11) /100;
-				var nilaippn = +cleanVal + +presentasePpn;
-				var convertPPN = number_format(nilaippn,0,'','.');
-				$("#valueAutoPpn").html(convertPPN);
-				document.getElementById("btnAddPpn").setAttribute("data-val",convertPPN);
+            if (value != '') {
+                $("#boxPPN").removeClass("hidden");
+                $("#boxNet").removeClass("hidden");
 
-				/* PPH */
-				var cleanValNet = value.replaceAll(".","");
-				let presentasePph1_5 = (cleanValNet * 1.5) /100;
-				var nilaipph1_5 = +presentasePph1_5;
-				var convertPph1_5 = number_format(nilaipph1_5,0,'','.');
-				$("#valuePph1_5").html(convertPph1_5);
-				document.getElementById("btnAddPph1_5").setAttribute("data-val",convertPph1_5);
+                // ==== PPN +11 ====
+                let ppn11 = +cleanVal + (cleanVal * 11 / 100);
+                var convertPpn11 = number_format(ppn11, 0, '', '.');
+                $("#valueAutoPpn11").html(convertPpn11);
+                $("#btnAddPpn11").attr("data-val", ppn11);
 
-				var cleanValNet = value.replaceAll(".","");
-				let presentasePph2 = (cleanValNet * 2) /100;
-				var nilaipph2 = +presentasePph2;
-				var convertPph2 = number_format(nilaipph2,0,'','.');
-				$("#valuePph2").html(convertPph2);
-				document.getElementById("btnAddPph2").setAttribute("data-val",convertPph2);
+                // ==== PPN +12 ====
+                let ppn12 = +cleanVal + (cleanVal * 12 / 100);
+                var convertPpn12 = number_format(ppn12, 0, '', '.');
+                $("#valueAutoPpn12").html(convertPpn12);
+                $("#btnAddPpn12").attr("data-val", ppn12);
 
-				/* NET*/
-				var cleanValNet = value.replaceAll(".","");
-				let presentaseNet10 = (cleanValNet * 10) /100;
-				var nilainet10 = +cleanValNet - +presentaseNet10;
-				var convertNet10 = number_format(nilainet10,0,'','.');
-				$("#valueNet10").html(convertNet10);
-				document.getElementById("btnAddNet10").setAttribute("data-val",convertNet10);
+                // ==== NET -8 ====
+                let net8 = +cleanVal - (cleanVal * 8 / 100);
+                var convertNet8 = number_format(net8, 0, '', '.');
+                $("#valueNet8").html(convertNet8);
+                $("#btnAddNet8").attr("data-val", net8);
 
-				var cleanValNet = value.replaceAll(".","");
-				let presentaseNet12 = (cleanValNet * 12) /100;
-				var nilainet12 = +cleanValNet - +presentaseNet12;
-				var convertNet12 = number_format(nilainet12,0,'','.');
-				$("#valueNet12").html(convertNet12);
-				document.getElementById("btnAddNet12").setAttribute("data-val",convertNet12);
+                // ==== NET -10 ====
+                let net10 = +cleanVal - (cleanVal * 10 / 100);
+                var convertNet10 = number_format(net10, 0, '', '.');
+                $("#valueNet10").html(convertNet10);
+                $("#btnAddNet10").attr("data-val", net10);
 
-				let presentaseNet15 = (cleanValNet * 15) /100;
-				var nilainet15 = +cleanValNet - +presentaseNet15;
-				var convertNet15 = number_format(nilainet15,0,'','.');
-				$("#valueNet15").html(convertNet15);
-				document.getElementById("btnAddNet15").setAttribute("data-val",convertNet15);
+                // ==== NET -12 ====
+                let net12 = +cleanVal - (cleanVal * 12 / 100);
+                var convertNet12 = number_format(net12, 0, '', '.');
+                $("#valueNet12").html(convertNet12);
+                $("#btnAddNet12").attr("data-val", net12);
 
-			}else{
-				$("#idr2").val("");
-				$("#idr3").val("");
-				$("#boxPPN").addClass("hidden");
-				$("#boxNet").addClass("hidden");
-			}
-		});
-		$('#idr2').on('input', function(){
+                // ==== NET -15 ====
+                let net15 = +cleanVal - (cleanVal * 15 / 100);
+                var convertNet15 = number_format(net15, 0, '', '.');
+                $("#valueNet15").html(convertNet15);
+                $("#btnAddNet15").attr("data-val", net15);
 
-			var value = $('#idr2').val();
+            } else {
+                $("#idr2").val("");
+                $("#idr3").val("");
+                $("#boxPPN").addClass("hidden");
+                $("#boxNet").addClass("hidden");
+            }
+        });
 
-			var convert = number_format(value,0,'','.');
+        // === Event click ===
+        $("#btnAddPpn11, #btnAddPpn12").on("click", function () {
+            var value = $(this).data('val');
+            $("#idr2").val(number_format(value, 0, '', '.'));
+        });
 
-			$("#idr2").val(convert);
+        $("#btnAddNet8, #btnAddNet10, #btnAddNet12, #btnAddNet15").on("click", function () {
+            var value = $(this).data('val');
+            $("#idr3").val(number_format(value, 0, '', '.'));
+        });
 
-		});
-		$('#idr3').on('input', function(){
-
-			var value = $('#idr3').val();
-
-			var convert = number_format(value,0,'','.');
-
-			$("#idr3").val(convert);
-
-		});
-		$('#idr4').on('input', function(){
-
-			var value = $('#idr4').val();
-
-			var convert = number_format(value,0,'','.');
-
-			$("#idr4").val(convert);
-
-		});
-
-		$("#btnAddPpn").on("click", function () {
-			var value = $(this).data('val');
-			$("#idr2").val(value);
-		});
-
-		$("#btnAddPph1_5, #btnAddPph2").on("click", function () {
-			var value = $(this).data('val');
-			$("#idr4").val(value);
-		});
-
-		$("#btnAddNet10, #btnAddNet12, #btnAddNet15").on("click", function () {
-			var value = $(this).data('val');
-			$("#idr3").val(value);
-		});
-
+	
         /* AJAX create */
 
         // Save Invoice
@@ -514,45 +502,6 @@
         }
 
 
-		function number_format(number, decimals, decPoint, thousandsSep) {
-
-			number = (number + '').replace(/[^0-9]/g, '');
-
-			var n = !isFinite(+number) ? 0 : +number;
-
-			var prec = !isFinite(+decimals) ? 0 : Math.abs(decimals);
-
-			var sep = (typeof thousandsSep === 'undefined') ? ',' : thousandsSep;
-
-			var dec = (typeof decPoint === 'undefined') ? '.' : decPoint;
-
-			var s = '';
-
-			var toFixedFix = function (n, prec) {
-
-				var k = Math.pow(10, prec);
-
-				return '' + (Math.round(n * k) / k).toFixed(prec);
-
-			};
-
-			s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
-
-			if (s[0].length > 3) {
-
-				s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-
-			}
-
-			if ((s[1] || '').length < prec) {
-
-				s[1] = s[1] || '';
-
-				s[1] += new Array(prec - s[1].length + 1).join('0');
-
-			}
-			return s.join(dec);
-		}
 	});
 </script>
 
