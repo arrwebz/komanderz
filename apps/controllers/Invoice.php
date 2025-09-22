@@ -643,32 +643,56 @@ class Invoice extends CI_Controller
             'orderstatus' => $post['orderstatus'],
 			'code'        => null,
             'invnum'      => $nextInvnum,
-            'invdate'     => $post['invdate'],
-            'projectname' => $post['projectname'],
-            'status'      => 1,
 			'faknum'        => $post['faknum'] ?? null,
-			'delivery_date' => $post['tglkirim'] ?? null,
-			'nopes_number'  => $post['nopesnomor'] ?? null,
-			'nopes_date_in' => $post['tglmsknopes'] ?? null,
-			'nopes_date'    => $post['tglnopes'] ?? null,
+            'invdate'     => $post['invdate'],
 			'unit'          => $post['unit'] ?? null,
+			'jobtype'      => $post['jobtype'] ?? null,
 			'division'      => $post['division'] ?? null,
-			'am_komet'      => $post['amkomet'] ?? null,
-			'job_type'      => $post['jobtype'] ?? null,
 			'segment'       => $post['segment'] ?? null,
-			'am_user'       => $post['amuser'] ?? null,
-			'bidr1'         => $post['bidr1'] ?? null,
-			'nidr3'         => $post['nidr3'] ?? null,
-			'pidr2'         => $post['pidr2'] ?? null,
+			'amuser'       => $post['amuser'] ?? null,
+			'amkomet'      => $post['amkomet'] ?? null,
+            'projectname' => $post['projectname'],
+			'sentdate' => $post['tglkirim'] ?? null,
+			'spknum'  => $post['nopesnomor'] ?? null,
+			'spkindat' => $post['tglmsknopes'] ?? null,
+			'spkdat'    => $post['tglnopes'] ?? null,
+			'basevalue'         => $post['bidr1'] ?? null,
+			'ppnvalue'         => $post['pidr2'] ?? null,
+			'pphvalue'         => 0,
+			'ppnvalue'         => $post['pidr2'] ?? null,
+			'jstvalue'         => 0,
+			'negovalue'        => 0,
+			'file'        => null,
+            'status'      => 0,
+            'vrecnum'      => 0,
+            'receivefrom'      => null,
+            'procdat'      => null,
+            'vrecvalue'      => 0,
+            'cruser'      => $this->session->userdata('userid'),
+			'crdat'       => date('Y-m-d H:i:s'),
+			'chuser'      => null,
+			'chdat'       => null
         ]);
         $orderid = $this->db->insert_id();
+
+		/* KODE NOMOR ORDER 1234/ODR/K/IT/02/18*/
+		$strordertype = $post['orderstatus'];
+		if($strordertype == 'IBL'){
+			$strordertype = 'IBL';
+		} elseif($strordertype == 'OBL'){
+			$strordertype = 'OBL';
+		} else {
+			$strordertype = 'ODR';
+		}
 
         // generate code
         $month = date('m', strtotime($post['invdate']));
         $shortYear = date('y', strtotime($post['invdate']));
+		$strjobtype = $post['jobtype'];
         $code = str_pad($nextInvnum, 4, '0', STR_PAD_LEFT)
-              . '/' . $post['orderstatus']
-              . '/KIT/' . $month
+              . '/' . $strordertype
+              . '/K' . $strjobtype
+              . '/' . $month
               . '/' . $shortYear;
 
         // update code

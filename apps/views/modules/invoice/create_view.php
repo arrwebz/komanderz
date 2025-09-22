@@ -35,7 +35,7 @@
                 <h5 class="card-title fw-semibold mb-0">Add Form</h5>
             </div>
             <form id="formInvoice">
-                <input type="hidden" name="orderid" id="orderid">
+                <input type="hidden" name="hdnOrderid" id="hdnOrderid">
                 <div class="card-body p-4 border-bottom">
                     <h5 class="fs-4 fw-semibold mb-4">Invoicing</h5>
                     <div class="row">
@@ -423,9 +423,27 @@
             $.post("<?= site_url('invoice/create_ajax'); ?>", $("#formInvoice").serialize(), function(res){
                 res = JSON.parse(res);
                 if(res.status === "success"){
+                    $("#optOrderstatus").val(res.orderstatus);
                     $("#txtCode").val(res.code);
-                    $("#orderid").val(res.orderid);
+                    $("#hdnOrderid").val(res.orderid);
                     $("#item_orderid").val(res.orderid);
+                    $("#txtFaknum").val(res.faknum);
+                    $("#txtTglinv").val(res.invdate);
+                    $("#optUnit").val(res.unit);
+                    $("#optJobtype").val(res.jobtype);
+                    $("#optDivision").val(res.division);
+                    $("#optSegment").val(res.segment);
+                    $("#txtAmuser").val(res.amuser);
+                    $("#txtAmkomet").val(res.amkomet);
+                    $("#txtProject").val(res.projectname);
+                    $("#txtTglkirim").val(res.sentdate);
+                    $("#txtNopesnomor").val(res.spknum);
+                    $("#txtTglmsknopes").val(res.spkindat);
+                    $("#txtTglnopes").val(res.spkdat);
+                    $("#idr1").val(res.basevalue);
+                    $("#idr3").val(res.netvalue);
+                    $("#idr2").val(res.ppnvalue);
+
                     alert("Invoice berhasil dibuat!");
                 }
             });
