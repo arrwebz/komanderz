@@ -263,13 +263,51 @@
                 <div class="card-footer">
                 <div class="col-md-12">
                     <button id="btnSave" type="button" class="btn bg-success-subtle font-medium rounded-pill px-4 mb-6">Save</button>
+                    <button id="btnUpdate" type="button" class="btn bg-success-subtle font-medium rounded-pill px-4 mb-6">Update</button>
+                    <button id="btnDelete" type="button" class="btn bg-danger-subtle font-medium rounded-pill px-4 mb-6">Delete</button>
                     <a href="<?php echo base_url().$this->router->fetch_class();?>" class="btn btn-light rounded-pill px-4 mb-6 waves-effect waves-light">Cancel</a>
                 </div>
             </div>
             </form>
         </div>
     </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="px-4 py-3 border-bottom">
+                <h5 class="card-title fw-semibold mb-0">Add Invoice Item</h5>
+            </div>
+                <div class="card-body p-4 border-bottom">
+                    <form id="formItem">
+                        <input type="hidden" name="orderid" id="item_orderid">
+                        <input type="text" name="description" placeholder="Description">
+                        <input type="number" name="qty" placeholder="Qty">
+                        <input type="text" name="unit" placeholder="Unit">
+                        <input type="number" name="price" placeholder="Price">
+                        <button type="button" id="btnAddItem" class="btn mb-1 bg-success btn-circle btn-xs d-inline-flex align-items-center justify-content-center">Add Item</button>
+                    </form>
+                    <table id="itemTable" class="table">
+                        <thead>
+                            <tr>
+                                <th width="3%">
+                                    
+                                </th>
+                                <th>Description</th>
+                                <th width="7%">Qty</th>
+                                <th width="7%">Unit</th>
+                                <th width="15%">Harga</th>
+                                <th width="15%">Total</th>
+                                <th width="5%" class="text-right"> Act</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    </div>
+            </div>
+            <div class="card-footer">
+            </div>
+        </div>    
 </div>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 
@@ -378,6 +416,72 @@
                 }
             });
         });
+
+        // Update Invoice
+        $("#btnUpdate").on("click", function(e){
+            e.preventDefault();
+            var orderid = $("#orderid").val();
+            $.post("<?= site_url('invoice/update_ajax/'); ?>" + orderid, $("#formInvoice").serialize(), function(res){
+                res = JSON.parse(res);
+                if(res.status === "success"){
+                    alert("Invoice berhasil diupdate!");
+                }
+            });
+        });
+
+        // Delete Invoice
+        $("#btnDelete").on("click", function(e){
+            e.preventDefault();
+            var orderid = $("#orderid").val();
+            $.post("<?= site_url('invoice/delete_ajax/'); ?>" + orderid, function(res){
+                res = JSON.parse(res);
+                if(res.status === "success"){
+                    alert("Invoice berhasil dihapus!");
+                    location.reload();
+                }
+            });
+        });
+
+        // Add Item
+        $("#btnAddItem").on("click", function(e){
+            e.preventDefault();
+            $.post("<?= site_url('invoice/add_item_ajax'); ?>", $("#formItem").serialize(), function(res){
+                res = JSON.parse(res);
+                if(res.status === "success"){
+                    loadItems($("#item_orderid").val());
+                }
+            });
+        });
+
+        // Load Items
+        function loadItems(orderid){
+            $.getJSON("<?= site_url('invoice/get_items_ajax/'); ?>" + orderid, function(data){
+                let rows = "";
+                $.each(data, function(i, item){
+                    rows += "<tr>"
+                        + "<td>"+item.description+"</td>"
+                        + "<td>"+item.qty+"</td>"
+                        + "<td>"+item.unit+"</td>"
+                        + "<td>"+item.price+"</td>"
+                        + "<td>"+item.total+"</td>"
+                        + "<td><button onclick='deleteItem("+item.itemid+")'>Hapus</button></td>"
+                        + "</tr>";
+                });
+                $("#itemTable tbody").html(rows);
+            });
+        }
+
+        // Delete Item
+        function deleteItem(itemid){
+            $.post("<?= site_url('invoice/delete_item_ajax/'); ?>" + itemid, function(res){
+                res = JSON.parse(res);
+                if(res.status === "success"){
+                    loadItems($("#item_orderid").val());
+                }
+            });
+        }
+
+
 	});
 </script>
 

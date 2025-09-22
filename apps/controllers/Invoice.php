@@ -658,6 +658,20 @@ class Invoice extends CI_Controller
               . '/' . $shortYear;
 
 		//echo '<pre>';print_r($nextCode); exit;
+
+		$exists = $this->db->get_where('tb_order', [
+			'invnum'      => $nextInvnum,
+			'projectname' => $post['txtProject'],
+			'invdate'     => $post['txtTglinv']
+		])->row();
+
+		if ($exists) {
+			echo json_encode([
+				'status'  => 'error',
+				'message' => 'Invoice dengan kombinasi ini sudah ada!'
+			]);
+			return;
+		}
         
 		// simpan invoice
         $this->db->insert('tb_order', [
