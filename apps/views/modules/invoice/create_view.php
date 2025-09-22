@@ -350,32 +350,47 @@
             e.preventDefault();
             $.post("<?= site_url('invoice/create_ajax'); ?>", $("#formInvoice").serialize(), function(res){
                 res = JSON.parse(res);
-                if(res.status === "error"){
-                    alert("Data invoice sudah ada, tidak bisa disimpan lagi!");
-                } else {
-                   $("#optOrderstatus").val(res.orderstatus);
-                    $("#txtCode").val(res.invnum);
-                    $("#hdnOrderid").val(res.orderid);
-                    $("#item_orderid").val(res.orderid);
-                    $("#txtFaknum").val(res.faknum);
-                    $("#txtTglinv").val(res.invdate);
-                    $("#optUnit").val(res.unit);
-                    $("#optJobtype").val(res.jobtype);
-                    $("#optDivision").val(res.division);
-                    $("#optSegment").val(res.segment);
-                    $("#txtAmuser").val(res.amuser);
-                    $("#txtAmkomet").val(res.amkomet);
-                    $("#txtProject").val(res.projectname);
-                    $("#txtTglkirim").val(res.sentdate);
-                    $("#txtNopesnomor").val(res.spknum);
-                    $("#txtTglmsknopes").val(res.spkindat);
-                    $("#txtTglnopes").val(res.spkdat);
-                    $("#idr1").val(res.basevalue);
-                    $("#idr3").val(res.netvalue);
-                    $("#idr2").val(res.ppnvalue);
 
-                    alert("Invoice berhasil dibuat!");
+                if(res.status === "success"){
+                    swal({
+                        title: "Invoice berhasil dibuat!",
+                        text: "Nomor: " + res.code,
+                        type: "success",
+                        confirmButtonText: "OK"
+                    }, function(){
+                        // redirect setelah pencet OK
+                        window.location.href = res.redirect_url;
+                    });
+                } else {
+                    swal("Gagal!", res.message || "Terjadi kesalahan.", "error");
                 }
+                // if(res.status === "error"){
+                //     alert("Data invoice sudah ada, tidak bisa disimpan lagi!");
+                // } else {
+                //    $("#optOrderstatus").val(res.orderstatus);
+                //     $("#txtCode").val(res.invnum);
+                //     $("#hdnOrderid").val(res.orderid);
+                //     $("#item_orderid").val(res.orderid);
+                //     $("#txtFaknum").val(res.faknum);
+                //     $("#txtTglinv").val(res.invdate);
+                //     $("#optUnit").val(res.unit);
+                //     $("#optJobtype").val(res.jobtype);
+                //     $("#optDivision").val(res.division);
+                //     $("#optSegment").val(res.segment);
+                //     $("#txtAmuser").val(res.amuser);
+                //     $("#txtAmkomet").val(res.amkomet);
+                //     $("#txtProject").val(res.projectname);
+                //     $("#txtTglkirim").val(res.sentdate);
+                //     $("#txtNopesnomor").val(res.spknum);
+                //     $("#txtTglmsknopes").val(res.spkindat);
+                //     $("#txtTglnopes").val(res.spkdat);
+                //     $("#idr1").val(res.basevalue);
+                //     $("#idr3").val(res.netvalue);
+                //     $("#idr2").val(res.ppnvalue);
+
+                //     alert("Invoice berhasil dibuat!");
+                //     window.location.href = res.redirect_url;
+                // }
             });
         });
 	});

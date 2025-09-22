@@ -744,7 +744,8 @@ class Invoice extends CI_Controller
             'vrecnum'      => 0,
             'receivefrom'      => null,
             'procdat'      => null,
-            'vrecvalue'      => 0
+            'vrecvalue'      => 0,
+			'redirect_url' => site_url('invoice')
         ]);
     }
 
