@@ -693,8 +693,8 @@ class Invoice extends CI_Controller
             'vrecvalue'      => 0,
             'cruser'      => $this->session->userdata('userid'),
 			'crdat'       => date('Y-m-d H:i:s'),
-			'chuser'      => null,
-			'chdat'       => null
+			'chuser'      => 0,
+			'chdat'       => '0000-00-00 00:00:00'
         ]);
         $orderid = $this->db->insert_id();
 
