@@ -243,6 +243,7 @@ class Order_model extends CI_Model {
         $this->db->where('YEAR(invdate)', $year);
         $query = $this->db->get('tb_order');
         $row = $query->row();
+        echo '<pre>';print_r($row); exit;
         return $row ? (int)$row->invnum : 0;
     }
 
