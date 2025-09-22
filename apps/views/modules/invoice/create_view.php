@@ -362,12 +362,9 @@
                     swal({
                         title: "Invoice berhasil dibuat!",
                         text: "Nomor: " + res.code,
-                        type: "success",
-                        confirmButtonText: "OK"
-                    });
-
-                    // event klik tombol OK (class .confirm di swal v1)
-                    $(".confirm").off("click").on("click", function(){
+                        icon: "success",
+                        button: "OK"
+                    }).then(function(){
                         window.location.href = res.redirect_url;
                     });
                 }
