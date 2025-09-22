@@ -313,34 +313,71 @@
 
 		$('.selectpicker').select2();
 
-        function number_format(number, decimals, dec_point, thousands_sep) {
-            number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
-            var n = !isFinite(+number) ? 0 : +number,
-                prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-                sep = (typeof thousands_sep === 'undefined') ? '.' : thousands_sep,
-                dec = (typeof dec_point === 'undefined') ? ',' : dec_point,
-                s = '',
-                toFixedFix = function(n, prec) {
-                    var k = Math.pow(10, prec);
-                    return '' + Math.round(n * k) / k;
-                };
+        // function number_format(number, decimals, dec_point, thousands_sep) {
+        //     number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+        //     var n = !isFinite(+number) ? 0 : +number,
+        //         prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+        //         sep = (typeof thousands_sep === 'undefined') ? '.' : thousands_sep,
+        //         dec = (typeof dec_point === 'undefined') ? ',' : dec_point,
+        //         s = '',
+        //         toFixedFix = function(n, prec) {
+        //             var k = Math.pow(10, prec);
+        //             return '' + Math.round(n * k) / k;
+        //         };
 
-            s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
-            if (s[0].length > 3) {
-                s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+        //     s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+        //     if (s[0].length > 3) {
+        //         s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+        //     }
+        //     if ((s[1] || '').length < prec) {
+        //         s[1] = s[1] || '';
+        //         s[1] += new Array(prec - s[1].length + 1).join('0');
+        //     }
+        //     return s.join(dec);
+        // }
+
+        function formatRupiah(angka) {
+            let number_string = angka.replace(/[^,\d]/g, "").toString(),
+                split = number_string.split(","),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            if (ribuan) {
+                let separator = sisa ? "." : "";
+                rupiah += separator + ribuan.join(".");
             }
-            if ((s[1] || '').length < prec) {
-                s[1] = s[1] || '';
-                s[1] += new Array(prec - s[1].length + 1).join('0');
-            }
-            return s.join(dec);
+
+            rupiah = split[1] !== undefined ? rupiah + "," + split[1] : rupiah;
+            return rupiah;
         }
+
+        // $('#idr1').on('input', function(){
+        //     let value = $(this).val();
+        //     let cleanVal = value.replace(/\./g, ""); // hapus titik pemisah ribuan
+        //     $(this).val(formatRupiah(cleanVal));
+
+        //     if(cleanVal != ''){
+        //         // Gunakan cleanVal untuk hitung
+        //         let base = parseInt(cleanVal);
+
+        //         // contoh hitung PPN 11%
+        //         let ppn11 = base + (base * 11 / 100);
+        //         $("#valueAutoPpn11").html(formatRupiah(ppn11.toString()));
+        //         $("#btnAddPpn11").attr("data-val", ppn11);
+
+        //         // contoh NET 8%
+        //         let net8 = base - (base * 8 / 100);
+        //         $("#valueNet8").html(formatRupiah(net8.toString()));
+        //         $("#btnAddNet8").attr("data-val", net8);
+        //     }
+        // });
 
 		$('#idr1').on('input', function() {
             var value = $('#idr1').val();
             var cleanVal = value.replaceAll(".", "");
 
-            var convert = number_format(value, 0, '', '.');
+            var convert = formatRupiah(value, 0, '', '.');
             $("#idr1").val(convert);
 
             if (value != '') {
@@ -349,37 +386,37 @@
 
                 // ==== PPN +11 ====
                 let ppn11 = +cleanVal + (cleanVal * 11 / 100);
-                var convertPpn11 = number_format(ppn11, 0, '', '.');
+                var convertPpn11 = formatRupiah(ppn11, 0, '', '.');
                 $("#valueAutoPpn11").html(convertPpn11);
                 $("#btnAddPpn11").attr("data-val", ppn11);
 
                 // ==== PPN +12 ====
                 let ppn12 = +cleanVal + (cleanVal * 12 / 100);
-                var convertPpn12 = number_format(ppn12, 0, '', '.');
+                var convertPpn12 = formatRupiah(ppn12, 0, '', '.');
                 $("#valueAutoPpn12").html(convertPpn12);
                 $("#btnAddPpn12").attr("data-val", ppn12);
 
                 // ==== NET -8 ====
                 let net8 = +cleanVal - (cleanVal * 8 / 100);
-                var convertNet8 = number_format(net8, 0, '', '.');
+                var convertNet8 = formatRupiah(net8, 0, '', '.');
                 $("#valueNet8").html(convertNet8);
                 $("#btnAddNet8").attr("data-val", net8);
 
                 // ==== NET -10 ====
                 let net10 = +cleanVal - (cleanVal * 10 / 100);
-                var convertNet10 = number_format(net10, 0, '', '.');
+                var convertNet10 = formatRupiah(net10, 0, '', '.');
                 $("#valueNet10").html(convertNet10);
                 $("#btnAddNet10").attr("data-val", net10);
 
                 // ==== NET -12 ====
                 let net12 = +cleanVal - (cleanVal * 12 / 100);
-                var convertNet12 = number_format(net12, 0, '', '.');
+                var convertNet12 = formatRupiah(net12, 0, '', '.');
                 $("#valueNet12").html(convertNet12);
                 $("#btnAddNet12").attr("data-val", net12);
 
                 // ==== NET -15 ====
                 let net15 = +cleanVal - (cleanVal * 15 / 100);
-                var convertNet15 = number_format(net15, 0, '', '.');
+                var convertNet15 = formatRupiah(net15, 0, '', '.');
                 $("#valueNet15").html(convertNet15);
                 $("#btnAddNet15").attr("data-val", net15);
 
@@ -394,12 +431,12 @@
         // === Event click ===
         $("#btnAddPpn11, #btnAddPpn12").on("click", function () {
             var value = $(this).data('val');
-            $("#idr2").val(number_format(value, 0, '', '.'));
+            $("#idr2").val(formatRupiah(value, 0, '', '.'));
         });
 
         $("#btnAddNet8, #btnAddNet10, #btnAddNet12, #btnAddNet15").on("click", function () {
             var value = $(this).data('val');
-            $("#idr3").val(number_format(value, 0, '', '.'));
+            $("#idr3").val(formatRupiah(value, 0, '', '.'));
         });
 
 	
