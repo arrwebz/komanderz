@@ -659,11 +659,10 @@ class Invoice extends CI_Controller
 
 		//echo '<pre>';print_r($nextCode); exit;
 
-		$exists = $this->db->get_where('tb_order', [
-			'invnum'      => $nextInvnum,
-			'projectname' => $post['txtProject'],
-			'invdate'     => $post['txtTglinv']
-		])->row();
+		$this->db->where('projectname', $post['txtProject']);
+		$this->db->where('invdate', $post['txtTglinv']);
+		$this->db->where('basevalue', str_replace(".", "", $post['txtNilaidasar']));
+		$exists = $this->db->get('tb_order')->row();
 
 		if ($exists) {
 			echo json_encode([

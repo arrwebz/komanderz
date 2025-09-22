@@ -349,18 +349,22 @@
         $("#btnSave").on("click", function(e){
             e.preventDefault();
             $.post("<?= site_url('invoice/create_ajax'); ?>", $("#formInvoice").serialize(), function(res){
-                res = JSON.parse(res);
+                try {
+                    res = JSON.parse(res);
+                } catch (e) {
+                    swal("Error!", "Respon server tidak valid", "error");
+                    return;
+                }
 
                 if(res.status === "error"){
                     swal("Gagal!", res.message || "Terjadi kesalahan.", "error");
-                } else {
+                } else if(res.status === "success"){
                     swal({
                         title: "Invoice berhasil dibuat!",
                         text: "Nomor: " + res.code,
                         type: "success",
                         confirmButtonText: "OK"
                     }, function(){
-                        // redirect setelah pencet OK
                         window.location.href = res.redirect_url;
                     });
                 }
