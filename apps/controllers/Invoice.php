@@ -705,7 +705,7 @@ class Invoice extends CI_Controller
             'status'   => 'success',
             'orderid'  => $orderid,
             'orderstatus' => $post['optOrderstatus'],
-            'code'      => $this->nextInvnum,
+            'code'      => $nextInvnum,
 			'faknum'        => $post['txtFaknum'] ?? null,
             'invdate'     => $post['txtTglinv'],
 			'unit'          => $post['optUnit'] ?? null,
