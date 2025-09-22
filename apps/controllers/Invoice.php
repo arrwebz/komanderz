@@ -637,6 +637,16 @@ class Invoice extends CI_Controller
         $nextInvnum = $last ? $last + 1 : 1;
 		//echo '<pre>';print_r($nextInvnum); exit;
 
+		/* KODE NOMOR ORDER 1234/ODR/K/IT/02/18*/
+		$strordertype = $post['optOrderstatus'];
+		if($strordertype == 'IBL'){
+			$strordertype = 'IBL';
+		} elseif($strordertype == 'OBL'){
+			$strordertype = 'OBL';
+		} else {
+			$strordertype = 'ODR';
+		}
+
 		// generate code
         $month = date('m', strtotime($post['txtTglinv']));
         $shortYear = date('y', strtotime($post['txtTglinv']));
@@ -686,18 +696,6 @@ class Invoice extends CI_Controller
 			'chdat'       => null
         ]);
         $orderid = $this->db->insert_id();
-
-		/* KODE NOMOR ORDER 1234/ODR/K/IT/02/18*/
-		$strordertype = $post['orderstatus'];
-		if($strordertype == 'IBL'){
-			$strordertype = 'IBL';
-		} elseif($strordertype == 'OBL'){
-			$strordertype = 'OBL';
-		} else {
-			$strordertype = 'ODR';
-		}
-
-        
 
         // update code
         // $this->ordermd->update_code($orderid, $code);
