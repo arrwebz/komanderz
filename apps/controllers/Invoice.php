@@ -657,8 +657,9 @@ class Invoice extends CI_Controller
               . '/' . $month
               . '/' . $shortYear;
 
-		echo '<pre>';print_r($nextCode); exit;
-        // simpan invoice
+		//echo '<pre>';print_r($nextCode); exit;
+        
+		// simpan invoice
         $this->db->insert('tb_order', [
 			'spbid'       => 0,
 			'orderinv'    => 1,
@@ -703,8 +704,33 @@ class Invoice extends CI_Controller
         echo json_encode([
             'status'   => 'success',
             'orderid'  => $orderid,
-            'invnum'   => $nextInvnum,
-            'code'     => $code
+            'orderstatus' => $post['optOrderstatus'],
+            'code'      => $this->nextInvnum,
+			'faknum'        => $post['txtFaknum'] ?? null,
+            'invdate'     => $post['txtTglinv'],
+			'unit'          => $post['optUnit'] ?? null,
+			'jobtype'      => $post['optJobtype'] ?? null,
+			'division'      => $post['optDivision'] ?? null,
+			'segment'       => $post['optSegment'] ?? null,
+			'amuser'       => $post['txtAmuser'] ?? null,
+			'amkomet'      => $post['txtAmkomet'] ?? null,
+            'projectname' => $post['txtProject'] ?? null,
+			'sentdate' => $post['txtTglkirim'] ?? null,
+			'spknum'  => $post['txtNopesnomor'] ?? null,
+			'spkindat' => $post['txtTglmsknopes'] ?? null,
+			'spkdat'    => $post['txtTglnopes'] ?? null,
+			'basevalue' => $post['idr1'] ?? null,
+			'ppnvalue'  => $post['idr2'] ?? null,
+			'pphvalue'  => 0,
+			'netvalue'  => $post['idr3'] ?? null,
+			'jstvalue'  => 0,
+			'negovalue' => 0,
+			'file'        => null,
+            'status'      => 0,
+            'vrecnum'      => 0,
+            'receivefrom'      => null,
+            'procdat'      => null,
+            'vrecvalue'      => 0
         ]);
     }
 

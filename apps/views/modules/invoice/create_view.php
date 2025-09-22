@@ -390,7 +390,7 @@
                 res = JSON.parse(res);
                 if(res.status === "success"){
                     $("#optOrderstatus").val(res.orderstatus);
-                    $("#txtCode").val(res.code);
+                    $("#txtCode").val(res.invnum);
                     $("#hdnOrderid").val(res.orderid);
                     $("#item_orderid").val(res.orderid);
                     $("#txtFaknum").val(res.faknum);
