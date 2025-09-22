@@ -358,17 +358,17 @@
 
                 if(res.status === "error"){
                     swal("Gagal!", res.message || "Terjadi kesalahan.", "error");
-                } else if(res.status === "success"){
+                } else {
                     swal({
                         title: "Invoice berhasil dibuat!",
                         text: "Nomor: " + res.code,
                         type: "success",
-                        showCancelButton: false,
                         confirmButtonText: "OK"
-                    }, function(isConfirm){
-                        if(isConfirm){
-                            window.location.href = res.redirect_url;
-                        }
+                    });
+
+                    // event klik tombol OK (class .confirm di swal v1)
+                    $(".confirm").off("click").on("click", function(){
+                        window.location.href = res.redirect_url;
                     });
                 }
                 // if(res.status === "error"){
