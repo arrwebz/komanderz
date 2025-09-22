@@ -638,9 +638,9 @@ class Invoice extends CI_Controller
 		//echo '<pre>';print_r($nextInvnum); exit;
 
 		// generate code
-        $month = date('m', strtotime($post['invdate']));
-        $shortYear = date('y', strtotime($post['invdate']));
-		$strjobtype = $post['jobtype'];
+        $month = date('m', strtotime($post['txtTglinv']));
+        $shortYear = date('y', strtotime($post['txtTglinv']));
+		$strjobtype = $post['optJobtype'];
         $nextCode = str_pad($nextInvnum, 4, '0', STR_PAD_LEFT)
               . '/' . $strordertype
               . '/K' . $strjobtype
