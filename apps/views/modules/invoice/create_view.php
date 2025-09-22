@@ -351,7 +351,9 @@
             $.post("<?= site_url('invoice/create_ajax'); ?>", $("#formInvoice").serialize(), function(res){
                 res = JSON.parse(res);
 
-                if(res.status === "success"){
+                if(res.status === "error"){
+                    swal("Gagal!", res.message || "Terjadi kesalahan.", "error");
+                } else {
                     swal({
                         title: "Invoice berhasil dibuat!",
                         text: "Nomor: " + res.code,
@@ -361,8 +363,6 @@
                         // redirect setelah pencet OK
                         window.location.href = res.redirect_url;
                     });
-                } else {
-                    swal("Gagal!", res.message || "Terjadi kesalahan.", "error");
                 }
                 // if(res.status === "error"){
                 //     alert("Data invoice sudah ada, tidak bisa disimpan lagi!");

@@ -671,7 +671,7 @@ class Invoice extends CI_Controller
 				'message' => 'Invoice dengan kombinasi ini sudah ada!'
 			]);
 			return;
-		}
+		} else {
         
 		// simpan invoice
         $this->db->insert('tb_order', [
@@ -711,7 +711,7 @@ class Invoice extends CI_Controller
 			'chdat'       => '0000-00-00 00:00:00'
         ]);
         $orderid = $this->db->insert_id();
-
+	}
         // update code
         // $this->ordermd->update_code($orderid, $code);
 
