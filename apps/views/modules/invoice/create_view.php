@@ -248,9 +248,9 @@
                                 <div id="boxPPN" class="hidden">
                                     <p>Hitung PPN:</p>
                                     <span id="valueAutoPpn11"></span>
-                                    <button type="button" id="btnAddPpn11" class="btn mb-1 bg-primary btn-circle btn-sm d-inline-flex align-items-center justify-content-center">11%</button><br>
+                                    <button type="button" id="btnAddPpn11" class="btn mb-1 bg-danger-subtle btn-circle btn-sm d-inline-flex align-items-center justify-content-center">11%</button><br>
                                     <span id="valueAutoPpn12"></span>
-                                    <button type="button" id="btnAddPpn12" class="btn mb-1 bg-primary btn-circle btn-sm d-inline-flex align-items-center justify-content-center">12%</button><br>
+                                    <button type="button" id="btnAddPpn12" class="btn mb-1 bg-danger-subtle btn-circle btn-sm d-inline-flex align-items-center justify-content-center">12%</button><br>
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-text">Rp</span>
