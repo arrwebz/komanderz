@@ -144,178 +144,179 @@
 	</div>
 </div>
 
-    <div class="row">
-        <div class="nav-align-top">
+<div class="row">
+    <div class="nav-align-top">
         <ul class="nav nav-pills mb-4" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button type="button" class="nav-link waves-effect waves-light active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-home" aria-controls="navs-pills-left-home" aria-selected="true">Home</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button type="button" class="nav-link waves-effect waves-light" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-profile" aria-controls="navs-pills-left-profile" aria-selected="false" tabindex="-1">Profile</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button type="button" class="nav-link waves-effect waves-light" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-messages" aria-controls="navs-pills-left-messages" aria-selected="false" tabindex="-1">Messages</button>
-          </li>
+        <li class="nav-item" role="presentation">
+            <button type="button" class="nav-link waves-effect waves-light active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-home" aria-controls="navs-pills-left-home" aria-selected="true">Invoice</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button type="button" class="nav-link waves-effect waves-light" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-profile" aria-controls="navs-pills-left-profile" aria-selected="false" tabindex="-1">Items</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button type="button" class="nav-link waves-effect waves-light" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-messages" aria-controls="navs-pills-left-messages" aria-selected="false" tabindex="-1">SPB</button>
+        </li>
         </ul>
         <div class="tab-content">
-          <div class="tab-pane fade active show" id="navs-pills-left-home" role="tabpanel">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center" style="background-color: #d72027; ">
-                                <h4 class="card-title text-white mb-0">Detail Invoice</h4>
+            <div class="tab-pane fade active show" id="navs-pills-left-home" role="tabpanel">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header d-flex align-items-center" style="background-color: #d72027; ">
+                                    <h4 class="card-title text-white mb-0">Detail Invoice</h4>
+                                </div>
+                            <div class="card-body p-4 border-bottom">
+                                <h5 class="fs-4 fw-semibold mb-4">Order Information</h5>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">Invoice Number</label>
+                                            <input name="txtInvnum" type="text" class="form-control" value="<?php echo $inv ?>" disabled>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">Invoice Date</label>
+                                            <div class="input-group">
+                                                <div class="input-group-text">
+                                                    <i class="ti ti-calendar"></i>
+                                                </div>
+                                                <input name="txtTglinv" type="text" class="form-control" value="<?php echo $tglinv ?>" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">Tax Number</label>
+                                            <div class="input-group">
+                                                <div class="input-group-text">
+                                                    <i class="ti ti-receipt-tax"></i> 
+                                                </div>
+                                                <input name="txtFaknum" type="text" class="form-control" value="<?php echo $fak ?>" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">Delivery Date</label>
+                                            <div class="input-group">
+                                                <div class="input-group-text">
+                                                    <i class="ti ti-calendar"></i>
+                                                </div>
+                                                <input name="txtTglkirim" type="text" class="form-control" value="<?php echo $tglkrm ?>" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">Tel/SPK/VSO PADI</label>
+                                            <input name="txtNopesnomor" type="text" class="form-control" value="<?php echo $nomorspk ?>" disabled>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">SPK Entry Date</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="ti ti-calendar"></i></span>
+                                                <input name="txtTglmsknopes" type="text" class="form-control" value="<?php echo $tglmskspk ?>" disabled>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">Order Type</label>
+                                            <input name="optOrderstatus" type="text" class="form-control" value="<?php echo $statusorder ?>" disabled>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">SPK Date</label> 
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="ti ti-calendar"></i></span>
+                                                <input name="txtTglnopes" type="text" class="form-control" value="<?php echo $tglspk ?>" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        <div class="card-body p-4 border-bottom">
-                            <h5 class="fs-4 fw-semibold mb-4">Order Information</h5>
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">Invoice Number</label>
-                                        <input name="txtInvnum" type="text" class="form-control" value="<?php echo $inv ?>" disabled>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">Invoice Date</label>
-                                        <div class="input-group">
-                                            <div class="input-group-text">
-                                                <i class="ti ti-calendar"></i>
-                                            </div>
-                                            <input name="txtTglinv" type="text" class="form-control" value="<?php echo $tglinv ?>" disabled>
+                            <div class="card-body p-4 border-bottom">
+                                <h5 class="fs-4 fw-semibold mb-4"></h5>
+                                <div class="row"> 
+                                    <div class="col-lg-12">
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">Project Name</label>
+                                            <input name="txtProject" type="text" class="form-control" style="height:108px" value="<?php echo $namaproyek ?>" disabled>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">Tax Number</label>
-                                        <div class="input-group">
-                                            <div class="input-group-text">
-                                                <i class="ti ti-receipt-tax"></i> 
-                                            </div>
-                                            <input name="txtFaknum" type="text" class="form-control" value="<?php echo $fak ?>" disabled>
+                            </div>
+                            <div class="card-body p-4 border-bottom">
+                                <h5 class="fs-4 fw-semibold mb-4"></h5>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">Unit</label>
+                                            <input name="optUnit" type="text" class="form-control" value="<?php echo $unit ?>" disabled>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">Division</label>
+                                            <input name="optDivision" type="text" class="form-control" value="<?php echo $divisi ?>" disabled>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">AM KOMET</label>
+                                            <input name="txtAmkomet" type="text" class="form-control" value="<?php echo $amkomet ?>" disabled>
                                         </div>
                                     </div>
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">Delivery Date</label>
-                                        <div class="input-group">
-                                            <div class="input-group-text">
-                                                <i class="ti ti-calendar"></i>
-                                            </div>
-                                            <input name="txtTglkirim" type="text" class="form-control" value="<?php echo $tglkrm ?>" disabled>
+                                    <div class="col-lg-3">
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">Types of Work</label>
+                                            <input name="optJobtype" type="text" class="form-control" value="<?php echo $jp ?>" disabled>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">Tel/SPK/VSO PADI</label>
-                                        <input name="txtNopesnomor" type="text" class="form-control" value="<?php echo $nomorspk ?>" disabled>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">SPK Entry Date</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="ti ti-calendar"></i></span>
-                                            <input name="txtTglmsknopes" type="text" class="form-control" value="<?php echo $tglmskspk ?>" disabled>
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">Customers</label>
+                                            <input name="optSegment" type="text" class="form-control" value="<?php echo $segmen ?>" disabled>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">PIC Customer</label>
+                                            <input name="txtAmuser" type="text" class="form-control" value="<?php echo $amuser ?>" disabled>
                                         </div>
                                     </div> 
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">Order Type</label>
-                                        <input name="optOrderstatus" type="text" class="form-control" value="<?php echo $statusorder ?>" disabled>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">SPK Date</label> 
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="ti ti-calendar"></i></span>
-                                            <input name="txtTglnopes" type="text" class="form-control" value="<?php echo $tglspk ?>" disabled>
+                                    <div class="col-lg-3">
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">Base Value</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">Rp</span>
+                                                <input name="txtNilaidasar" type="text" class="form-control" value="<?php echo $nilaidasar ?>" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">Net Value</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">Rp</span>
+                                                <input name="txtNilainet" type="text" class="form-control" value="<?php echo $nilainet ?>" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">Margin Value</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">Rp</span>
+                                                <input name="txtNilaimargin" type="text" class="form-control" value="<?php echo $nilaimargin ?>" disabled>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body p-4 border-bottom">
-                            <h5 class="fs-4 fw-semibold mb-4"></h5>
-                            <div class="row"> 
-                                <div class="col-lg-12">
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">Project Name</label>
-                                        <input name="txtProject" type="text" class="form-control" style="height:108px" value="<?php echo $namaproyek ?>" disabled>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body p-4 border-bottom">
-                            <h5 class="fs-4 fw-semibold mb-4"></h5>
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">Unit</label>
-                                        <input name="optUnit" type="text" class="form-control" value="<?php echo $unit ?>" disabled>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">Division</label>
-                                        <input name="optDivision" type="text" class="form-control" value="<?php echo $divisi ?>" disabled>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">AM KOMET</label>
-                                        <input name="txtAmkomet" type="text" class="form-control" value="<?php echo $amkomet ?>" disabled>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">Types of Work</label>
-                                        <input name="optJobtype" type="text" class="form-control" value="<?php echo $jp ?>" disabled>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">Customers</label>
-                                        <input name="optSegment" type="text" class="form-control" value="<?php echo $segmen ?>" disabled>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">PIC Customer</label>
-                                        <input name="txtAmuser" type="text" class="form-control" value="<?php echo $amuser ?>" disabled>
-                                    </div>
-                                </div> 
-                                <div class="col-lg-3">
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">Base Value</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">Rp</span>
-                                            <input name="txtNilaidasar" type="text" class="form-control" value="<?php echo $nilaidasar ?>" disabled>
+                                    <div class="col-lg-3">
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">PPN</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">Rp</span>
+                                                <input name="txtNilaippn" type="text" class="form-control" value="<?php echo $nilaippn ?>" disabled>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">Net Value</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">Rp</span>
-                                            <input name="txtNilainet" type="text" class="form-control" value="<?php echo $nilainet ?>" disabled>
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">PPH</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">Rp</span>
+                                                <input name="txtNilaippn" type="text" class="form-control" value="<?php echo $nilaipph ?>" disabled>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">Margin Value</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">Rp</span>
-                                            <input name="txtNilaimargin" type="text" class="form-control" value="<?php echo $nilaimargin ?>" disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">PPN</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">Rp</span>
-                                            <input name="txtNilaippn" type="text" class="form-control" value="<?php echo $nilaippn ?>" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">PPH</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">Rp</span>
-                                            <input name="txtNilaippn" type="text" class="form-control" value="<?php echo $nilaipph ?>" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold">Estimated Payment Value</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">Rp</span>
-                                            <input name="txtNilaimargin" type="text" class="form-control" value="<?php echo $nilaiestcair ?>" disabled>
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">Estimated Payment Value</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">Rp</span>
+                                                <input name="txtNilaimargin" type="text" class="form-control" value="<?php echo $nilaiestcair ?>" disabled>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -324,122 +325,109 @@
                     </div>
                 </div>
             </div>
-          </div>
-          <div class="tab-pane fade" id="navs-pills-left-profile" role="tabpanel">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                    <div class="card-header d-flex align-items-center" style="background-color: #d72027; ">
-                        <h5 class="mb-0 text-white card-title">Invoice Items</h5>
-                    </div>
-                    <div class="card-body p-4 border-bottom">
-                        <h5 class="fs-4 fw-semibold mb-4">List items</h5> 
-                        <div class="row">
+            <div class="tab-pane fade" id="navs-pills-left-profile" role="tabpanel">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header d-flex align-items-center" style="background-color: #d72027; ">
+                                <h5 class="mb-0 text-white card-title">Invoice Items</h5>
+                            </div>
+                            <div class="card-body p-4 border-bottom">
+                                <h5 class="fs-4 fw-semibold mb-4">List items</h5> 
+                                    <div class="row">
                                         <div class="table-responsive rounded-2 mb-4">		
-                                <?php if (count ( $iteminvoice ) > 0) { ?>
+                                                    <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="3%">
+                                                            <button type="button" id="addItem" class="btn btn-default btn-sm">Tambah Item</button>
+                                                        </th>
+                                                        <th width="5%" class="text-center">No</th>
+                                                        <th>Description</th>
+                                                        <th width="7%">Qty</th>
+                                                        <th width="7%">Unit</th>
+                                                        <th width="15%">Harga</th>
+                                                        <th width="15%">Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="bodyItem"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>    
+                    </div>       
+                </div>
+            </div>
+            <div class="tab-pane fade" id="navs-pills-left-messages" role="tabpanel">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header text-bg-info">
+                                <h5 class="mb-0 text-white card-title">Partner Payouts</h5>
+                            </div>
+                            <div class="card-body p-4 border-bottom">
+                                <h5 class="fs-4 fw-semibold mb-4">List SPB</h5> 
+                                    <div class="row">
+                                        <div class="table-responsive rounded-2 mb-4">			
+                                    <?php if (count ( $spbbyinvoice ) > 0) { ?>
                                         <table class="table-sm table border text-nowrap customize-table mb-0 align-middle" >
                                             <thead>
                                             <tr>
-                                                <th>No</th>
-                                                <th>Deskripsi</th>
-                                                <th>Qty</th>
-                                                <th>Unit</th> 
-                                                <th>Harga</th> 
-                                                <th>Total</th> 
+                                                <th>#</th>
+                                                <th>SPB</th>
+                                                <th>Value</th>
+                                                <th>Date</th> 
+                                                <th>Status</th> 
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <?php $i = 0; ?>
-                                            <?php foreach ( $iteminvoice as $inv ) { ?>
+                                            <?php foreach ( $spbbyinvoice as $inv ) { ?>
                                                 <?php $i++; ?>
                                                 <tr>
-                                                    <td><?php echo $i; ?></td> 
-                                                    <td><?php echo $inv['description']; ?></td>
-                                                    <td><?php echo $inv['qty']; ?></td>
-                                                    <td><?php echo $inv['unit']; ?></td>
-                                                    <td><?php echo strrev(implode('.',str_split(strrev(strval($inv['price'])),3))); ?></td>
-                                                    <td><?php echo strrev(implode('.',str_split(strrev(strval($inv['total'])),3))); ?></td>
+                                                    <td><?php echo $i; ?></td> <td><?php if ($inv['code'] == "") {
+                                                        echo "<i style='color:red;'>Data has not been updated.</i>";
+                                                    } else {
+                                                        echo "<a target='_blank' href=' ".base_url()."kspb/details/".$inv['spbid']."' style='color: #00bcd4;'><strong>".$inv['code']."</strong></a>"; } ?>
+                                                    </td>
+                                                    <td><?php if ($inv['value'] == "") {
+                                                        echo "<i style='color:red;'>Data has not been updated.</i>";
+                                                    } else {
+                                                        echo strrev(implode('.',str_split(strrev(strval($inv['value'])),3))); } ?>
+                                                    </td>
+                                                    <td><?php if ($inv['spbdat'] == "0000-00-00") {
+                                                        echo "<i style='color:red;'>Data has not been updated.</i>";
+                                                    } else {
+                                                        echo date("d F Y", strtotime($inv['spbdat'])); } ?>
+                                                    </td> 
+                                                    <td>
+                                                        <?php if($inv['status'] == '0') { ?>
+                                                            <span class="badge bg-primary-subtle text-primary fw-semibold fs-2">Submission</span>
+                                                        <?php } elseif($inv['status'] == '2') { ?>
+                                                            <span class="badge bg-warning-subtle text-warning fw-semibold fs-2">Processed</span>
+                                                        <?php } elseif($inv['status'] == '1') { ?>
+                                                            <span class="badge bg-success-subtle text-success fw-semibold fs-2">Paid</span>
+                                                        <?php } elseif($inv['status'] == '3') { ?>
+                                                            <span class="badge bg-info-subtle text-info fw-semibold fs-2">Approved</span>
+                                                        <?php } ?>
+                                                    </td>
                                                 </tr>
-                                            <?php } ?>
+                                            <?php }	?>
                                             </tbody>
                                         </table>
-                                    <?php } else { echo 'Belum ada Item untuk invoice ini!'; }?>
-                        </div>
-                        </div>      
-                        </div>
-                    </div>
-                </div>       
-                </div>
-          </div>
-          <div class="tab-pane fade" id="navs-pills-left-messages" role="tabpanel">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header text-bg-info">
-                            <h5 class="mb-0 text-white card-title">Partner Payouts</h5>
-                        </div>
-                        <div class="card-body p-4 border-bottom">
-                            <h5 class="fs-4 fw-semibold mb-4">List SPB</h5> 
-                                <div class="row">
-                                    <div class="table-responsive rounded-2 mb-4">			
-                                <?php if (count ( $spbbyinvoice ) > 0) { ?>
-                                    <table class="table-sm table border text-nowrap customize-table mb-0 align-middle" >
-                                        <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>SPB</th>
-                                            <th>Value</th>
-                                            <th>Date</th> 
-                                            <th>Status</th> 
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php $i = 0; ?>
-                                        <?php foreach ( $spbbyinvoice as $inv ) { ?>
-                                            <?php $i++; ?>
-                                            <tr>
-                                                <td><?php echo $i; ?></td> <td><?php if ($inv['code'] == "") {
-                                                    echo "<i style='color:red;'>Data has not been updated.</i>";
-                                                } else {
-                                                    echo "<a target='_blank' href=' ".base_url()."kspb/details/".$inv['spbid']."' style='color: #00bcd4;'><strong>".$inv['code']."</strong></a>"; } ?>
-                                                </td>
-                                                <td><?php if ($inv['value'] == "") {
-                                                    echo "<i style='color:red;'>Data has not been updated.</i>";
-                                                } else {
-                                                    echo strrev(implode('.',str_split(strrev(strval($inv['value'])),3))); } ?>
-                                                </td>
-                                                <td><?php if ($inv['spbdat'] == "0000-00-00") {
-                                                    echo "<i style='color:red;'>Data has not been updated.</i>";
-                                                } else {
-                                                    echo date("d F Y", strtotime($inv['spbdat'])); } ?>
-                                                </td> 
-                                                <td>
-                                                    <?php if($inv['status'] == '0') { ?>
-                                                        <span class="badge bg-primary-subtle text-primary fw-semibold fs-2">Submission</span>
-                                                    <?php } elseif($inv['status'] == '2') { ?>
-                                                        <span class="badge bg-warning-subtle text-warning fw-semibold fs-2">Processed</span>
-                                                    <?php } elseif($inv['status'] == '1') { ?>
-                                                        <span class="badge bg-success-subtle text-success fw-semibold fs-2">Paid</span>
-                                                    <?php } elseif($inv['status'] == '3') { ?>
-                                                        <span class="badge bg-info-subtle text-info fw-semibold fs-2">Approved</span>
-                                                    <?php } ?>
-                                                </td>
-                                            </tr>
-                                        <?php }	?>
-                                        </tbody>
-                                    </table>
-                                <?php } else { echo 'There is no SPB for this invoice yet!'; }?>
-                                </div>                    
+                                    <?php } else { echo 'There is no SPB for this invoice yet!'; }?>
+                                    </div>                    
+                                </div>
                             </div>
+                            
                         </div>
-                        
                     </div>
                 </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
+</div>
 <div class="row">
 	<div class="col-xs-12">
 	Created by: <?php echo $buat; ?>, <?php echo $tglbuat; ?><br><br>
@@ -464,5 +452,39 @@
             'autoWidth'   : true
 
         });	
+
+        /* add item */
+		$('#addItem').on('click', function () {
+			var tableorderitem = document.getElementById("bodyItem");
+			var tbodyRowCount = tableorderitem.rows.length+1;
+
+			$('#bodyItem').append(
+                '<tr class="row-item" data-id="'+ tbodyRowCount +'">' +
+                    '<td class="text-center">' +
+                    '<button type="button" class="btn btn-danger remove-item" data-id="'+tbodyRowCount+'"><i class="fa fa-trash"></i></button>' +
+                    '</td>' +
+                    '<td class="text-center"><span>'+tbodyRowCount+'</span></td>' +
+                    '<td><textarea rows="1" name="description[]" class="form-control" data-id="'+tbodyRowCount+'"></textarea></td>' +
+                    '<td><input type="text" name="qty[]" class="form-control qty" data-id="'+tbodyRowCount+'"/></td>' +
+                    '<td><input type="text" name="unit[]" class="form-control unit" data-id="'+tbodyRowCount+'"/></td>' +
+                    '<td><input type="text" name="price[]" class="form-control price" data-id="'+tbodyRowCount+'"/></td>' +
+                    '<td><input type="text" name="total[]" class="form-control total" data-id="'+tbodyRowCount+'"/></td>' +
+                '</tr>');
+		});
+
+		/* hapus item */
+		$(document).on('click', '.remove-item', function(){
+			var id = $(this).attr('data-id');
+			$('.row-item[data-id='+ id +']').remove();
+		});
+
+		/* hitung total */
+		$(document).on('change', '.qty, .price', function(){
+			var id = $(this).attr('data-id');
+			var qty = $('.qty[data-id='+id+']').val();
+			var harga = $('.price[data-id='+id+']').val();
+
+			$('.total[data-id='+id+']').val(qty*harga);
+		});
 	});
 </script>
