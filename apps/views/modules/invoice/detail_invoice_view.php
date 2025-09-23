@@ -336,24 +336,33 @@
                                 <h5 class="fs-4 fw-semibold mb-4">List items</h5> 
                                     <div class="row">
                                         <div class="table-responsive rounded-2 mb-4">		
-                                                    <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th width="3%">
-                                                            <button type="button" id="addItem" class="btn btn-default btn-sm">Tambah Item</button>
-                                                        </th>
-                                                        <th width="5%" class="text-center">No</th>
-                                                        <th>Description</th>
-                                                        <th width="7%">Qty</th>
-                                                        <th width="7%">Unit</th>
-                                                        <th width="15%">Harga</th>
-                                                        <th width="15%">Total</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="bodyItem"></tbody>
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="3%">
+                                                                <button type="button" id="addItem" class="btn btn-default btn-sm">+</button>
+                                                            </th>
+                                                            <th width="5%" class="text-center">No</th>
+                                                            <th>Description</th>
+                                                            <th width="7%">Qty</th>
+                                                            <th width="7%">Unit</th>
+                                                            <th width="15%">Harga</th>
+                                                            <th width="15%">Total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="bodyItem"></tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th colspan="6" class="text-end">Total</th>
+                                                            <th><input type="text" name="grandtotal" id="grandtotal" class="form-control" placeholer="125.000" readonly></th>
+                                                        </tr>
+                                                    </tfoot>
                                             </table>
                                         </div>
                                     </div>
+                            </div>
+                            <div class="card-footer">  
+                                <button type="button" id="saveItems" class="btn btn-primary">Update</button>
                             </div>
                         </div>    
                     </div>       
@@ -461,7 +470,7 @@
 			$('#bodyItem').append(
                 '<tr class="row-item" data-id="'+ tbodyRowCount +'">' +
                     '<td class="text-center">' +
-                    '<button type="button" class="btn btn-danger remove-item" data-id="'+tbodyRowCount+'"><i class="fa fa-trash"></i></button>' +
+                    '<button type="button" class="btn btn-sm remove-item" data-id="'+tbodyRowCount+'"><i class="fs-4 ti ti-trash text-danger"></i></button>' +
                     '</td>' +
                     '<td class="text-center"><span>'+tbodyRowCount+'</span></td>' +
                     '<td><textarea rows="1" name="description[]" class="form-control" data-id="'+tbodyRowCount+'"></textarea></td>' +
