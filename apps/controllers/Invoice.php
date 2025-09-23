@@ -195,7 +195,7 @@ class Invoice extends CI_Controller
 				$this->strspkdat = date('d-m-Y', strtotime($row['spkdat'])); 
 				
 				$this->intbasevalue = $row['basevalue'];
-				$this->intppnvalue = $row['bsasevalue'] * 0.11;
+				$this->intppnvalue = $row['basevalue'] * 0.11;
 				$this->intpphvalue = $row['basevalue'] * 0.02;
 				$this->intnetvalue = $row['netvalue'];
 				$this->intmarginvalue = (int)$row['basevalue'] - (int)$row['netvalue'];
