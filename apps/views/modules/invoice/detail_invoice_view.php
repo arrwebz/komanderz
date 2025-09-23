@@ -150,7 +150,7 @@
                     <h4 class="card-title text-white mb-0">Detail Invoice</h4>
                 </div>
             <div class="card-body p-4 border-bottom">
-                <h5 class="fs-4 fw-semibold mb-4">Invoicing</h5>
+                <h5 class="fs-4 fw-semibold mb-4">Order Information</h5>
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="mb-4">
@@ -200,11 +200,6 @@
                             </div>
                         </div> 
                     </div>
-                </div>
-            </div>
-            <div class="card-body p-4 border-bottom">
-                <h5 class="fs-4 fw-semibold mb-4">Order Information</h5>
-                <div class="row">
                     <div class="col-lg-3">
                         <div class="mb-4">
                             <label class="form-label fw-semibold">Order Type</label>
@@ -218,6 +213,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="card-body p-4 border-bottom">
+                <h5 class="fs-4 fw-semibold mb-4"></h5>
+                <div class="row">
                     <div class="col-lg-3">
                         <div class="mb-4">
                             <label class="form-label fw-semibold">Unit</label>
@@ -246,23 +246,7 @@
 							<input name="txtAmuser" type="text" class="form-control" value="<?php echo $amuser ?>" disabled>
                         </div>
                     </div> 
-                </div>
-            </div>
-            <div class="card-body p-4 border-bottom">
-                <h5 class="fs-4 fw-semibold mb-4">Customer Detail</h5>
-                <div class="row"> 
-                    <div class="col-lg-12">
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold">Project Name</label>
-                            <input name="txtProject" type="text" class="form-control" style="height:108px" value="<?php echo $namaproyek ?>" disabled>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body p-4 border-bottom">
-                <h5 class="fs-4 fw-semibold mb-4">Nominal</h5>
-                <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-3">
                         <div class="mb-4">
                             <label class="form-label fw-semibold">Base Value</label>
                             <div class="input-group">
@@ -278,7 +262,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-3">
                         <div class="mb-4">
                             <label class="form-label fw-semibold">Base Value + PPN</label>
                             <div class="input-group">
@@ -292,6 +276,17 @@
                                 <span class="input-group-text">Rp</span>
 								<input name="txtNilaimargin" type="text" class="form-control" value="<?php echo $nilaimargin ?>" disabled>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-4 border-bottom">
+                <h5 class="fs-4 fw-semibold mb-4"></h5>
+                <div class="row"> 
+                    <div class="col-lg-12">
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Project Name</label>
+                            <input name="txtProject" type="text" class="form-control" style="height:108px" value="<?php echo $namaproyek ?>" disabled>
                         </div>
                     </div>
                 </div>
