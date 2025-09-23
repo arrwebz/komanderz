@@ -145,16 +145,16 @@
 </div>
 
     <div class="row">
-        <div class="nav-align-right">
-        <ul class="nav nav-pills me-4" role="tablist">
+        <div class="nav-align-top">
+        <ul class="nav nav-pills mb-4" role="tablist">
           <li class="nav-item" role="presentation">
-            <button type="button" class="nav-link waves-effect waves-light active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-home" aria-controls="navs-pills-left-home" aria-selected="true">Home</button>
+            <button type="button" class="nav-link waves-effect waves-light active" style="background-color: #d72027; " role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-home" aria-controls="navs-pills-left-home" aria-selected="true">Detail Invoice</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button type="button" class="nav-link waves-effect waves-light" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-profile" aria-controls="navs-pills-left-profile" aria-selected="false" tabindex="-1">Profile</button>
+            <button type="button" class="nav-link waves-effect waves-light" style="background-color: #d72027; " role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-profile" aria-controls="navs-pills-left-profile" aria-selected="false" tabindex="-1">Item Invoices</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button type="button" class="nav-link waves-effect waves-light" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-messages" aria-controls="navs-pills-left-messages" aria-selected="false" tabindex="-1">Messages</button>
+            <button type="button" class="nav-link waves-effect waves-light text-bg-info" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-messages" aria-controls="navs-pills-left-messages" aria-selected="false" tabindex="-1">SPB Payouts</button>
           </li>
         </ul>
         <div class="tab-content">
@@ -163,7 +163,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header d-flex align-items-center" style="background-color: #d72027; ">
-                                <h4 class="card-title text-white mb-0">Detail Invoice</h4>
+                                <h4 class="card-title text-white mb-0"></h4>
                             </div>
                         <div class="card-body p-4 border-bottom">
                             <h5 class="fs-4 fw-semibold mb-4">Order Information</h5>
@@ -330,7 +330,7 @@
                 <div class="col-12">
                     <div class="card">
                     <div class="card-header d-flex align-items-center" style="background-color: #d72027; ">
-                        <h5 class="mb-0 text-white card-title">Invoice Items</h5>
+                        <h5 class="mb-0 text-white card-title"></h5>
                     </div>
                     <div class="card-body p-4 border-bottom">
                         <h5 class="fs-4 fw-semibold mb-4">List items</h5> 
@@ -376,7 +376,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header text-bg-info">
-                            <h5 class="mb-0 text-white card-title">Partner Payouts</h5>
+                            <h5 class="mb-0 text-white card-title"></h5>
                         </div>
                         <div class="card-body p-4 border-bottom">
                             <h5 class="fs-4 fw-semibold mb-4">List SPB</h5> 
