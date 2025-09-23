@@ -144,7 +144,8 @@
 	</div>
 </div>
 <div class="row">
-    <div class="nav-align-left">
+    <div class="row">
+        <div class="nav-align-right">
         <ul class="nav nav-pills me-4" role="tablist">
           <li class="nav-item" role="presentation">
             <button type="button" class="nav-link waves-effect waves-light active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-home" aria-controls="navs-pills-left-home" aria-selected="true">Home</button>
@@ -171,6 +172,7 @@
           </div>
         </div>
       </div>
+    </div>
     <div class="col-12">
         <div class="card">
             <div class="card-header d-flex align-items-center" style="background-color: #d72027; ">
