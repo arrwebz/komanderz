@@ -117,11 +117,11 @@
 			</h3>
 		  </div>
 		  <div class="p-3">
-			<a href="<?php echo base_url().$this->router->fetch_class();?>/preview/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print Atch Invoice</a>
-      <a href="<?php echo base_url().$this->router->fetch_class();?>/printinvoice/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print Acc Invoice</a>
-      <a href="<?php echo base_url().$this->router->fetch_class();?>/printreceipt/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print Recceipt Invoice</a>
-      <a href="<?php echo base_url().$this->router->fetch_class();?>/printbast/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print BAST</a>
-      <a href="<?php echo base_url().$this->router->fetch_class();?>/printsp/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print SP Invoice</a>
+			<a href="<?php echo base_url().$this->router->fetch_class();?>/preview/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print Atch Invoice</a></br>
+            <a href="<?php echo base_url().$this->router->fetch_class();?>/printinvoice/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print Acc Invoice</a></br>
+            <a href="<?php echo base_url().$this->router->fetch_class();?>/printreceipt/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print Recceipt Invoice</a></br>
+            <a href="<?php echo base_url().$this->router->fetch_class();?>/printbast/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print BAST</a></br>
+            <a href="<?php echo base_url().$this->router->fetch_class();?>/printsp/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print SP Invoice</a>
 		  </div>
 		</div>
 	  </div>
@@ -152,7 +152,7 @@
             <div class="card-body p-4 border-bottom">
                 <h5 class="fs-4 fw-semibold mb-4">Invoicing</h5>
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-3">
                         <div class="mb-4">
                             <label class="form-label fw-semibold">Invoice Number</label>
                             <input name="txtInvnum" type="text" class="form-control" value="<?php echo $inv ?>" disabled>
@@ -167,7 +167,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-3">
                         <div class="mb-4">
                             <label class="form-label fw-semibold">Tax Number</label>
                             <div class="input-group">
@@ -187,12 +187,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="card-body p-4 border-bottom">
-                <h5 class="fs-4 fw-semibold mb-4">Order Information</h5>
-                <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-3">
                         <div class="mb-4">
                             <label class="form-label fw-semibold">Tel/SPK/VSO PADI</label>
                             <input name="txtNopesnomor" type="text" class="form-control" value="<?php echo $nomorspk ?>" disabled>
@@ -205,7 +200,12 @@
                             </div>
                         </div> 
                     </div>
-                    <div class="col-lg-6">
+                </div>
+            </div>
+            <div class="card-body p-4 border-bottom">
+                <h5 class="fs-4 fw-semibold mb-4">Order Information</h5>
+                <div class="row">
+                    <div class="col-lg-3">
                         <div class="mb-4">
                             <label class="form-label fw-semibold">Order Type</label>
                             <input name="optOrderstatus" type="text" class="form-control" value="<?php echo $statusorder ?>" disabled>
@@ -218,12 +218,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="card-body p-4 border-bottom">
-                <h5 class="fs-4 fw-semibold mb-4">Customer Detail</h5>
-                <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-3">
                         <div class="mb-4">
                             <label class="form-label fw-semibold">Unit</label>
 							<input name="optUnit" type="text" class="form-control" value="<?php echo $unit ?>" disabled>
@@ -235,13 +230,9 @@
                         <div class="mb-4">
                             <label class="form-label fw-semibold">AM KOMET</label>
 							<input name="txtAmkomet" type="text" class="form-control" value="<?php echo $amkomet ?>" disabled>
-                        </div> 
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold">Project Name</label>
-                            <input name="txtProject" type="text" class="form-control" style="height:108px" value="<?php echo $namaproyek ?>" disabled>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-3">
                         <div class="mb-4">
                             <label class="form-label fw-semibold">Types of Work</label>
 							<input name="optJobtype" type="text" class="form-control" value="<?php echo $jp ?>" disabled>
@@ -255,6 +246,17 @@
 							<input name="txtAmuser" type="text" class="form-control" value="<?php echo $amuser ?>" disabled>
                         </div>
                     </div> 
+                </div>
+            </div>
+            <div class="card-body p-4 border-bottom">
+                <h5 class="fs-4 fw-semibold mb-4">Customer Detail</h5>
+                <div class="row"> 
+                    <div class="col-lg-12">
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Project Name</label>
+                            <input name="txtProject" type="text" class="form-control" style="height:108px" value="<?php echo $namaproyek ?>" disabled>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card-body p-4 border-bottom">
