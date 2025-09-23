@@ -144,6 +144,33 @@
 	</div>
 </div>
 <div class="row">
+    <div class="nav-align-left">
+        <ul class="nav nav-pills me-4" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button type="button" class="nav-link waves-effect waves-light active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-home" aria-controls="navs-pills-left-home" aria-selected="true">Home</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button type="button" class="nav-link waves-effect waves-light" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-profile" aria-controls="navs-pills-left-profile" aria-selected="false" tabindex="-1">Profile</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button type="button" class="nav-link waves-effect waves-light" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-messages" aria-controls="navs-pills-left-messages" aria-selected="false" tabindex="-1">Messages</button>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade active show" id="navs-pills-left-home" role="tabpanel">
+            <p>Icing pastry pudding oat cake. Lemon drops cotton candy caramels cake caramels sesame snaps powder. Bear claw candy topping.</p>
+            <p class="mb-0">Tootsie roll fruitcake cookie. Dessert topping pie. Jujubes wafer carrot cake jelly. Bonbon jelly-o jelly-o ice cream jelly beans candy canes cake bonbon. Cookie jelly beans marshmallow jujubes sweet.</p>
+          </div>
+          <div class="tab-pane fade" id="navs-pills-left-profile" role="tabpanel">
+            <p>Donut dragée jelly pie halvah. Danish gingerbread bonbon cookie wafer candy oat cake ice cream. Gummies halvah tootsie roll muffin biscuit icing dessert gingerbread. Pastry ice cream cheesecake fruitcake.</p>
+            <p class="mb-0">Jelly-o jelly beans icing pastry cake cake lemon drops. Muffin muffin pie tiramisu halvah cotton candy liquorice caramels.</p>
+          </div>
+          <div class="tab-pane fade" id="navs-pills-left-messages" role="tabpanel">
+            <p>Oat cake chupa chups dragée donut toffee. Sweet cotton candy jelly beans macaroon gummies cupcake gummi bears cake chocolate.</p>
+            <p class="mb-0">Cake chocolate bar cotton candy apple pie tootsie roll ice cream apple pie brownie cake. Sweet roll icing sesame snaps caramels danish toffee. Brownie biscuit dessert dessert. Pudding jelly jelly-o tart brownie jelly.</p>
+          </div>
+        </div>
+      </div>
     <div class="col-12">
         <div class="card">
             <div class="card-header d-flex align-items-center" style="background-color: #d72027; ">
@@ -272,6 +299,13 @@
 								<input name="txtNilainet" type="text" class="form-control" value="<?php echo $nilainet ?>" disabled>
                             </div>
                         </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Margin Value</label>
+                            <div class="input-group">
+                                <span class="input-group-text">Rp</span>
+								<input name="txtNilaimargin" type="text" class="form-control" value="<?php echo $nilaimargin ?>" disabled>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="mb-4">
@@ -286,13 +320,6 @@
                             <div class="input-group">
                                 <span class="input-group-text">Rp</span>
 								<input name="txtNilaippn" type="text" class="form-control" value="<?php echo $nilaipph ?>" disabled>
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold">Margin Value</label>
-                            <div class="input-group">
-                                <span class="input-group-text">Rp</span>
-								<input name="txtNilaimargin" type="text" class="form-control" value="<?php echo $nilaimargin ?>" disabled>
                             </div>
                         </div>
                         <div class="mb-4">
