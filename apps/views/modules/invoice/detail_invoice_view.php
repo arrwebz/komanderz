@@ -217,6 +217,17 @@
             </div>
             <div class="card-body p-4 border-bottom">
                 <h5 class="fs-4 fw-semibold mb-4"></h5>
+                <div class="row"> 
+                    <div class="col-lg-12">
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Project Name</label>
+                            <input name="txtProject" type="text" class="form-control" style="height:108px" value="<?php echo $namaproyek ?>" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-4 border-bottom">
+                <h5 class="fs-4 fw-semibold mb-4"></h5>
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="mb-4">
@@ -264,10 +275,17 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="mb-4">
-                            <label class="form-label fw-semibold">Base Value + PPN</label>
+                            <label class="form-label fw-semibold">PPN</label>
                             <div class="input-group">
                                 <span class="input-group-text">Rp</span>
 								<input name="txtNilaippn" type="text" class="form-control" value="<?php echo $nilaippn ?>" disabled>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">PPH</label>
+                            <div class="input-group">
+                                <span class="input-group-text">Rp</span>
+								<input name="txtNilaippn" type="text" class="form-control" value="<?php echo $nilaipph ?>" disabled>
                             </div>
                         </div>
                         <div class="mb-4">
@@ -277,16 +295,12 @@
 								<input name="txtNilaimargin" type="text" class="form-control" value="<?php echo $nilaimargin ?>" disabled>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body p-4 border-bottom">
-                <h5 class="fs-4 fw-semibold mb-4"></h5>
-                <div class="row"> 
-                    <div class="col-lg-12">
                         <div class="mb-4">
-                            <label class="form-label fw-semibold">Project Name</label>
-                            <input name="txtProject" type="text" class="form-control" style="height:108px" value="<?php echo $namaproyek ?>" disabled>
+                            <label class="form-label fw-semibold">Estimated Payment Value</label>
+                            <div class="input-group">
+                                <span class="input-group-text">Rp</span>
+								<input name="txtNilaimargin" type="text" class="form-control" value="<?php echo $nilaiestcair ?>" disabled>
+                            </div>
                         </div>
                     </div>
                 </div>
