@@ -117,11 +117,11 @@
 			</h3>
 		  </div>
 		  <div class="p-3">
-			<a href="<?php echo base_url().$this->router->fetch_class();?>/preview/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print Atch Invoice</a></br>
-            <a href="<?php echo base_url().$this->router->fetch_class();?>/printinvoice/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print Acc Invoice</a></br>
-            <a href="<?php echo base_url().$this->router->fetch_class();?>/printreceipt/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print Recceipt Invoice</a></br>
-            <a href="<?php echo base_url().$this->router->fetch_class();?>/printbast/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print BAST</a></br>
-            <a href="<?php echo base_url().$this->router->fetch_class();?>/printsp/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger">Print SP Invoice</a>
+			<a href="<?php echo base_url().$this->router->fetch_class();?>/preview/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger mb-2">Print Atch Invoice</a></br>
+            <a href="<?php echo base_url().$this->router->fetch_class();?>/printinvoice/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger mb-2">Print Acc Invoice</a></br>
+            <a href="<?php echo base_url().$this->router->fetch_class();?>/printreceipt/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger mb-2">Print Recceipt Invoice</a></br>
+            <a href="<?php echo base_url().$this->router->fetch_class();?>/printbast/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger mb-2">Print BAST</a></br>
+            <a href="<?php echo base_url().$this->router->fetch_class();?>/printsp/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger mb-2">Print SP Invoice</a>
 		  </div>
 		</div>
 	  </div>
