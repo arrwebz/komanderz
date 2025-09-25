@@ -362,7 +362,7 @@
                                     </div>
                             </div>
                             <div class="card-footer">  
-                                <button type="button" id="saveItems" class="btn btn-primary">Update</button>
+                                <!-- <button type="button" id="saveItems" class="btn btn-primary">Update</button> -->
                             </div>
                         </div>    
                     </div>       
@@ -539,21 +539,15 @@
             var unit  = row.find(".unit").val();
             var price = toNumber(row.find(".price").val());
 
-            $.post("<?= site_url('invoice/update_item_ajax'); ?>", {
-            itemid: id,
-            description: desc,
-            qty: qty,
-            unit: unit,
-            price: price
-        }, function(res){
-            res = JSON.parse(res);
-            if(res.status === "success"){
-                swal("Berhasil!", "Item invoice berhasil disimpan.", "success");
+            $.post("<?= site_url('invoice/update_item'); ?>", {
+                itemid: id,
+                description: desc,
+                qty: qty,
+                unit: unit,
+                price: price
+            }, function(res){
                 loadItems(orderid);
-            } else {
-                swal("Gagal!", res.message || "Terjadi kesalahan.", "error");
-            }
-        });
+            }, "json");
         });
 
         // delete item
