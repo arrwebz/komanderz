@@ -539,7 +539,7 @@
             var unit  = row.find(".unit").val();
             var price = toNumber(row.find(".price").val());
 
-            $.post("<?= site_url('invoice/update_item'); ?>", {
+            $.post("<?= site_url('invoice/update_item_ajax'); ?>", {
                 itemid: id,
                 description: desc,
                 qty: qty,
