@@ -449,51 +449,121 @@
 
 <script type="text/javascript">
 					 
-	$(document).ready(function() { 
-		
-		$('#datatablespb').DataTable({
-            'responsive'  : true,
-			'paging'      : true,
-            'lengthChange': false,
-            'searching'   : true,
-            'ordering'    : true,
-            'info'        : true,
-            'autoWidth'   : true
+	$(document).ready(function(){
+        // format angka jadi ribuan
+        function formatRupiah(angka){
+            var number_string = angka.replace(/[^,\d]/g, "").toString(),
+            split   = number_string.split(","),
+            sisa    = split[0].length % 3,
+            rupiah  = split[0].substr(0, sisa),
+            ribuan  = split[0].substr(sisa).match(/\d{3}/gi);
 
-        });	
+            if(ribuan){
+                separator = sisa ? "." : "";
+                rupiah += separator + ribuan.join(".");
+            }
 
-        /* add item */
-		$('#addItem').on('click', function () {
-			var tableorderitem = document.getElementById("bodyItem");
-			var tbodyRowCount = tableorderitem.rows.length+1;
+            rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+            return rupiah;
+        }
 
-			$('#bodyItem').append(
-                '<tr class="row-item" data-id="'+ tbodyRowCount +'">' +
-                    '<td class="text-center">' +
-                    '<button type="button" class="btn btn-sm remove-item" data-id="'+tbodyRowCount+'"><i class="fs-4 ti ti-trash text-danger"></i></button>' +
-                    '</td>' +
-                    '<td class="text-center"><span>'+tbodyRowCount+'</span></td>' +
-                    '<td><textarea rows="1" name="description[]" class="form-control" data-id="'+tbodyRowCount+'"></textarea></td>' +
-                    '<td><input type="text" name="qty[]" class="form-control qty" data-id="'+tbodyRowCount+'"/></td>' +
-                    '<td><input type="text" name="unit[]" class="form-control unit" data-id="'+tbodyRowCount+'"/></td>' +
-                    '<td><input type="text" name="price[]" class="form-control price" data-id="'+tbodyRowCount+'"/></td>' +
-                    '<td><input type="text" name="total[]" class="form-control total" data-id="'+tbodyRowCount+'"/></td>' +
-                '</tr>');
-		});
+        // ambil angka asli dari input rupiah
+        function toNumber(rp){
+            return parseInt(rp.replace(/\./g, "").replace(/[^0-9]/g,'')) || 0;
+        }
 
-		/* hapus item */
-		$(document).on('click', '.remove-item', function(){
-			var id = $(this).attr('data-id');
-			$('.row-item[data-id='+ id +']').remove();
-		});
 
-		/* hitung total */
-		$(document).on('keyup', '.qty, .price', function(){
-			var id = $(this).attr('data-id');
-			var qty = $('.qty[data-id='+id+']').val();
-			var harga = $('.price[data-id='+id+']').val();
+        var orderid = "<?= $orderid ?>";
 
-			$('.total[data-id='+id+']').val(qty*harga);
-		});
-	});
+        // load items
+        loadItems(orderid);
+
+        function loadItems(orderid){
+            $.get("<?= site_url('invoice/get_items_ajax/'); ?>" + orderid, function(data){
+                data = JSON.parse(data);
+                $("#bodyItem").empty();
+                var no = 1;
+                var grandtotal = 0;
+
+                $.each(data, function(i, item){
+                    grandtotal += parseFloat(item.subtotal);
+
+                    $("#bodyItem").append(
+                        '<tr class="row-item" data-id="'+ item.itemid +'">' +
+                            '<td class="text-center">' +
+                                '<button type="button" class="btn btn-sm remove-item" data-id="'+item.itemid+'">' +
+                                    '<i class="fs-4 ti ti-trash text-danger"></i>' +
+                                '</button>' +
+                            '</td>' +
+                            '<td class="text-center"><span>'+no+'</span></td>' +
+                            '<td><textarea class="form-control description" data-id="'+item.itemid+'">'+item.description+'</textarea></td>' +
+                            '<td><input type="number" class="form-control qty" data-id="'+item.itemid+'" value="'+item.qty+'"/></td>' +
+                            '<td><input type="text" class="form-control unit" data-id="'+item.itemid+'" value="'+item.unit+'"/></td>' +
+                            '<td><input type="text" class="form-control price" data-id="'+item.itemid+'" value="'+formatRupiah(item.price.toString())+'"/></td>' +
+                            '<td><input type="text" class="form-control total" value="'+formatRupiah(item.subtotal.toString())+'" readonly/></td>' +
+                        '</tr>'
+                    );
+                    no++;
+                });
+
+                $("#grandtotal").val(formatRupiah(grandtotal.toString()));
+            });
+        }
+
+        // format rupiah saat ketik harga atau qty
+        $(document).on("keyup", ".price, .qty", function(){
+            var val = $(this).val();
+            $(this).val(formatRupiah(val));
+        });
+
+        // add item
+        $("#addItem").on("click", function(){
+            $.post("<?= site_url('invoice/add_item_ajax'); ?>", {
+                orderid: orderid,
+                description: "New item",
+                qty: 1,
+                unit: "",
+                price: 0
+            }, function(res){
+                loadItems(orderid);
+            }, "json");
+        });
+
+        // update item (on blur / change)
+        $(document).on("change", ".description, .qty, .unit, .price", function(){
+            var id = $(this).data("id");
+            var row = $(".row-item[data-id="+id+"]");
+
+            var desc  = row.find(".description").val();
+            var qty   = toNumber(row.find(".qty").val());
+            var unit  = row.find(".unit").val();
+            var price = toNumber(row.find(".price").val());
+
+            $.post("<?= site_url('invoice/update_item_ajax'); ?>", {
+            itemid: id,
+            description: desc,
+            qty: qty,
+            unit: unit,
+            price: price
+        }, function(res){
+            res = JSON.parse(res);
+            if(res.status === "success"){
+                swal("Berhasil!", "Item invoice berhasil disimpan.", "success");
+                loadItems(orderid);
+            } else {
+                swal("Gagal!", res.message || "Terjadi kesalahan.", "error");
+            }
+        });
+        });
+
+        // delete item
+        $(document).on("click", ".remove-item", function(){
+            var id = $(this).data("id");
+            $.get("<?= site_url('invoice/delete_item_ajax/'); ?>" + id, function(res){
+                loadItems(orderid);
+            }, "json");
+        });
+
+    });
+
 </script>

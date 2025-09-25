@@ -219,7 +219,7 @@ class Invoice extends CI_Controller
 		// echo '<pre>'; print_r($drd); exit;
 		
 		$data = [
-            'id' => $this->intorderid,
+            'orderid' => $this->intorderid,
 			'kodenomor' => $this->strcode,
              'unit' =>   $this->strunit,
 			 'jp' => $this->strjobtype,
@@ -760,9 +760,27 @@ class Invoice extends CI_Controller
         echo json_encode(['status' => 'success']);
     }
 
+	// Update Item
+	public function update_item_ajax()
+	{
+		$post = $this->input->post();
+		$itemid = $post['itemid'];
+
+		$data = [
+			'description' => $post['description'],
+			'qty'         => $post['qty'],
+			'unit'        => $post['unit'],
+			'price'       => $post['price'],
+			'subtotal'    => $post['qty'] * $post['price'],
+		];
+
+		$this->db->where('itemid', $itemid)->update('tb_orderitem', $data);
+		echo json_encode(['status' => 'success']);
+	}
+
 	// List Items
     public function get_items_ajax($orderid) {
-        $data = $this->itemmd->get_items($orderid);
+        $data = $this->ordermd->get_items($orderid);
         echo json_encode($data);
     }
 
