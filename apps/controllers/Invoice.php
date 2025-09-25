@@ -744,6 +744,8 @@ class Invoice extends CI_Controller
         echo json_encode(['status' => 'success']);
     }
 
+	///////////////////INVOICE ITEMS//////////////////////
+
 	// Tambah Item
     public function add_item_ajax() {
         $post = $this->input->post();
@@ -753,7 +755,7 @@ class Invoice extends CI_Controller
             'qty'         => $post['qty'],
             'unit'        => $post['unit'],
             'price'       => $post['price'],
-            'total'       => $post['qty'] * $post['price']
+            'subtotal'       => $post['qty'] * $post['price']
         ]);
         echo json_encode(['status' => 'success']);
     }

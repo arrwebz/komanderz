@@ -143,6 +143,77 @@
 	  </div>
 	</div>
 </div>
+<div class="row">
+<div class="row mt-3">
+    <div class="col-md-9">
+        <div class="tab-content mb-4 mb-md-0" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-home2" role="tabpanel" aria-labelledby="v-pills-home-tab2">
+                <p>
+                    Raw denim you probably haven't heard of them jean
+                    shorts Austin. Nesciunt tofu stumptown aliqua,
+                    retro synth master cleanse. Mustache cliche
+                    tempor, williamsburg carles vegan helvetica.
+                </p>
+                Raw denim you probably haven't heard of them jean
+                shorts Austin. Nesciunt tofu stumptown aliqua, retro
+                synth master cleanse. Mustache cliche tempor,
+                williamsburg carles vegan helvetica.
+            </div>
+            <div class="tab-pane fade" id="v-pills-profile2" role="tabpanel" aria-labelledby="v-pills-profile-tab2">
+                <p>
+                    Probably haven't heard of them jean shorts Austin.
+                    Nesciunt tofu stumptown aliqua, retro synth master
+                    cleanse. Mustache cliche tempor, williamsburg
+                    carles vegan helvetica.
+                </p>
+                <p>
+                    Probably haven't heard of them jean shorts Austin.
+                    Nesciunt tofu stumptown aliqua, retro synth master
+                    cleanse. Mustache cliche tempor, williamsburg
+                    carles vegan helvetica.
+                </p>
+            </div>
+            <div class="tab-pane fade" id="v-pills-messages2" role="tabpanel" aria-labelledby="v-pills-messages-tab2">
+                <p>
+                    Raw denim you probably haven't heard of them jean
+                    shorts Austin. Nesciunt tofu stumptown aliqua,
+                    retro synth master cleanse. Mustache cliche
+                    tempor, williamsburg carles vegan helvetica.
+                </p>
+                Raw denim you probably haven't heard of them jean
+                shorts Austin. Nesciunt tofu stumptown aliqua, retro
+                synth master cleanse. Mustache cliche tempor,
+                williamsburg carles vegan helvetica.
+            </div>
+            <div class="tab-pane fade" id="v-pills-settings2" role="tabpanel" aria-labelledby="v-pills-settings-tab2">
+                <p>
+                    Probably haven't heard of them jean shorts Austin.
+                    Nesciunt tofu stumptown aliqua, retro synth master
+                    cleanse. Mustache cliche tempor, williamsburg
+                    carles vegan helvetica.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <!-- Nav tabs -->
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="v-pills-home-tab2" data-bs-toggle="pill" href="#v-pills-home2" role="tab" aria-controls="v-pills-home2" aria-selected="true">
+                Home
+            </a>
+            <a class="nav-link" id="v-pills-profile-tab2" data-bs-toggle="pill" href="#v-pills-profile2" role="tab" aria-controls="v-pills-profile2" aria-selected="false">
+                Profile
+            </a>
+            <a class="nav-link" id="v-pills-messages-tab2" data-bs-toggle="pill" href="#v-pills-messages2" role="tab" aria-controls="v-pills-messages2" aria-selected="false">
+                Messages
+            </a>
+            <a class="nav-link" id="v-pills-settings-tab2" data-bs-toggle="pill" href="#v-pills-settings2" role="tab" aria-controls="v-pills-settings2" aria-selected="false">
+                Settings
+            </a>
+        </div>
+    </div>
+</div>
+</div>
 
 <div class="row">
     <div class="nav-align-top">
@@ -347,7 +418,7 @@
                                                             <th width="7%">Qty</th>
                                                             <th width="7%">Unit</th>
                                                             <th width="15%">Harga</th>
-                                                            <th width="15%">Total</th>
+                                                            <th width="15%">Subtotal</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="bodyItem"></tbody>
