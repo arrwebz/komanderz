@@ -540,14 +540,20 @@
             var price = toNumber(row.find(".price").val());
 
             $.post("<?= site_url('invoice/update_item_ajax'); ?>", {
-                itemid: id,
-                description: desc,
-                qty: qty,
-                unit: unit,
-                price: price
-            }, function(res){
+            itemid: id,
+            description: desc,
+            qty: qty,
+            unit: unit,
+            price: price
+        }, function(res){
+            res = JSON.parse(res);
+            if(res.status === "success"){
+                swal("Berhasil!", "Item invoice berhasil disimpan.", "success");
                 loadItems(orderid);
-            }, "json");
+            } else {
+                swal("Gagal!", res.message || "Terjadi kesalahan.", "error");
+            }
+        });
         });
 
         // delete item
