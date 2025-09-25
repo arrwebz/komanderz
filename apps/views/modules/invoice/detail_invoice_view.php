@@ -32,11 +32,11 @@
 			  <div class="d-flex align-items-center">
 				<div class="border-end pe-4 border-muted border-opacity-10">
 				  <h3 class="mb-1 fw-semibold fs-8 d-flex align-content-center">Position<i class="ti ti-arrow-up-right fs-5 lh-base text-success"></i></h3>
-				  <p class="mb-0 text-dark"><a target="blank_" href="<?php echo base_url().'ktrack/details/'.$id;?>" class="btn btn-sm waves-effect waves-light btn-outline-success">Tracking</a></p>
+				  <p class="mb-0 text-dark"><a target="blank_" href="<?php echo base_url().'ktrack/details/'.$orderid;?>" class="btn btn-sm waves-effect waves-light btn-outline-success">Tracking</a></p>
 				</div>
 				<div class="ps-4">
 				  <h3 class="mb-1 fw-semibold fs-8 d-flex align-content-center">Payment<i class="ti ti-arrow-up-right fs-5 lh-base text-success"></i></h3>
-				  <p class="mb-0 text-dark"><a target="blank_" href="<?php echo base_url();?>/kbillco/details/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-success">Collection</a></p>
+				  <p class="mb-0 text-dark"><a target="blank_" href="<?php echo base_url();?>/kbillco/details/<?php echo $orderid; ?>" class="btn btn-sm waves-effect waves-light btn-outline-success">Collection</a></p>
 				</div> 
 			  </div>
 			</div>
@@ -117,11 +117,11 @@
 			</h3>
 		  </div>
 		  <div class="p-3">
-			<a href="<?php echo base_url().$this->router->fetch_class();?>/preview/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger mb-2">Print Atch Invoice</a></br>
-            <a href="<?php echo base_url().$this->router->fetch_class();?>/printinvoice/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger mb-2">Print Acc Invoice</a></br>
-            <a href="<?php echo base_url().$this->router->fetch_class();?>/printreceipt/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger mb-2">Print Recceipt Invoice</a></br>
-            <a href="<?php echo base_url().$this->router->fetch_class();?>/printbast/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger mb-2">Print BAST</a></br>
-            <a href="<?php echo base_url().$this->router->fetch_class();?>/printsp/<?php echo $id; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger mb-2">Print SP Invoice</a>
+			<a href="<?php echo base_url().$this->router->fetch_class();?>/preview/<?php echo $orderid; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger mb-2">Print Atch Invoice</a></br>
+            <a href="<?php echo base_url().$this->router->fetch_class();?>/printinvoice/<?php echo $orderid; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger mb-2">Print Acc Invoice</a></br>
+            <a href="<?php echo base_url().$this->router->fetch_class();?>/printreceipt/<?php echo $orderid; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger mb-2">Print Recceipt Invoice</a></br>
+            <a href="<?php echo base_url().$this->router->fetch_class();?>/printbast/<?php echo $orderid; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger mb-2">Print BAST</a></br>
+            <a href="<?php echo base_url().$this->router->fetch_class();?>/printsp/<?php echo $orderid; ?>" class="btn btn-sm waves-effect waves-light btn-outline-danger mb-2">Print SP Invoice</a>
 		  </div>
 		</div>
 	  </div>
@@ -134,7 +134,7 @@
 		  </div>
 		  <div class="p-3">
 			<?php if(!empty($file)){ ?>
-				  <a href="<?php echo $this->config->item('uploads_uri').'fakturpajak/padi/'.$id.'/'.$file;?>" class="btn btn-sm waves-effect waves-light btn-outline-info">Print Tax</a>
+				  <a href="<?php echo $this->config->item('uploads_uri').'fakturpajak/padi/'.$orderid.'/'.$file;?>" class="btn btn-sm waves-effect waves-light btn-outline-info">Print Tax</a>
 			  <?php } else { ?>
 				<button class="btn btn-sm bg-info-subtle text-info" disabled>Please upload Tax file</button>
 			  <?php } ?>			
