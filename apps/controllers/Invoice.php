@@ -873,7 +873,7 @@ class Invoice extends CI_Controller
 				$this->stramuser = $row['amuser'];
 				$this->stramkomet = $row['amkomet'];
 				$this->strsegment = $row['segment'];
-				$this->strsegmentf = $row['segmentname'];
+				$this->strsegmentad = $row['address'];
 				$this->strprojectname = $row['projectname'];
 				$this->intbasevalue = $row['basevalue'];
 				$this->intppnvalue = $row['ppnvalue'];
