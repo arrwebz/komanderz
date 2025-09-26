@@ -127,7 +127,7 @@
                 </div>
                 <div class="card-body collapse show">
                     <p>
-                        <a href="<?php echo base_url().$this->router->fetch_class().'/addinvoice'; ?>" class="btn rounded-pill waves-effect waves-light btn-outline-success px-4">+ Add</a>
+                        <a href="<?php echo base_url().$this->router->fetch_class().'/create_invoice'; ?>" class="btn rounded-pill waves-effect waves-light btn-outline-success px-4">+ Add</a>
                     </p>
                     <div class="table-responsive pb-9">
                         <?php if (count ( $drd ) > 0) { ?>
